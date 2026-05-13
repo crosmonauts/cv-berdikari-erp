@@ -1,0 +1,13 @@
+import { Controller, Get } from '@nestjs/common';
+import { DashboardService } from './dashboard.service';
+
+@Controller('dashboard')
+export class DashboardController {
+  // Panggil service lewat constructor (Dependency Injection)
+  constructor(private readonly dashboardService: DashboardService) {}
+
+  @Get('stats')
+  async getStats() {
+    return this.dashboardService.getDashboardStats();
+  }
+}

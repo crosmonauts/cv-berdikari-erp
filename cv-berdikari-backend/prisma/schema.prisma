@@ -1,0 +1,174 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // DI PRISMA 7: Koneksi URL diatur di prisma.config.ts
+}
+
+// ---------------------------------------------------------
+// Laci 1: Pengguna Aplikasi (Auth & Roles)
+// ---------------------------------------------------------
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   // "ADMIN", "GUDANG", "EKSPEDISI", "SUPERADMIN"
+  createdAt DateTime @default(now())
+}
+
+// ---------------------------------------------------------
+// Laci 2: Daftar Cabang (McDonald's / Klien)
+// ---------------------------------------------------------
+model Branch {
+  id         String          @id @default(uuid())
+  branchCode String          @unique
+  name       String
+  address    String
+  npwp       String?
+  region     String          @default("JATENG") 
+  phone      String?         
+  orders     PurchaseOrder[]
+}
+
+// ---------------------------------------------------------
+// Laci 3: Katalog Produk ATK (Core Inventory)
+// ---------------------------------------------------------
+model Product {
+  id                String       @id @default(uuid())
+  sku               String       @unique
+  barcode           String?      @unique
+  name              String
+  defaultClientSku  String?
+  price             Float        // Harga Jual (Gross / Sudah termasuk PPN 11%)
+  createdAt         DateTime     @default(now())
+  
+  // Relasi
+  batches    StockBatch[] // Kloter stok masuk (Untuk FIFO)
+  orderItems OrderItem[]  // Detail barang di PO
+}
+
+// ---------------------------------------------------------
+// Laci 4: Kloter Stok Barang Masuk (Metode FIFO)
+// ---------------------------------------------------------
+model StockBatch {
+  id              String   @id @default(uuid())
+  purchasePrice   Float    // Harga kulak kloter ini (Misal: 38rb)
+  initialQuantity Int      // Jumlah awal masuk
+  currentQuantity Int      // Sisa stok kloter ini yang belum terjual
+  receivedAt      DateTime @default(now()) // Kapan kloter ini datang
+  
+  // Relasi
+  productId       String
+  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+// ---------------------------------------------------------
+// Laci 5: Kertas Purchase Order (PO)
+// ---------------------------------------------------------
+model PurchaseOrder {
+  id            String   @id @default(uuid())
+  poNumber      String   @unique
+  status        String   @default("PENDING")
+  paymentStatus String?  @default("BELUM") // <-- KOLOM BARU DITAMBAHKAN DI SINI
+  totalAmount   Float
+  poDocumentUrl String?  
+  createdAt     DateTime @default(now())
+  
+  // Relasi Cabang
+  branchId      String
+  branch        Branch   @relation(fields: [branchId], references: [id])
+  
+  // Relasi Transaksi
+  items         OrderItem[]
+  invoice       Invoice?
+  shipment      Shipment?
+}
+
+// ---------------------------------------------------------
+// Laci 6: Daftar Barang di dalam PO (Transaksi Detail)
+// ---------------------------------------------------------
+model OrderItem {
+  id             String        @id @default(uuid())
+  quantity       Int           
+  scannedQty     Int           @default(0) 
+  priceAtBuy     Float         // Harga jual saat transaksi dilakukan
+  costPriceAtBuy Float         @default(0)
+  clientItemCode String?
+  
+  // Relasi
+  orderId    String
+  order      PurchaseOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId  String
+  product    Product       @relation(fields: [productId], references: [id])
+}
+
+// ---------------------------------------------------------
+// Laci 7: Tagihan (Invoice)
+// ---------------------------------------------------------
+model Invoice {
+  id            String   @id @default(uuid())
+  invoiceNumber String   @unique
+  issuedDate    DateTime @default(now())
+  dueDate       DateTime
+  
+  // Relasi
+  orderId       String   @unique
+  order         PurchaseOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  taxReport     TaxReport?
+  receipt       Receipt? 
+}
+
+// ---------------------------------------------------------
+// Laci 8: Laporan Pajak (CoreTax / DPP & PPN)
+// ---------------------------------------------------------
+model TaxReport {
+  id            String  @id @default(uuid())
+  taxFakturNum  String  @unique
+  dpp           Float   // Dasar Pengenaan Pajak (Harga / 1.11)
+  taxAmount     Float   // Nilai PPN (11%)
+  status        String  @default("UNREPORTED")
+  
+  // Relasi
+  invoiceId     String  @unique
+  invoice       Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+}
+
+// ---------------------------------------------------------
+// Laci 9: Kwitansi Pembayaran (Final Payment)
+// ---------------------------------------------------------
+model Receipt {
+  id            String   @id @default(uuid())
+  receiptNumber String   @unique
+  issuedDate    DateTime @default(now())
+  
+  // Relasi
+  invoiceId     String   @unique
+  invoice       Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+}
+
+// ---------------------------------------------------------
+// Laci 10: Pengiriman / Ekspedisi (Logistik)
+// ---------------------------------------------------------
+model Shipment {
+  id             String   @id @default(uuid())
+  type           String   // "DO" atau "AWB"
+  documentNumber String   
+  
+  shippingCost   Float?   @default(0)
+  otherFees      Float?   @default(0)
+  proofUrl       String?  
+  
+  status         String   @default("PROSES_KIRIM") 
+  shippedAt      DateTime @default(now())
+  
+  // Relasi
+  orderId        String   @unique
+  order          PurchaseOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
