@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Invoice } from './types';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const getInvoices = async (): Promise<Invoice[]> => {
   const response = await axios.get(`${API_URL}/invoices`);

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Shipment } from './types';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const BASE_URL = import.meta.env.VITE_API_URL;
 const API_URL = `${BASE_URL}/shipments`;
 
 // Mengambil daftar pengiriman dan memastikan hasilnya berupa array of Shipment

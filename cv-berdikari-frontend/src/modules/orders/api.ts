@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Order } from './types';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 // Fungsi mengambil data PO
 export const getOrders = async (): Promise<Order[]> => {

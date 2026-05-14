@@ -160,7 +160,7 @@ export default function ShipmentsPage() {
 
     try {
       // 1. Variabel penentu URL otomatis
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const API_URL = import.meta.env.VITE_API_URL;
 
       const formData = new FormData();
       formData.append('orderId', selectedOrder.id);

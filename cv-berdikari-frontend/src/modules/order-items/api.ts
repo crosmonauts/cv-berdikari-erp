@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { OrderItem } from './types'; // <-- Import tipe datanya
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const BASE_URL = import.meta.env.VITE_API_URL;
 const API_URL = `${BASE_URL}/order-items`;
 
 // Mengambil daftar barang dari 1 PO tertentu

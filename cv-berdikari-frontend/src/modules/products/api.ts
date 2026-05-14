@@ -2,7 +2,7 @@ import axios from 'axios';
 import type { Product } from './types';
 
 // Alamat backend NestJS Anda
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 // 1. Fungsi untuk mengambil semua data produk
 export const getProducts = async (): Promise<Product[]> => {

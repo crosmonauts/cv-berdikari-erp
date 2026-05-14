@@ -27,7 +27,7 @@ import type { Order } from '@/modules/orders/types';
 
 export default function WarehousePage() {
   // Variabel penentu URL otomatis untuk Preview PDF
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);

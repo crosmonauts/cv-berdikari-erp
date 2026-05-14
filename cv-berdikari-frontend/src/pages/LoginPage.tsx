@@ -16,7 +16,7 @@ export default function LoginPage() {
 
     try {
       // Variabel penentu URL otomatis
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const API_URL = import.meta.env.VITE_API_URL;
 
       // Memanggil URL dinamis
       const response = await fetch(`${API_URL}/auth/login`, {

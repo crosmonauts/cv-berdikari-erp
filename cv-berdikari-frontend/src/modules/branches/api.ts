@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Branch } from './types';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const getBranches = async (): Promise<Branch[]> => {
   const response = await axios.get(`${API_URL}/branches`);
