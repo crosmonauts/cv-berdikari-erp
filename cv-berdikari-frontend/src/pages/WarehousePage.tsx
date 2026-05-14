@@ -26,6 +26,9 @@ import { getOrderItems, scanOrderItemBarcode } from '@/modules/order-items/api';
 import type { Order } from '@/modules/orders/types';
 
 export default function WarehousePage() {
+  // Variabel penentu URL otomatis untuk Preview PDF
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -294,7 +297,7 @@ export default function WarehousePage() {
               <div className="flex-1 bg-slate-100 rounded-2xl border-2 border-slate-200 border-dashed overflow-hidden relative">
                 {selectedOrder?.poDocumentUrl ? (
                   <iframe
-                    src={`http://localhost:3000${selectedOrder.poDocumentUrl}#toolbar=0`}
+                    src={`${API_URL}${selectedOrder.poDocumentUrl}#toolbar=0`}
                     className="w-full h-full rounded-xl bg-white"
                     title="Preview PO"
                   />

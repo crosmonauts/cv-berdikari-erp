@@ -157,7 +157,11 @@ export default function ShipmentsPage() {
   const handleSaveAwb = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedOrder) return;
+
     try {
+      // 1. Variabel penentu URL otomatis
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
       const formData = new FormData();
       formData.append('orderId', selectedOrder.id);
       formData.append('type', 'AWB');
@@ -168,9 +172,12 @@ export default function ShipmentsPage() {
       );
       formData.append('otherFees', String(Number(awbData.otherFees) || 0));
       if (awbFile) formData.append('file', awbFile);
-      await axios.post('http://localhost:3000/shipments', formData, {
+
+      // 2. Memanggil URL dinamis menggunakan backtick
+      await axios.post(`${API_URL}/shipments`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
+
       alert('Data Pengiriman berhasil disimpan!');
       setIsAwbOpen(false);
       fetchData();
