@@ -5,8 +5,6 @@ import {
   Logger,
 } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { Pool } from 'pg';
-import { PrismaPg } from '@prisma/adapter-pg';
 
 @Injectable()
 export class PrismaService
@@ -16,18 +14,21 @@ export class PrismaService
   private readonly logger = new Logger(PrismaService.name);
 
   constructor() {
-    // KUNCI JAWABANNYA DI SINI: Kita suruh dia baca dari Environment Variable Railway!
-    const connectionString = process.env.DATABASE_URL;
-
-    const pool = new Pool({ connectionString });
-    const adapter = new PrismaPg(pool);
-    super({ adapter });
+    // Kita pangkas perantaranya! Langsung suruh Prisma membaca link Neon dari Railway.
+    // Mesin bawaan Prisma sudah otomatis menangani SSL dan enkripsi jaringan.
+    super({
+      datasources: {
+        db: {
+          url: process.env.DATABASE_URL,
+        },
+      },
+    });
   }
 
   async onModuleInit() {
     try {
       await this.$connect();
-      this.logger.log('✅ Berhasil konek ke Database PostgreSQL');
+      this.logger.log('✅ Berhasil konek ke Database PostgreSQL (Neon)');
     } catch (error) {
       this.logger.error('❌ Gagal konek ke Database!');
       this.logger.error(error);
