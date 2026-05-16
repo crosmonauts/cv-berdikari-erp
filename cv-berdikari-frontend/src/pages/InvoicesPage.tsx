@@ -403,7 +403,7 @@ export default function InvoicesPage() {
     }
   };
 
-  // --- FUNGSI CETAK KWITANSI ---
+  // --- FUNGSI CETAK KWITANSI (FORMAT KLASIK) ---
   const handlePrintKwitansi = async (invoice: any, order: any) => {
     try {
       const doc = new jsPDF({ format: 'a5', orientation: 'landscape' });
@@ -411,7 +411,6 @@ export default function InvoicesPage() {
 
       try {
         const logoImg = await loadAsset(logoBerdikari);
-        // REVISI: Proporsi 5:4 (Lebar 15, Tinggi 12)
         doc.addImage(logoImg, 'PNG', 10, 10, 15, 12);
       } catch (e) {
         console.warn('Logo gagal dimuat');
@@ -424,56 +423,48 @@ export default function InvoicesPage() {
       doc.setFont('helvetica', 'normal');
       doc.text('Jl. Bulustalan V 653F, Semarang', 28, 18);
 
-      doc.setFontSize(14);
-      doc.setFont('helvetica', 'bold');
-      doc.text('KWITANSI PEMBAYARAN', 105, 25, { align: 'center' });
-
       const kwitansiNo = invoice.invoiceNumber.replace('INV', 'KWT');
 
+      // NOMOR KWITANSI DI KANAN ATAS
+      doc.setFontSize(10);
+      doc.text(`Nomor : ${kwitansiNo}`, 145, 15);
+
+      // JUDUL KWITANSI
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('KWITANSI', 105, 30, { align: 'center' });
+
       const labelX = 10;
-      const colonX = 43;
-      const valueX = 46;
+      const colonX = 45;
+      const valueX = 48;
 
       doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
 
-      doc.text('No', labelX, 35);
-      doc.text(':', colonX, 35);
-      doc.setFont('helvetica', 'bold');
-      doc.text(kwitansiNo, valueX, 35);
-
-      doc.setFont('helvetica', 'normal');
-      doc.text('Sudah Terima Dari', labelX, 45);
+      // 1. TELAH TERIMA DARI
+      doc.text('Telah terima dari', labelX, 45);
       doc.text(':', colonX, 45);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(11);
       doc.text('PT. REKSO NATIONAL FOOD', valueX, 45);
 
+      // 2. JUMLAH PEMBAYARAN (TERBILANG)
       doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
-      doc.text('Sejumlah Uang', labelX, 55);
-      doc.text(':', colonX, 55);
-
-      doc.setFillColor(245, 245, 245);
-      doc.rect(valueX - 2, 48, 145, 10, 'F');
-
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(12);
-      doc.text(`Rp ${order.totalAmount.toLocaleString('id-ID')}`, valueX, 55);
-
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'normal');
-      doc.text('Terbilang', labelX, 66);
-      doc.text(':', colonX, 66);
-      doc.setFont('helvetica', 'italic');
+      doc.text('Jumlah Pembayaran', labelX, 58);
+      doc.text(':', colonX, 58);
 
       const teksTerbilang = terbilang(order.totalAmount)
         .replace(/\s+/g, ' ')
         .trim();
-      doc.text(`### ${teksTerbilang} Rupiah ###`, valueX, 66, {
-        maxWidth: 140,
-      });
 
+      doc.setFillColor(235, 235, 235);
+      doc.rect(valueX - 2, 51, 145, 10, 'F');
+      doc.setFont('helvetica', 'bolditalic');
+      doc.setFontSize(10);
+      doc.text(`## ${teksTerbilang} Rupiah ##`, valueX, 58, { maxWidth: 140 });
+
+      // 3. UNTUK PEMBAYARAN
       const tglKwitansi = new Date(
         invoice.issuedDate || invoice.createdAt || Date.now(),
       ).toLocaleDateString('id-ID', {
@@ -482,33 +473,54 @@ export default function InvoicesPage() {
         year: 'numeric',
       });
       doc.setFont('helvetica', 'normal');
-      doc.text('Untuk Pembayaran', labelX, 78);
-      doc.text(':', colonX, 78);
+      doc.setFontSize(10);
+      doc.text('Untuk Pembayaran', labelX, 72);
+      doc.text(':', colonX, 72);
       doc.text(
         `Invoice No. ${invoice.invoiceNumber} Tanggal ${tglKwitansi}`,
         valueX,
-        78,
+        72,
       );
 
-      doc.text('Ref. PO', labelX, 86);
-      doc.text(':', colonX, 86);
-      doc.text(order.poNumber || '-', valueX, 86);
+      // 4. KOTAK NOMINAL DI KIRI BAWAH
+      doc.setLineWidth(0.5);
+      doc.rect(10, 95, 65, 15);
+      doc.setFillColor(245, 245, 245);
+      doc.rect(10.5, 95.5, 64, 14, 'F');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(14);
+      doc.text(`Rp ${order.totalAmount.toLocaleString('id-ID')}`, 42.5, 105, {
+        align: 'center',
+      });
 
-      doc.text(`Semarang, ${tglKwitansi}`, 145, 102);
+      // 5. TANDA TANGAN & STEMPEL DI KANAN BAWAH
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Semarang, ${tglKwitansi}`, 135, 95);
+
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.text('CV. BERDIKARI BERKAH BERSAMA', 135, 100);
+
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'normal');
+      doc.text('083842319061 / 081905540797', 135, 104);
 
       try {
         const stempelImg = await loadAsset(stempelImage);
-        doc.addImage(stempelImg, 'PNG', 125, 106, 45, 14, undefined, 'FAST', 0);
+        doc.addImage(stempelImg, 'PNG', 120, 106, 45, 14, undefined, 'FAST', 0);
         const ttdImg = await loadAsset(ttdImage);
-        doc.addImage(ttdImg, 'PNG', 155, 100, 25, 18, undefined, 'FAST', 0);
+        doc.addImage(ttdImg, 'PNG', 150, 102, 25, 18, undefined, 'FAST', 0);
       } catch (e) {
         console.warn('Asset gagal dimuat');
       }
 
       doc.setTextColor(0);
       doc.setFontSize(10);
-      doc.setFont('helvetica', 'normal');
-      doc.text('( Dinny Elvandari Prinawati )', 142, 132);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Dinny Elvandari Prinawati', 140, 130);
+      doc.setLineWidth(0.3);
+      doc.line(140, 131, 185, 131); // Garis bawah nama
 
       doc.save(`Kwitansi_${invoice.invoiceNumber}.pdf`);
     } catch (e) {
