@@ -235,23 +235,22 @@ export default function InvoicesPage() {
 
       try {
         const logoImg = await loadAsset(logoBerdikari);
-        // REVISI: Perbandingan proporsi logo diperbaiki
-        doc.addImage(logoImg, 'PNG', 14, 10, 32, 16);
+        // REVISI: Logo dikecilkan namun rasio tetap proporsional (26x13)
+        doc.addImage(logoImg, 'PNG', 14, 10, 26, 13);
       } catch (e) {
         console.warn('Logo gagal dimuat');
       }
 
       doc.setFontSize(18);
       doc.setFont('helvetica', 'bold');
-      // REVISI: Warna teks CV Berdikari dari biru ke hitam
       doc.setTextColor(0, 0, 0);
-      doc.text('CV. BERDIKARI BERKAH BERSAMA', 50, 18);
+      doc.text('CV. BERDIKARI BERKAH BERSAMA', 44, 18);
 
       doc.setFontSize(9);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(100);
-      doc.text('Jl. Bulustalan V 653F, Semarang | Telp: 083842319061', 50, 24);
-      doc.text('Email: cv.berdikari.berkah.bersama@gmail.com', 50, 29);
+      doc.text('Jl. Bulustalan V 653F, Semarang | Telp: 083842319061', 44, 24);
+      doc.text('Email: cv.berdikari.berkah.bersama@gmail.com', 44, 29);
 
       doc.line(14, 35, 196, 35);
 
@@ -284,7 +283,7 @@ export default function InvoicesPage() {
       const tableBody = items.map((item: any, idx: number) => [
         idx + 1,
         item.clientItemCode || item.product.sku || '-',
-        item.product.name, // REVISI: Kode internal dihilangkan
+        item.product.name, // Kode internal sudah dihilangkan
         item.quantity.toString(),
         `Rp ${item.priceAtBuy.toLocaleString('id-ID')}`,
         `Rp ${(item.quantity * item.priceAtBuy).toLocaleString('id-ID')}`,
@@ -297,22 +296,28 @@ export default function InvoicesPage() {
         ],
         body: tableBody,
         theme: 'grid',
-        // REVISI: Warna header tabel menjadi hitam
         headStyles: { fillColor: [40, 40, 40] },
         styles: { fontSize: 8, cellPadding: 3 },
-        // REVISI: Memepetkan kolom lain agar kolom Deskripsi sangat lega
         columnStyles: {
-          0: { cellWidth: 8 }, // No
-          1: { cellWidth: 25 }, // SKU/Kode
-          // Kolom 2 (Deskripsi) akan memakan sisa ruang
-          3: { cellWidth: 12 }, // Qty
-          4: { cellWidth: 26 }, // Harga
-          5: { cellWidth: 32 }, // Subtotal
+          0: { cellWidth: 10 }, // REVISI: Kolom No dilebarkan
+          1: { cellWidth: 26 },
+          // Kolom 2 (Deskripsi) akan memakan sisa ruang otomatis
+          3: { cellWidth: 12 },
+          4: { cellWidth: 26 },
+          5: { cellWidth: 32 },
         },
       });
 
       // @ts-ignore
-      const finalY = doc.lastAutoTable.finalY || 150;
+      let finalY = doc.lastAutoTable.finalY || 150;
+
+      // REVISI: LOGIKA AUTO-PAGE BREAK
+      // Jika Y terlalu ke bawah (ruang sisa kurang dari ~80mm), lompat ke halaman baru
+      if (finalY > 210) {
+        doc.addPage();
+        finalY = 20; // Mengatur koordinat Y di halaman baru
+      }
+
       const dpp = order.totalAmount / 1.11;
       const ppn = order.totalAmount - dpp;
 
@@ -332,7 +337,7 @@ export default function InvoicesPage() {
       );
       doc.setFontSize(11);
       doc.setFont('helvetica', 'bold');
-      doc.setTextColor(0, 0, 0); // Diubah hitam
+      doc.setTextColor(0, 0, 0);
       doc.text('GRAND TOTAL:', 115, finalY + 24);
       doc.text(
         `Rp ${order.totalAmount.toLocaleString('id-ID')}`,
@@ -358,7 +363,6 @@ export default function InvoicesPage() {
       doc.text('Bank BNI KK Pandanaran A/C 1608388654', 14, finalY + 45);
       doc.text('a/n CV BERDIKARI BERKAH BERSAMA', 14, finalY + 50);
 
-      // REVISI: Menambahkan Tanggal dan mengganti Nama
       doc.text(`Semarang, ${tglInvoice}`, 145, finalY + 40);
       doc.text('Hormat Kami,', 158, finalY + 45);
 
@@ -407,21 +411,19 @@ export default function InvoicesPage() {
 
       try {
         const logoImg = await loadAsset(logoBerdikari);
-        // REVISI: Proporsi logo kwitansi (dibuat memanjang)
-        doc.addImage(logoImg, 'PNG', 10, 10, 24, 12);
+        // REVISI: Logo kwitansi dikecilkan
+        doc.addImage(logoImg, 'PNG', 10, 10, 18, 9);
       } catch (e) {
         console.warn('Logo gagal dimuat');
       }
 
-      // REVISI: Menambahkan Tulisan CV Berdikari Berkah Bersama
       doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
-      doc.text('CV. BERDIKARI BERKAH BERSAMA', 36, 14);
+      doc.text('CV. BERDIKARI BERKAH BERSAMA', 30, 14);
       doc.setFontSize(8);
       doc.setFont('helvetica', 'normal');
-      doc.text('Jl. Bulustalan V 653F, Semarang', 36, 18);
+      doc.text('Jl. Bulustalan V 653F, Semarang', 30, 18);
 
-      // REVISI: Mengecilkan tulisan Kwitansi
       doc.setFontSize(14);
       doc.setFont('helvetica', 'bold');
       doc.text('KWITANSI PEMBAYARAN', 105, 25, { align: 'center' });
@@ -482,7 +484,6 @@ export default function InvoicesPage() {
       doc.setFont('helvetica', 'normal');
       doc.text('Untuk Pembayaran', labelX, 78);
       doc.text(':', colonX, 78);
-      // REVISI: Mengganti keterangan
       doc.text(
         `Invoice No. ${invoice.invoiceNumber} Tanggal ${tglKwitansi}`,
         valueX,
@@ -504,7 +505,6 @@ export default function InvoicesPage() {
         console.warn('Asset gagal dimuat');
       }
 
-      // REVISI: Tulisan LUNAS dihapus, dan Nama diubah
       doc.setTextColor(0);
       doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
