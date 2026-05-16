@@ -235,8 +235,8 @@ export default function InvoicesPage() {
 
       try {
         const logoImg = await loadAsset(logoBerdikari);
-        // REVISI: Logo dikecilkan namun rasio tetap proporsional (26x13)
-        doc.addImage(logoImg, 'PNG', 14, 10, 26, 13);
+        // REVISI: Proporsi dikembalikan ke 5:4 (Lebar 20, Tinggi 16) agar bulat sempurna
+        doc.addImage(logoImg, 'PNG', 14, 10, 20, 16);
       } catch (e) {
         console.warn('Logo gagal dimuat');
       }
@@ -244,13 +244,14 @@ export default function InvoicesPage() {
       doc.setFontSize(18);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(0, 0, 0);
-      doc.text('CV. BERDIKARI BERKAH BERSAMA', 44, 18);
+      // REVISI: Teks digeser mepet ke logo
+      doc.text('CV. BERDIKARI BERKAH BERSAMA', 38, 18);
 
       doc.setFontSize(9);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(100);
-      doc.text('Jl. Bulustalan V 653F, Semarang | Telp: 083842319061', 44, 24);
-      doc.text('Email: cv.berdikari.berkah.bersama@gmail.com', 44, 29);
+      doc.text('Jl. Bulustalan V 653F, Semarang | Telp: 083842319061', 38, 24);
+      doc.text('Email: cv.berdikari.berkah.bersama@gmail.com', 38, 29);
 
       doc.line(14, 35, 196, 35);
 
@@ -299,7 +300,7 @@ export default function InvoicesPage() {
         headStyles: { fillColor: [40, 40, 40] },
         styles: { fontSize: 8, cellPadding: 3 },
         columnStyles: {
-          0: { cellWidth: 10 }, // REVISI: Kolom No dilebarkan
+          0: { cellWidth: 10 }, // Kolom No dilebarkan
           1: { cellWidth: 26 },
           // Kolom 2 (Deskripsi) akan memakan sisa ruang otomatis
           3: { cellWidth: 12 },
@@ -311,11 +312,10 @@ export default function InvoicesPage() {
       // @ts-ignore
       let finalY = doc.lastAutoTable.finalY || 150;
 
-      // REVISI: LOGIKA AUTO-PAGE BREAK
-      // Jika Y terlalu ke bawah (ruang sisa kurang dari ~80mm), lompat ke halaman baru
+      // LOGIKA AUTO-PAGE BREAK
       if (finalY > 210) {
         doc.addPage();
-        finalY = 20; // Mengatur koordinat Y di halaman baru
+        finalY = 20;
       }
 
       const dpp = order.totalAmount / 1.11;
@@ -411,18 +411,18 @@ export default function InvoicesPage() {
 
       try {
         const logoImg = await loadAsset(logoBerdikari);
-        // REVISI: Logo kwitansi dikecilkan
-        doc.addImage(logoImg, 'PNG', 10, 10, 18, 9);
+        // REVISI: Proporsi 5:4 (Lebar 15, Tinggi 12)
+        doc.addImage(logoImg, 'PNG', 10, 10, 15, 12);
       } catch (e) {
         console.warn('Logo gagal dimuat');
       }
 
       doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
-      doc.text('CV. BERDIKARI BERKAH BERSAMA', 30, 14);
+      doc.text('CV. BERDIKARI BERKAH BERSAMA', 28, 14);
       doc.setFontSize(8);
       doc.setFont('helvetica', 'normal');
-      doc.text('Jl. Bulustalan V 653F, Semarang', 30, 18);
+      doc.text('Jl. Bulustalan V 653F, Semarang', 28, 18);
 
       doc.setFontSize(14);
       doc.setFont('helvetica', 'bold');
