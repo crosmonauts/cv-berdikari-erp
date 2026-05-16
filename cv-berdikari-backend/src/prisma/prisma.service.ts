@@ -5,6 +5,8 @@ import {
   Logger,
 } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { Pool } from 'pg';
+import { PrismaPg } from '@prisma/adapter-pg';
 
 @Injectable()
 export class PrismaService
@@ -14,14 +16,21 @@ export class PrismaService
   private readonly logger = new Logger(PrismaService.name);
 
   constructor() {
-    // Biarkan Prisma bekerja secara otomatis membaca file env sesuai schema.prisma
-    super();
+    // Membaca URL dari Railway / .env lokal
+    const connectionString = process.env.DATABASE_URL;
+
+    // Memasang mesin Adapter PostgreSQL (Wajib untuk versi Prisma Anda)
+    const pool = new Pool({ connectionString });
+    const adapter = new PrismaPg(pool);
+
+    // Memberikan adapter ke Prisma
+    super({ adapter });
   }
 
   async onModuleInit() {
     try {
       await this.$connect();
-      this.logger.log('✅ Berhasil konek ke Database PostgreSQL');
+      this.logger.log('✅ Berhasil konek ke Database PostgreSQL (Neon)');
     } catch (error) {
       this.logger.error('❌ Gagal konek ke Database!');
       this.logger.error(error);
