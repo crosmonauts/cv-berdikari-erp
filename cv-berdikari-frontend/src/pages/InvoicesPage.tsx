@@ -226,6 +226,7 @@ export default function InvoicesPage() {
     }
   };
 
+  // --- FUNGSI CETAK INVOICE ---
   const handlePrintInvoice = async (invoice: any, order: any) => {
     try {
       const branch = branches.find((b) => b.id === order.branchId);
@@ -234,22 +235,23 @@ export default function InvoicesPage() {
 
       try {
         const logoImg = await loadAsset(logoBerdikari);
-        doc.addImage(logoImg, 'PNG', 14, 10, 22, 22);
+        // REVISI: Perbandingan proporsi logo diperbaiki
+        doc.addImage(logoImg, 'PNG', 14, 10, 32, 16);
       } catch (e) {
         console.warn('Logo gagal dimuat');
       }
 
       doc.setFontSize(18);
       doc.setFont('helvetica', 'bold');
-      doc.setTextColor(37, 99, 235);
-      doc.text('CV. BERDIKARI BERKAH BERSAMA', 40, 18);
+      // REVISI: Warna teks CV Berdikari dari biru ke hitam
+      doc.setTextColor(0, 0, 0);
+      doc.text('CV. BERDIKARI BERKAH BERSAMA', 50, 18);
 
       doc.setFontSize(9);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(100);
-      // DIPECAH 2 BARIS AGAR RAPI & TIDAK MENABRAK MARGIN
-      doc.text('Jl. Bulustalan V 653F, Semarang | Telp: 083842319061', 40, 24);
-      doc.text('Email: cv.berdikari.berkah.bersama@gmail.com', 40, 29);
+      doc.text('Jl. Bulustalan V 653F, Semarang | Telp: 083842319061', 50, 24);
+      doc.text('Email: cv.berdikari.berkah.bersama@gmail.com', 50, 29);
 
       doc.line(14, 35, 196, 35);
 
@@ -259,12 +261,17 @@ export default function InvoicesPage() {
       doc.text('INVOICE', 14, 45);
       doc.setFontSize(9);
       doc.setFont('helvetica', 'normal');
+
+      const tglInvoice = new Date(
+        invoice.issuedDate || invoice.createdAt || Date.now(),
+      ).toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      });
+
       doc.text(`No. Invoice : ${invoice.invoiceNumber}`, 14, 52);
-      doc.text(
-        `Tgl. Terbit : ${new Date(invoice.issuedDate || invoice.createdAt || Date.now()).toLocaleDateString('id-ID')}`,
-        14,
-        57,
-      );
+      doc.text(`Tgl. Terbit : ${tglInvoice}`, 14, 57);
       doc.text(`Ref. PO     : ${order.poNumber}`, 14, 62);
 
       doc.text('Kepada:', 120, 52);
@@ -277,7 +284,7 @@ export default function InvoicesPage() {
       const tableBody = items.map((item: any, idx: number) => [
         idx + 1,
         item.clientItemCode || item.product.sku || '-',
-        `${item.product.name}\n(Internal: ${item.product.sku})`,
+        item.product.name, // REVISI: Kode internal dihilangkan
         item.quantity.toString(),
         `Rp ${item.priceAtBuy.toLocaleString('id-ID')}`,
         `Rp ${(item.quantity * item.priceAtBuy).toLocaleString('id-ID')}`,
@@ -286,13 +293,22 @@ export default function InvoicesPage() {
       autoTable(doc, {
         startY: 75,
         head: [
-          ['No.', 'SKU / Kode', 'Deskripsi Barang', 'Qty', 'Harga', 'Subtotal'],
+          ['No', 'SKU / Kode', 'Deskripsi Barang', 'Qty', 'Harga', 'Subtotal'],
         ],
         body: tableBody,
         theme: 'grid',
-        headStyles: { fillColor: [37, 99, 235] },
+        // REVISI: Warna header tabel menjadi hitam
+        headStyles: { fillColor: [40, 40, 40] },
         styles: { fontSize: 8, cellPadding: 3 },
-        columnStyles: { 2: { cellWidth: 70 } },
+        // REVISI: Memepetkan kolom lain agar kolom Deskripsi sangat lega
+        columnStyles: {
+          0: { cellWidth: 8 }, // No
+          1: { cellWidth: 25 }, // SKU/Kode
+          // Kolom 2 (Deskripsi) akan memakan sisa ruang
+          3: { cellWidth: 12 }, // Qty
+          4: { cellWidth: 26 }, // Harga
+          5: { cellWidth: 32 }, // Subtotal
+        },
       });
 
       // @ts-ignore
@@ -316,7 +332,7 @@ export default function InvoicesPage() {
       );
       doc.setFontSize(11);
       doc.setFont('helvetica', 'bold');
-      doc.setTextColor(37, 99, 235);
+      doc.setTextColor(0, 0, 0); // Diubah hitam
       doc.text('GRAND TOTAL:', 115, finalY + 24);
       doc.text(
         `Rp ${order.totalAmount.toLocaleString('id-ID')}`,
@@ -342,7 +358,9 @@ export default function InvoicesPage() {
       doc.text('Bank BNI KK Pandanaran A/C 1608388654', 14, finalY + 45);
       doc.text('a/n CV BERDIKARI BERKAH BERSAMA', 14, finalY + 50);
 
-      doc.text('Hormat Kami,', 160, finalY + 45);
+      // REVISI: Menambahkan Tanggal dan mengganti Nama
+      doc.text(`Semarang, ${tglInvoice}`, 145, finalY + 40);
+      doc.text('Hormat Kami,', 158, finalY + 45);
 
       try {
         const stempelImg = await loadAsset(stempelImage);
@@ -374,13 +392,14 @@ export default function InvoicesPage() {
       }
 
       doc.setTextColor(0);
-      doc.text('( Finance Dept )', 157, finalY + 75);
+      doc.text('( Dinny Elvandari Prinawati )', 145, finalY + 75);
       doc.save(`Invoice_${invoice.invoiceNumber}.pdf`);
     } catch (e) {
       alert('Error Cetak Invoice');
     }
   };
 
+  // --- FUNGSI CETAK KWITANSI ---
   const handlePrintKwitansi = async (invoice: any, order: any) => {
     try {
       const doc = new jsPDF({ format: 'a5', orientation: 'landscape' });
@@ -388,14 +407,24 @@ export default function InvoicesPage() {
 
       try {
         const logoImg = await loadAsset(logoBerdikari);
-        doc.addImage(logoImg, 'PNG', 10, 10, 18, 18);
+        // REVISI: Proporsi logo kwitansi (dibuat memanjang)
+        doc.addImage(logoImg, 'PNG', 10, 10, 24, 12);
       } catch (e) {
         console.warn('Logo gagal dimuat');
       }
 
-      doc.setFontSize(16);
+      // REVISI: Menambahkan Tulisan CV Berdikari Berkah Bersama
+      doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
-      doc.text('KWITANSI PEMBAYARAN', 105, 20, { align: 'center' });
+      doc.text('CV. BERDIKARI BERKAH BERSAMA', 36, 14);
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Jl. Bulustalan V 653F, Semarang', 36, 18);
+
+      // REVISI: Mengecilkan tulisan Kwitansi
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('KWITANSI PEMBAYARAN', 105, 25, { align: 'center' });
 
       const kwitansiNo = invoice.invoiceNumber.replace('INV', 'KWT');
 
@@ -406,13 +435,11 @@ export default function InvoicesPage() {
       doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
 
-      // --- BARIS 1: NOMOR ---
       doc.text('No', labelX, 35);
       doc.text(':', colonX, 35);
       doc.setFont('helvetica', 'bold');
       doc.text(kwitansiNo, valueX, 35);
 
-      // --- BARIS 2: SUDAH TERIMA DARI ---
       doc.setFont('helvetica', 'normal');
       doc.text('Sudah Terima Dari', labelX, 45);
       doc.text(':', colonX, 45);
@@ -420,7 +447,6 @@ export default function InvoicesPage() {
       doc.setFontSize(11);
       doc.text('PT. REKSO NATIONAL FOOD', valueX, 45);
 
-      // --- BARIS 3: SEJUMLAH UANG ---
       doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
       doc.text('Sejumlah Uang', labelX, 55);
@@ -433,7 +459,6 @@ export default function InvoicesPage() {
       doc.setFontSize(12);
       doc.text(`Rp ${order.totalAmount.toLocaleString('id-ID')}`, valueX, 55);
 
-      // --- BARIS 4: TERBILANG ---
       doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
       doc.text('Terbilang', labelX, 66);
@@ -447,23 +472,28 @@ export default function InvoicesPage() {
         maxWidth: 140,
       });
 
-      // --- BARIS 5: UNTUK PEMBAYARAN ---
-      doc.setFont('helvetica', 'normal');
-      doc.text('Untuk Pembayaran', labelX, 78);
-      doc.text(':', colonX, 78);
-      doc.text('Pelunasan Tagihan Barang ATK (Inc. PPN 11%)', valueX, 78);
-
-      // --- BARIS 6: REF INVOICE ---
-      doc.text('Ref. Invoice', labelX, 86);
-      doc.text(':', colonX, 86);
-      doc.text(invoice.invoiceNumber, valueX, 86);
-
-      const tgl = new Date().toLocaleDateString('id-ID', {
+      const tglKwitansi = new Date(
+        invoice.issuedDate || invoice.createdAt || Date.now(),
+      ).toLocaleDateString('id-ID', {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
       });
-      doc.text(`Semarang, ${tgl}`, 150, 102);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Untuk Pembayaran', labelX, 78);
+      doc.text(':', colonX, 78);
+      // REVISI: Mengganti keterangan
+      doc.text(
+        `Invoice No. ${invoice.invoiceNumber} Tanggal ${tglKwitansi}`,
+        valueX,
+        78,
+      );
+
+      doc.text('Ref. PO', labelX, 86);
+      doc.text(':', colonX, 86);
+      doc.text(order.poNumber || '-', valueX, 86);
+
+      doc.text(`Semarang, ${tglKwitansi}`, 145, 102);
 
       try {
         const stempelImg = await loadAsset(stempelImage);
@@ -474,14 +504,11 @@ export default function InvoicesPage() {
         console.warn('Asset gagal dimuat');
       }
 
-      doc.setTextColor(34, 197, 94);
-      doc.setFontSize(22);
-      doc.setFont('helvetica', 'bold');
-      doc.text('LUNAS', 160, 118);
+      // REVISI: Tulisan LUNAS dihapus, dan Nama diubah
       doc.setTextColor(0);
       doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
-      doc.text('( Kasir / Admin )', 153, 132);
+      doc.text('( Dinny Elvandari Prinawati )', 142, 132);
 
       doc.save(`Kwitansi_${invoice.invoiceNumber}.pdf`);
     } catch (e) {
