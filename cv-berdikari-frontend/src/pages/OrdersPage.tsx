@@ -160,13 +160,17 @@ export default function OrdersPage() {
     });
   };
 
+  // --- REVISI: ANTI DOUBLE ITEM (RACE CONDITION FIX) ---
   const handleAddToCart = () => {
     const product = products.find((p) => p.id === tempItem.productId);
     if (product) {
-      const existing = cartItems.find((item) => item.productId === product.id);
-      if (existing) {
-        setCartItems(
-          cartItems.map((item) =>
+      // Menggunakan prevCart untuk membaca memory paling akhir, bukan tampilan layar
+      setCartItems((prevCart) => {
+        const existing = prevCart.find((item) => item.productId === product.id);
+
+        if (existing) {
+          // Jika sudah ada di memori terakhir, tambahkan jumlahnya saja
+          return prevCart.map((item) =>
             item.productId === product.id
               ? {
                   ...item,
@@ -175,21 +179,24 @@ export default function OrdersPage() {
                     tempItem.clientItemCode || item.clientItemCode,
                 }
               : item,
-          ),
-        );
-      } else {
-        setCartItems([
-          ...cartItems,
-          {
-            productId: product.id,
-            sku: product.sku,
-            name: product.name,
-            price: product.price,
-            quantity: tempItem.quantity,
-            clientItemCode: tempItem.clientItemCode,
-          },
-        ]);
-      }
+          );
+        } else {
+          // Jika belum ada, buat baris baru
+          return [
+            ...prevCart,
+            {
+              productId: product.id,
+              sku: product.sku,
+              name: product.name,
+              price: product.price,
+              quantity: tempItem.quantity,
+              clientItemCode: tempItem.clientItemCode,
+            },
+          ];
+        }
+      });
+
+      // Reset form input langsung
       setTempItem({ productId: '', quantity: 1, clientItemCode: '' });
     }
   };
@@ -265,21 +272,17 @@ export default function OrdersPage() {
     setOrderItems(items);
   };
 
-  // --- LOGIKA UPDATE STATUS PEMBAYARAN MENGGUNAKAN DROPDOWN ---
   const handleUpdatePaymentStatus = async (order: any, nextStatus: string) => {
     try {
-      // Optimistic UI Update (Agar terasa instan saat dipilih)
       setOrders(
         orders.map((o) =>
           o.id === order.id ? { ...o, paymentStatus: nextStatus } : o,
         ),
       );
-
-      // Kirim request ke backend
       await updateOrder(order.id, { paymentStatus: nextStatus });
     } catch (error) {
       alert('Gagal memperbarui status pembayaran.');
-      fetchData(); // Rollback UI jika gagal
+      fetchData();
     }
   };
 
@@ -405,7 +408,6 @@ export default function OrdersPage() {
                   <TableHead className="py-4 text-[10px] font-bold uppercase text-slate-400 text-center">
                     Status PO
                   </TableHead>
-                  {/* KOLOM PEMBAYARAN */}
                   <TableHead className="py-4 text-[10px] font-bold uppercase text-slate-400 text-center">
                     Pembayaran
                   </TableHead>
@@ -474,7 +476,6 @@ export default function OrdersPage() {
                           </span>
                         </TableCell>
 
-                        {/* DROPDOWN STATUS PEMBAYARAN */}
                         <TableCell className="py-4 text-center">
                           <Select
                             value={paymentStatus}
