@@ -50,10 +50,8 @@ export default function ProductsPage() {
   const [isEdit, setIsEdit] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  // --- UI STATE BARU: Untuk Tab Menu ---
   const [activeTab, setActiveTab] = useState<'utama' | 'wilayah'>('utama');
 
-  // State form ditambahkan regionPrices (Format: { "id-wilayah": "harga" })
   const [formData, setFormData] = useState<any>({
     sku: '',
     name: '',
@@ -74,10 +72,9 @@ export default function ProductsPage() {
 
   const fetchData = async () => {
     try {
-      // Ambil produk dan wilayah bersamaan
       const [productsData, regionsData] = await Promise.all([
         getProducts(),
-        getRegions().catch(() => []), // Tangkap error jika backend belum siap
+        getRegions().catch(() => []),
       ]);
       setProducts(productsData);
       setRegions(regionsData);
@@ -99,7 +96,7 @@ export default function ProductsPage() {
   const handleOpenAdd = () => {
     setIsEdit(false);
     setSelectedId(null);
-    setActiveTab('utama'); // Reset tab ke Info Utama saat buka modal
+    setActiveTab('utama');
     setFormData({
       sku: '',
       name: '',
@@ -116,9 +113,8 @@ export default function ProductsPage() {
   const handleEdit = (p: Product) => {
     setIsEdit(true);
     setSelectedId(p.id);
-    setActiveTab('utama'); // Reset tab ke Info Utama saat buka modal
+    setActiveTab('utama');
 
-    // Memetakan harga wilayah dari backend ke format form { "id-wilayah": "harga" }
     const mappedPrices: Record<string, string> = {};
     if ((p as any).regionPrices) {
       (p as any).regionPrices.forEach((rp: any) => {
@@ -164,7 +160,6 @@ export default function ProductsPage() {
       const safeBarcode =
         formData.barcode.trim() === '' ? undefined : formData.barcode;
 
-      // Konversi format regionPrices agar sesuai dengan DTO Backend
       const formattedRegionPrices = Object.entries(formData.regionPrices)
         .filter(([_, price]) => price !== '' && price !== undefined)
         .map(([regionId, price]) => ({
@@ -179,7 +174,7 @@ export default function ProductsPage() {
           barcode: safeBarcode,
           defaultClientSku: formData.defaultClientSku,
           price: Number(formData.price),
-          regionPrices: formattedRegionPrices, // Kirim harga wilayah
+          regionPrices: formattedRegionPrices,
         };
         await updateProduct(selectedId, updatePayload as any);
       } else {
@@ -189,7 +184,7 @@ export default function ProductsPage() {
           buyPrice: Number(formData.buyPrice),
           price: Number(formData.price),
           stock: Number(formData.stock),
-          regionPrices: formattedRegionPrices, // Kirim harga wilayah
+          regionPrices: formattedRegionPrices,
         };
         await createProduct(createPayload as any);
       }
@@ -417,7 +412,6 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      {/* DIALOG TAMBAH / EDIT PRODUK (UI BARU DENGAN TAB) */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-xl bg-white rounded-xl border-none shadow-2xl p-6">
           <DialogHeader>
@@ -427,7 +421,6 @@ export default function ProductsPage() {
             </DialogTitle>
           </DialogHeader>
 
-          {/* TAB NAVIGATION KOSMETIK */}
           <div className="flex bg-slate-100 p-1 rounded-lg mt-2 mb-4">
             <button
               type="button"
@@ -454,9 +447,9 @@ export default function ProductsPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            {/* CONTENT TAB 1: INFO UTAMA */}
             {activeTab === 'utama' && (
-              <div className="animate-in fade-in zoom-in-95 duration-200">
+              <div className="animate-in fade-in zoom-in-95 duration-200 space-y-3">
+                {/* BARIS 1: SKU Internal & SKU Klien Sejajar */}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
                     <Label className="text-[10px] font-bold uppercase text-slate-400">
@@ -477,39 +470,6 @@ export default function ProductsPage() {
                   </div>
                   <div className="space-y-1">
                     <Label className="text-[10px] font-bold uppercase text-slate-400">
-                      Barcode
-                    </Label>
-                    <div className="relative">
-                      <Barcode className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
-                      <Input
-                        value={formData.barcode}
-                        onChange={(e) =>
-                          setFormData({ ...formData, barcode: e.target.value })
-                        }
-                        placeholder="Scan..."
-                        className="h-9 pl-9 font-semibold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-1 col-span-2">
-                    <Label className="text-[10px] font-bold uppercase text-slate-400">
-                      Nama Barang
-                    </Label>
-                    <Input
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      required
-                      placeholder="Contoh: Kertas HVS"
-                      className="h-9 font-semibold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-3 gap-3 border-t border-slate-100 pt-4 mt-4">
-                  <div className="space-y-1">
-                    <Label className="text-[10px] font-bold uppercase text-slate-400">
                       SKU Klien Default
                     </Label>
                     <Input
@@ -524,9 +484,71 @@ export default function ProductsPage() {
                       className="h-9 font-bold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-amber-500"
                     />
                   </div>
+                </div>
+
+                {/* BARIS 2: Nama Barang (Tetap Penuh) */}
+                <div className="space-y-1">
+                  <Label className="text-[10px] font-bold uppercase text-slate-400">
+                    Nama Barang
+                  </Label>
+                  <Input
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                    required
+                    placeholder="Contoh: Kertas HVS"
+                    className="h-9 font-semibold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
+                  />
+                </div>
+
+                {/* BARIS 3: Barcode (Di bawah Nama Barang) */}
+                <div className="space-y-1">
+                  <Label className="text-[10px] font-bold uppercase text-slate-400">
+                    Barcode
+                  </Label>
+                  <div className="relative">
+                    <Barcode className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+                    <Input
+                      value={formData.barcode}
+                      onChange={(e) =>
+                        setFormData({ ...formData, barcode: e.target.value })
+                      }
+                      placeholder="Scan Barcode / Biarkan kosong"
+                      className="h-9 pl-9 font-semibold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
+                    />
+                  </div>
+                </div>
+
+                {/* BARIS 4: Kulakan, Harga Jual Dasar, Stok Awal (Sejajar) */}
+                <div className="grid grid-cols-3 gap-3 border-t border-slate-100 pt-4 mt-2">
                   <div className="space-y-1">
                     <Label className="text-[10px] font-bold uppercase text-slate-400">
-                      Harga Jual Default
+                      Harga Kulakan
+                    </Label>
+                    <Input
+                      type="text"
+                      inputMode="decimal"
+                      value={formData.buyPrice}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          buyPrice: e.target.value.replace(/,/g, '.'),
+                        })
+                      }
+                      required
+                      disabled={isEdit}
+                      title={
+                        isEdit
+                          ? 'Terkunci: Harga modal awal dijaga oleh sistem FIFO. Gunakan tombol Restock untuk kloter harga baru.'
+                          : ''
+                      }
+                      className="h-9 font-bold bg-indigo-50 border-none ring-1 ring-indigo-200 focus:ring-2 focus:ring-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label className="text-[10px] font-bold uppercase text-slate-400">
+                      Harga Jual Dasar
                     </Label>
                     <Input
                       type="text"
@@ -542,47 +564,30 @@ export default function ProductsPage() {
                       className="h-9 font-bold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
                     />
                   </div>
-                  {!isEdit ? (
-                    <>
-                      <div className="space-y-1">
-                        <Label className="text-[10px] font-bold uppercase text-slate-400">
-                          Kulakan
-                        </Label>
-                        <Input
-                          type="text"
-                          inputMode="decimal"
-                          value={formData.buyPrice}
-                          onChange={(e) =>
-                            setFormData({
-                              ...formData,
-                              buyPrice: e.target.value.replace(/,/g, '.'),
-                            })
-                          }
-                          required
-                          className="h-9 font-bold bg-indigo-50 border-none ring-1 ring-indigo-200 focus:ring-2 focus:ring-indigo-600"
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <Label className="text-[10px] font-bold uppercase text-slate-400">
-                          Stok Awal
-                        </Label>
-                        <Input
-                          type="number"
-                          value={formData.stock}
-                          onChange={(e) =>
-                            setFormData({ ...formData, stock: e.target.value })
-                          }
-                          required
-                          className="h-9 font-bold bg-indigo-50 border-none ring-1 ring-indigo-200 focus:ring-2 focus:ring-indigo-600"
-                        />
-                      </div>
-                    </>
-                  ) : null}
+                  <div className="space-y-1">
+                    <Label className="text-[10px] font-bold uppercase text-slate-400">
+                      Stok Awal
+                    </Label>
+                    <Input
+                      type="number"
+                      value={formData.stock}
+                      onChange={(e) =>
+                        setFormData({ ...formData, stock: e.target.value })
+                      }
+                      required
+                      disabled={isEdit}
+                      title={
+                        isEdit
+                          ? 'Terkunci: Penambahan stok hanya bisa dilakukan lewat tombol Restock.'
+                          : ''
+                      }
+                      className="h-9 font-bold bg-indigo-50 border-none ring-1 ring-indigo-200 focus:ring-2 focus:ring-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                    />
+                  </div>
                 </div>
               </div>
             )}
 
-            {/* CONTENT TAB 2: HARGA WILAYAH */}
             {activeTab === 'wilayah' && (
               <div className="animate-in fade-in zoom-in-95 duration-200 space-y-3">
                 <div className="bg-amber-50 p-3 rounded-lg border border-amber-100 mb-2">
@@ -612,7 +617,7 @@ export default function ProductsPage() {
                           <Input
                             type="text"
                             inputMode="decimal"
-                            placeholder="Sama spt default"
+                            placeholder=""
                             value={formData.regionPrices[region.id] || ''}
                             onChange={(e) => {
                               const val = e.target.value.replace(/,/g, '.');
@@ -634,7 +639,6 @@ export default function ProductsPage() {
               </div>
             )}
 
-            {/* TOMBOL SIMPAN (SELALU MUNCUL DI BAWAH TAB MANAPUN) */}
             <Button
               type="submit"
               className="w-full h-10 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg mt-2 text-xs uppercase tracking-widest border-none shadow-md transition-all active:scale-95"
@@ -645,7 +649,6 @@ export default function ProductsPage() {
         </DialogContent>
       </Dialog>
 
-      {/* DIALOG RESTOCK */}
       <Dialog open={isRestockOpen} onOpenChange={setIsRestockOpen}>
         <DialogContent className="sm:max-w-sm bg-white rounded-xl border-none shadow-2xl p-6">
           <DialogHeader>
