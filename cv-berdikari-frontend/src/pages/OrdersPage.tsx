@@ -160,9 +160,7 @@ export default function OrdersPage() {
     });
   };
 
-  // --- LOGIKA PINTAR HARGA WILAYAH ---
   const handleAddToCart = () => {
-    // 1. Wajib pilih cabang dulu agar sistem tahu wilayahnya
     if (!formData.branchId) {
       alert(
         'Mohon pilih Cabang Klien terlebih dahulu agar sistem dapat menyesuaikan harga wilayah!',
@@ -172,25 +170,21 @@ export default function OrdersPage() {
 
     const product = products.find((p) => p.id === tempItem.productId);
     if (product) {
-      // 2. Cari regionId dari cabang yang dipilih
       const selectedBranch = branches.find((b) => b.id === formData.branchId);
       const branchRegionId = selectedBranch?.regionId;
 
-      // 3. Tentukan Harga: Cek apakah produk punya harga khusus untuk region ini
-      let finalPrice = product.price; // Mulai dengan harga default
+      let finalPrice = product.price;
 
       if (branchRegionId && (product as any).regionPrices) {
         const specialPriceData = (product as any).regionPrices.find(
           (rp: any) => rp.regionId === branchRegionId,
         );
 
-        // Jika harga khusus ditemukan, ganti finalPrice dengan harga tersebut
         if (specialPriceData) {
           finalPrice = specialPriceData.price;
         }
       }
 
-      // 4. Masukkan ke Keranjang dengan Harga Pintar
       setCartItems((prevCart) => {
         const existing = prevCart.find((item) => item.productId === product.id);
 
@@ -212,7 +206,7 @@ export default function OrdersPage() {
               productId: product.id,
               sku: product.sku,
               name: product.name,
-              price: finalPrice, // <--- Menggunakan harga yang sudah dicocokkan dengan wilayah
+              price: finalPrice,
               quantity: tempItem.quantity,
               clientItemCode: tempItem.clientItemCode,
             },
@@ -220,7 +214,6 @@ export default function OrdersPage() {
         }
       });
 
-      // Reset form input langsung
       setTempItem({ productId: '', quantity: 1, clientItemCode: '' });
     }
   };
@@ -247,7 +240,7 @@ export default function OrdersPage() {
         productId: it.productId,
         name: it.product.name,
         sku: it.product.sku,
-        price: it.priceAtBuy, // Tetap gunakan harga histori transaksi lama (Aman)
+        price: it.priceAtBuy,
         quantity: it.quantity,
         clientItemCode: it.clientItemCode || '',
       }));
@@ -336,6 +329,7 @@ export default function OrdersPage() {
 
   return (
     <div className="min-h-screen bg-slate-300 px-2 pt-1 pb-10 space-y-4 font-sans">
+      {/* HEADER PAGE */}
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-indigo-600 shadow-sm ring-1 ring-slate-200">
@@ -368,7 +362,10 @@ export default function OrdersPage() {
               <SelectTrigger className="w-[130px] h-8 border-none font-bold text-xs shadow-none focus:ring-0">
                 <SelectValue placeholder="Bulan" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent
+                position="popper"
+                className="bg-white max-h-[300px] overflow-y-auto"
+              >
                 {months.map((m) => (
                   <SelectItem key={m.val} value={m.val.toString()}>
                     {m.label}
@@ -383,7 +380,10 @@ export default function OrdersPage() {
               <SelectTrigger className="w-[90px] h-8 border-none font-bold text-xs shadow-none focus:ring-0">
                 <SelectValue placeholder="Tahun" />
               </SelectTrigger>
-              <SelectContent className="bg-white">
+              <SelectContent
+                position="popper"
+                className="bg-white max-h-[300px] overflow-y-auto"
+              >
                 {years.map((y) => (
                   <SelectItem key={y} value={y.toString()}>
                     {y}
@@ -401,6 +401,7 @@ export default function OrdersPage() {
         </div>
       </div>
 
+      {/* SEARCH & TABLE SECTION */}
       <div className="max-w-6xl mx-auto space-y-4">
         <div className="relative group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors" />
@@ -529,7 +530,10 @@ export default function OrdersPage() {
                                 <SelectValue placeholder="Status" />
                               </div>
                             </SelectTrigger>
-                            <SelectContent className="bg-white">
+                            <SelectContent
+                              position="popper"
+                              className="bg-white"
+                            >
                               <SelectItem
                                 value="BELUM"
                                 className="text-[10px] font-bold text-slate-600"
@@ -580,6 +584,7 @@ export default function OrdersPage() {
             </Table>
           </div>
 
+          {/* PAGINATION FOOTER */}
           <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 bg-slate-50/50 border-t border-slate-100 gap-4">
             <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-3">
               {totalPages > 0 ? (
@@ -621,14 +626,15 @@ export default function OrdersPage() {
         </div>
       </div>
 
+      {/* --- REVISI MODAL BUAT PO --- */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-2xl bg-white rounded-xl p-6 border-none shadow-2xl">
+        <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto bg-white rounded-xl p-6 border-none shadow-2xl">
           <DialogHeader>
-            <DialogTitle className="font-bold">
+            <DialogTitle className="font-bold text-xl text-slate-900">
               {editingId ? 'Ubah Pesanan (PO)' : 'Buat Pesanan Baru'}
             </DialogTitle>
           </DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 mt-2">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
                 <Label className="text-[10px] font-bold uppercase text-slate-400">
@@ -641,7 +647,7 @@ export default function OrdersPage() {
                   }
                   required
                   disabled={!!editingId}
-                  className="h-9 font-bold bg-slate-50 uppercase border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
+                  className="h-10 font-bold bg-slate-50 uppercase border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
                 />
               </div>
               <div className="space-y-1">
@@ -652,7 +658,6 @@ export default function OrdersPage() {
                   value={formData.branchId}
                   onValueChange={(val) => {
                     setFormData({ ...formData, branchId: val });
-                    // SISTEM ANTI-KECURANGAN HARGA: Kosongkan keranjang jika ganti cabang!
                     if (cartItems.length > 0) {
                       alert(
                         'Perhatian: Cabang diubah! Keranjang dikosongkan otomatis untuk menyesuaikan ulang harga khusus wilayah.',
@@ -663,10 +668,14 @@ export default function OrdersPage() {
                   required
                   disabled={!!editingId}
                 >
-                  <SelectTrigger className="h-9 bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600 shadow-none">
+                  <SelectTrigger className="h-10 bg-slate-50 font-semibold border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600 shadow-none">
                     <SelectValue placeholder="Pilih Cabang..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-white">
+                  {/* --- TAMBAHAN position="popper" --- */}
+                  <SelectContent
+                    position="popper"
+                    className="bg-white max-h-[250px] overflow-y-auto"
+                  >
                     {branches.map((b) => (
                       <SelectItem key={b.id} value={b.id}>
                         {b.name}
@@ -689,10 +698,11 @@ export default function OrdersPage() {
                   }
                   required
                 >
-                  <SelectTrigger className="h-9 bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600 shadow-none">
+                  <SelectTrigger className="h-10 font-bold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600 shadow-none">
                     <SelectValue placeholder="Pilih Status..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-white">
+                  {/* --- TAMBAHAN position="popper" --- */}
+                  <SelectContent position="popper" className="bg-white">
                     <SelectItem value="PENDING">PENDING</SelectItem>
                     <SelectItem value="DIPROSES">DIPROSES</SelectItem>
                     <SelectItem value="DIKIRIM">DIKIRIM</SelectItem>
@@ -703,36 +713,44 @@ export default function OrdersPage() {
               </div>
             )}
 
-            <div className="p-3 bg-slate-50 rounded-lg border border-dashed border-slate-200 space-y-3">
+            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-4">
               <div className="flex gap-2 items-center text-indigo-600">
-                <PackagePlus className="h-4 w-4" />
-                <span className="text-[10px] font-bold uppercase">
+                <PackagePlus className="h-5 w-5" />
+                <span className="text-xs font-bold uppercase tracking-widest">
                   Keranjang Barang
                 </span>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <Select
                   value={tempItem.productId}
                   onValueChange={handleProductSelect}
                 >
-                  <SelectTrigger className="h-8 text-xs bg-white w-2/5 border-none ring-1 ring-slate-200 shadow-none">
-                    <SelectValue placeholder="Pilih Produk..." />
+                  <SelectTrigger className="h-10 text-xs bg-white flex-1 border-none ring-1 ring-slate-200 shadow-sm">
+                    <SelectValue placeholder="Pilih Produk dari Katalog..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-white">
+                  {/* --- FIX UTAMA: position="popper" AGAR TIDAK MEMANJANG KE BAWAH --- */}
+                  <SelectContent
+                    position="popper"
+                    className="bg-white max-h-[250px] overflow-y-auto"
+                  >
                     {products.map((p) => (
-                      <SelectItem key={p.id} value={p.id} className="text-xs">
+                      <SelectItem
+                        key={p.id}
+                        value={p.id}
+                        className="text-xs font-medium"
+                      >
                         {p.sku} - {p.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 <Input
-                  placeholder="SKU Klien (Opsional)"
+                  placeholder="SKU Klien"
                   value={tempItem.clientItemCode}
                   onChange={(e) =>
                     setTempItem({ ...tempItem, clientItemCode: e.target.value })
                   }
-                  className="h-8 text-xs bg-white w-2/5 font-semibold placeholder:text-slate-300 border-none ring-1 ring-slate-200"
+                  className="h-10 text-xs bg-white w-1/4 font-semibold placeholder:text-slate-300 border-none ring-1 ring-slate-200 shadow-sm"
                 />
                 <Input
                   type="number"
@@ -744,52 +762,58 @@ export default function OrdersPage() {
                       quantity: Number(e.target.value),
                     })
                   }
-                  className="w-16 h-8 text-xs text-center font-bold bg-white border-none ring-1 ring-slate-200"
+                  className="w-20 h-10 text-sm text-center font-bold bg-white border-none ring-1 ring-slate-200 shadow-sm"
                 />
                 <Button
                   type="button"
                   onClick={handleAddToCart}
-                  className="h-8 bg-indigo-600 hover:bg-indigo-700 shadow-sm"
+                  className="h-10 px-5 bg-indigo-600 hover:bg-indigo-700 shadow-md font-bold text-white transition-all active:scale-95"
                 >
-                  <Plus className="h-4 w-4" />
+                  <Plus className="h-5 w-5 mr-1" /> TAMBAH
                 </Button>
               </div>
 
               {cartItems.length > 0 && (
-                <div className="bg-white rounded border border-slate-200">
-                  <table className="w-full text-[10px]">
-                    <thead className="bg-slate-100 font-bold uppercase text-slate-400">
+                <div className="bg-white rounded-lg border border-slate-200 max-h-[250px] overflow-y-auto shadow-inner relative">
+                  <table className="w-full text-xs">
+                    <thead className="bg-slate-100 font-bold uppercase text-slate-400 sticky top-0 z-10 shadow-sm">
                       <tr>
-                        <th className="p-2 text-left">Produk</th>
-                        <th className="p-2 text-center">Kode Klien</th>
-                        <th className="p-2 text-center">Qty</th>
-                        <th className="p-2 text-right">Subtotal</th>
-                        <th className="p-2"></th>
+                        <th className="p-3 text-left w-1/2">Nama Produk</th>
+                        <th className="p-3 text-center">Kode Klien</th>
+                        <th className="p-3 text-center">Qty</th>
+                        <th className="p-3 text-right">Subtotal</th>
+                        <th className="p-3"></th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y divide-slate-100">
                       {cartItems.map((item, i) => (
-                        <tr key={i} className="border-t border-slate-100">
-                          <td className="p-2 font-semibold">
-                            {item.name} <br />
-                            <span className="text-[8px] text-slate-400 font-normal">
-                              Internal: {item.sku} | @Rp{' '}
+                        <tr
+                          key={i}
+                          className="hover:bg-slate-50 transition-colors"
+                        >
+                          <td className="p-3">
+                            <span className="font-bold text-slate-800">
+                              {item.name}
+                            </span>{' '}
+                            <br />
+                            <span className="text-[10px] text-slate-400 font-medium">
+                              Internal: {item.sku} &bull; @Rp{' '}
                               {item.price.toLocaleString('id-ID')}
                             </span>
                           </td>
-                          <td className="p-2 text-center font-bold text-slate-600">
+                          <td className="p-3 text-center font-bold text-slate-600">
                             {item.clientItemCode || '-'}
                           </td>
-                          <td className="p-2 text-center font-bold">
+                          <td className="p-3 text-center font-black text-indigo-600 text-sm">
                             {item.quantity}
                           </td>
-                          <td className="p-2 text-right font-bold text-slate-800">
+                          <td className="p-3 text-right font-black text-slate-900">
                             Rp{' '}
                             {(item.price * item.quantity).toLocaleString(
                               'id-ID',
                             )}
                           </td>
-                          <td className="p-2 text-center">
+                          <td className="p-3 text-center">
                             <button
                               type="button"
                               onClick={() =>
@@ -797,9 +821,10 @@ export default function OrdersPage() {
                                   cartItems.filter((_, idx) => idx !== i),
                                 )
                               }
-                              className="p-1 hover:bg-rose-50 rounded"
+                              className="p-1.5 hover:bg-rose-100 rounded-md transition-colors"
+                              title="Hapus baris"
                             >
-                              <Trash2 className="h-3 w-3 text-rose-500 mx-auto" />
+                              <Trash2 className="h-4 w-4 text-rose-500 mx-auto" />
                             </button>
                           </td>
                         </tr>
@@ -811,11 +836,11 @@ export default function OrdersPage() {
             </div>
 
             {!editingId && (
-              <div className="space-y-1 p-3 bg-amber-50 rounded-lg border border-amber-100">
-                <div className="flex gap-2 items-center text-amber-700 mb-2">
+              <div className="space-y-2 p-4 bg-amber-50 rounded-xl border border-amber-100">
+                <div className="flex gap-2 items-center text-amber-700">
                   <FileText className="h-4 w-4" />
-                  <span className="text-[10px] font-bold uppercase">
-                    Unggah Berkas PO (PDF)
+                  <span className="text-xs font-bold uppercase tracking-widest">
+                    Unggah Berkas PO Asli (PDF)
                   </span>
                 </div>
                 <Input
@@ -823,54 +848,63 @@ export default function OrdersPage() {
                   accept=".pdf"
                   onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
                   required
-                  className="h-10 text-xs py-2 bg-white border-none ring-1 ring-amber-200"
+                  className="h-10 text-xs py-2 bg-white border-none ring-1 ring-amber-200 cursor-pointer"
                 />
               </div>
             )}
-            <div className="flex justify-between p-3 bg-indigo-600 rounded-lg text-white shadow-inner">
-              <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">
-                Total Nilai Otomatis
+
+            <div className="flex justify-between items-center p-4 bg-indigo-600 rounded-xl text-white shadow-md">
+              <span className="text-xs font-bold uppercase tracking-widest opacity-90">
+                Total Nilai PO
               </span>
-              <span className="text-lg font-bold">
+              <span className="text-xl font-black tracking-tight">
                 Rp {calculateCartTotal().toLocaleString('id-ID')}
               </span>
             </div>
+
             <Button
               type="submit"
-              className="w-full h-10 bg-indigo-600 hover:bg-indigo-700 text-white font-bold uppercase text-xs tracking-widest border-none transition-all active:scale-95 shadow-md"
+              className="w-full h-12 bg-slate-900 hover:bg-slate-800 text-white font-black uppercase text-sm tracking-widest border-none transition-all active:scale-95 shadow-lg"
             >
-              {editingId ? 'SIMPAN PERUBAHAN' : 'SIMPAN PO BARU & PDF'}
+              {editingId ? 'SIMPAN PERUBAHAN PO' : 'BUAT PO BARU & UNGGAH PDF'}
             </Button>
           </form>
         </DialogContent>
       </Dialog>
 
+      {/* DIALOG DETAIL PO */}
       <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
-        <DialogContent className="sm:max-w-2xl bg-white rounded-xl p-0 border-none shadow-2xl">
-          <div className="p-6 bg-slate-50 border-b">
-            <DialogTitle className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <ShoppingCart className="h-5 w-5 text-indigo-600" /> Rincian{' '}
-              {selectedOrder?.poNumber}
+        <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-hidden flex flex-col bg-white rounded-xl p-0 border-none shadow-2xl">
+          <div className="p-6 bg-slate-50 border-b flex-shrink-0">
+            <DialogTitle className="text-xl font-black text-slate-900 flex items-center gap-3">
+              <ShoppingCart className="h-6 w-6 text-indigo-600" />
+              Rincian PO: {selectedOrder?.poNumber}
             </DialogTitle>
           </div>
-          <div className="p-6">
+          <div className="p-0 overflow-y-auto flex-1">
             <Table>
-              <TableHeader className="bg-slate-50">
-                <TableRow className="font-bold text-[9px] uppercase border-b border-slate-200">
-                  <TableHead className="pl-4 py-3">Barang</TableHead>
-                  <TableHead className="text-center py-3">Kode Klien</TableHead>
-                  <TableHead className="text-center py-3">Jumlah</TableHead>
-                  <TableHead className="text-right py-3 pr-4">
+              <TableHeader className="bg-slate-100 sticky top-0 z-10 shadow-sm">
+                <TableRow className="font-bold text-[10px] uppercase border-none">
+                  <TableHead className="pl-6 py-4 text-slate-500">
+                    Barang
+                  </TableHead>
+                  <TableHead className="text-center py-4 text-slate-500">
+                    Kode Klien
+                  </TableHead>
+                  <TableHead className="text-center py-4 text-slate-500">
+                    Jumlah
+                  </TableHead>
+                  <TableHead className="text-right py-4 pr-6 text-slate-500">
                     Subtotal
                   </TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody>
+              <TableBody className="divide-y divide-slate-100">
                 {orderItems.length === 0 ? (
                   <TableRow>
                     <TableCell
                       colSpan={4}
-                      className="text-center py-6 text-xs text-slate-400 italic"
+                      className="text-center py-12 text-sm text-slate-400 italic font-medium"
                     >
                       PO ini dibuat menggunakan versi lama (tanpa barang) atau
                       kosong.
@@ -880,20 +914,23 @@ export default function OrdersPage() {
                   orderItems.map((item) => (
                     <TableRow
                       key={item.id}
-                      className="text-xs border-b border-slate-100 last:border-none"
+                      className="text-sm hover:bg-slate-50 transition-colors"
                     >
-                      <td className="p-3 pl-4">
+                      <td className="py-4 pl-6">
                         <span className="font-bold block text-slate-800">
                           {item.product.name}
                         </span>
+                        <span className="text-[10px] text-slate-400 font-medium">
+                          @Rp {item.priceAtBuy.toLocaleString('id-ID')}
+                        </span>
                       </td>
-                      <td className="p-3 text-center font-bold text-slate-500">
+                      <td className="py-4 text-center font-bold text-slate-500">
                         {item.clientItemCode || '-'}
                       </td>
-                      <td className="p-3 text-center font-bold text-slate-800">
+                      <td className="py-4 text-center font-black text-indigo-600 text-base">
                         {item.quantity}
                       </td>
-                      <td className="p-3 text-right font-bold text-indigo-600 pr-4">
+                      <td className="py-4 text-right font-black text-slate-900 pr-6">
                         Rp{' '}
                         {(item.priceAtBuy * item.quantity).toLocaleString(
                           'id-ID',

@@ -1,10 +1,18 @@
 export interface Branch {
   id: string;
-  branchCode: string; // Ubah 'code' menjadi 'branchCode' agar sesuai backend
+  branchCode: string;
   name: string;
   address: string;
   phone: string;
-  region: string;
+
+  // --- REVISI: Disesuaikan dengan skema database baru ---
+  regionId: string;
+  region?: {
+    id: string;
+    name: string;
+    code: string;
+  };
+
   createdAt?: string;
   updatedAt?: string;
 }
