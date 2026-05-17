@@ -12,9 +12,9 @@ export class BranchesService {
       data: {
         branchCode: createBranchDto.branchCode,
         name: createBranchDto.name,
-        address: createBranchDto.address,
-        phone: createBranchDto.phone,
-        // PERUBAHAN: Kita ubah menjadi regionId agar sesuai dengan skema Laci 11
+        // Tambahkan || '' agar Prisma tidak protes jika undefined
+        address: createBranchDto.address || '',
+        phone: createBranchDto.phone || '',
         regionId: (createBranchDto as any).regionId || null,
       },
     });
@@ -23,7 +23,6 @@ export class BranchesService {
   async findAll() {
     return this.prisma.branch.findMany({
       orderBy: { id: 'desc' },
-      // PERUBAHAN: Ikut sertakan data wilayahnya agar bisa dibaca Frontend
       include: { region: true },
     });
   }
@@ -44,9 +43,9 @@ export class BranchesService {
       data: {
         branchCode: updateBranchDto.branchCode,
         name: updateBranchDto.name,
-        address: updateBranchDto.address,
-        phone: updateBranchDto.phone,
-        // PERUBAHAN: Kita ubah menjadi regionId
+        // Tambahkan || '' agar Prisma tidak protes jika undefined
+        address: updateBranchDto.address || '',
+        phone: updateBranchDto.phone || '',
         regionId: (updateBranchDto as any).regionId || null,
       },
     });

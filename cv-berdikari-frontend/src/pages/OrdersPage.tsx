@@ -60,6 +60,8 @@ export default function OrdersPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  const [productSearchTerm, setProductSearchTerm] = useState('');
+
   const months = [
     { val: 1, label: 'Januari' },
     { val: 2, label: 'Februari' },
@@ -158,6 +160,7 @@ export default function OrdersPage() {
       productId,
       clientItemCode: (selectedProduct as any)?.defaultClientSku || '',
     });
+    setProductSearchTerm('');
   };
 
   const handleAddToCart = () => {
@@ -215,6 +218,7 @@ export default function OrdersPage() {
       });
 
       setTempItem({ productId: '', quantity: 1, clientItemCode: '' });
+      setProductSearchTerm('');
     }
   };
 
@@ -224,6 +228,7 @@ export default function OrdersPage() {
     setCartItems([]);
     setTempItem({ productId: '', quantity: 1, clientItemCode: '' });
     setSelectedFile(null);
+    setProductSearchTerm('');
     setIsOpen(true);
   };
 
@@ -234,6 +239,7 @@ export default function OrdersPage() {
       branchId: order.branchId,
       status: order.status,
     });
+    setProductSearchTerm('');
     try {
       const items = await getOrderItems(order.id);
       const mappedCart = items.map((it: any) => ({
@@ -320,6 +326,12 @@ export default function OrdersPage() {
     }
   };
 
+  const filteredProducts = products.filter((p) =>
+    `${p.sku} ${p.name}`
+      .toLowerCase()
+      .includes(productSearchTerm.toLowerCase()),
+  );
+
   if (isLoading)
     return (
       <div className="p-10 text-center animate-pulse font-bold text-slate-400">
@@ -329,7 +341,6 @@ export default function OrdersPage() {
 
   return (
     <div className="min-h-screen bg-slate-300 px-2 pt-1 pb-10 space-y-4 font-sans">
-      {/* HEADER PAGE */}
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-indigo-600 shadow-sm ring-1 ring-slate-200">
@@ -401,7 +412,6 @@ export default function OrdersPage() {
         </div>
       </div>
 
-      {/* SEARCH & TABLE SECTION */}
       <div className="max-w-6xl mx-auto space-y-4">
         <div className="relative group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors" />
@@ -584,7 +594,6 @@ export default function OrdersPage() {
             </Table>
           </div>
 
-          {/* PAGINATION FOOTER */}
           <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 bg-slate-50/50 border-t border-slate-100 gap-4">
             <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-3">
               {totalPages > 0 ? (
@@ -626,9 +635,9 @@ export default function OrdersPage() {
         </div>
       </div>
 
-      {/* --- REVISI MODAL BUAT PO --- */}
+      {/* --- REVISI: DIKEMBALIKAN KE max-w-2xl AGAR KONSISTEN --- */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto bg-white rounded-xl p-6 border-none shadow-2xl">
+        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-xl p-6 border-none shadow-2xl">
           <DialogHeader>
             <DialogTitle className="font-bold text-xl text-slate-900">
               {editingId ? 'Ubah Pesanan (PO)' : 'Buat Pesanan Baru'}
@@ -671,7 +680,6 @@ export default function OrdersPage() {
                   <SelectTrigger className="h-10 bg-slate-50 font-semibold border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600 shadow-none">
                     <SelectValue placeholder="Pilih Cabang..." />
                   </SelectTrigger>
-                  {/* --- TAMBAHAN position="popper" --- */}
                   <SelectContent
                     position="popper"
                     className="bg-white max-h-[250px] overflow-y-auto"
@@ -701,7 +709,6 @@ export default function OrdersPage() {
                   <SelectTrigger className="h-10 font-bold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600 shadow-none">
                     <SelectValue placeholder="Pilih Status..." />
                   </SelectTrigger>
-                  {/* --- TAMBAHAN position="popper" --- */}
                   <SelectContent position="popper" className="bg-white">
                     <SelectItem value="PENDING">PENDING</SelectItem>
                     <SelectItem value="DIPROSES">DIPROSES</SelectItem>
@@ -725,27 +732,50 @@ export default function OrdersPage() {
                   value={tempItem.productId}
                   onValueChange={handleProductSelect}
                 >
-                  <SelectTrigger className="h-10 text-xs bg-white flex-1 border-none ring-1 ring-slate-200 shadow-sm">
-                    <SelectValue placeholder="Pilih Produk dari Katalog..." />
+                  <SelectTrigger className="h-10 text-xs bg-white flex-1 border-none ring-1 ring-slate-200 shadow-sm focus:ring-2 focus:ring-indigo-600">
+                    <SelectValue placeholder="Cari & Pilih..." />
                   </SelectTrigger>
-                  {/* --- FIX UTAMA: position="popper" AGAR TIDAK MEMANJANG KE BAWAH --- */}
                   <SelectContent
                     position="popper"
-                    className="bg-white max-h-[250px] overflow-y-auto"
+                    className="bg-white p-0 overflow-hidden w-[400px]"
                   >
-                    {products.map((p) => (
-                      <SelectItem
-                        key={p.id}
-                        value={p.id}
-                        className="text-xs font-medium"
-                      >
-                        {p.sku} - {p.name}
-                      </SelectItem>
-                    ))}
+                    <div className="p-2 bg-slate-50 border-b sticky top-0 z-10">
+                      <div className="relative">
+                        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                        <Input
+                          placeholder="Ketik Nama atau SKU..."
+                          className="h-9 pl-9 text-xs border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-500"
+                          value={productSearchTerm}
+                          onChange={(e) => setProductSearchTerm(e.target.value)}
+                          onKeyDown={(e) => e.stopPropagation()}
+                        />
+                      </div>
+                    </div>
+                    <div className="max-h-[250px] overflow-y-auto p-1">
+                      {filteredProducts.length === 0 ? (
+                        <div className="p-4 text-center text-xs text-slate-400 italic">
+                          Produk tidak ditemukan.
+                        </div>
+                      ) : (
+                        filteredProducts.map((p) => (
+                          <SelectItem
+                            key={p.id}
+                            value={p.id}
+                            className="text-xs font-medium cursor-pointer"
+                          >
+                            <span className="font-bold text-slate-700 mr-1">
+                              {p.sku}
+                            </span>{' '}
+                            - {p.name}
+                          </SelectItem>
+                        ))
+                      )}
+                    </div>
                   </SelectContent>
                 </Select>
+
                 <Input
-                  placeholder="SKU Klien"
+                  placeholder="SKU Klien (Ops)"
                   value={tempItem.clientItemCode}
                   onChange={(e) =>
                     setTempItem({ ...tempItem, clientItemCode: e.target.value })
@@ -762,14 +792,14 @@ export default function OrdersPage() {
                       quantity: Number(e.target.value),
                     })
                   }
-                  className="w-20 h-10 text-sm text-center font-bold bg-white border-none ring-1 ring-slate-200 shadow-sm"
+                  className="w-16 h-10 text-sm text-center font-bold bg-white border-none ring-1 ring-slate-200 shadow-sm"
                 />
                 <Button
                   type="button"
                   onClick={handleAddToCart}
-                  className="h-10 px-5 bg-indigo-600 hover:bg-indigo-700 shadow-md font-bold text-white transition-all active:scale-95"
+                  className="h-10 px-4 bg-indigo-600 hover:bg-indigo-700 shadow-md font-bold text-white transition-all active:scale-95"
                 >
-                  <Plus className="h-5 w-5 mr-1" /> TAMBAH
+                  <Plus className="h-5 w-5" />
                 </Button>
               </div>
 
@@ -872,9 +902,9 @@ export default function OrdersPage() {
         </DialogContent>
       </Dialog>
 
-      {/* DIALOG DETAIL PO */}
+      {/* --- REVISI: DIKEMBALIKAN KE max-w-2xl AGAR KONSISTEN --- */}
       <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
-        <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-hidden flex flex-col bg-white rounded-xl p-0 border-none shadow-2xl">
+        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-hidden flex flex-col bg-white rounded-xl p-0 border-none shadow-2xl">
           <div className="p-6 bg-slate-50 border-b flex-shrink-0">
             <DialogTitle className="text-xl font-black text-slate-900 flex items-center gap-3">
               <ShoppingCart className="h-6 w-6 text-indigo-600" />

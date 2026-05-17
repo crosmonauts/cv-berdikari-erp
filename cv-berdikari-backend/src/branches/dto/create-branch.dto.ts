@@ -1,23 +1,26 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateBranchDto {
   @IsString()
   @IsNotEmpty()
-  branchCode!: string; // Pakai branchCode agar sinkron dengan Prisma
+  branchCode!: string;
 
   @IsString()
   @IsNotEmpty()
   name!: string;
 
+  // Saya ubah menjadi IsOptional agar lebih aman jika kasir lupa mengisi alamat
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  address!: string;
+  address?: string;
 
+  // Saya ubah menjadi IsOptional agar aman jika nomor telepon dikosongkan
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  phone!: string;
+  phone?: string;
 
+  // --- INI KUNCI UTAMANYA: Kita ubah menjadi regionId ---
   @IsString()
   @IsNotEmpty()
-  region!: string;
+  regionId!: string;
 }
