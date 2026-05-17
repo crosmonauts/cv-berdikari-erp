@@ -8,14 +8,14 @@ export class BranchesService {
   constructor(private prisma: PrismaService) {}
 
   async create(createBranchDto: CreateBranchDto) {
-    // Kita petakan datanya secara manual agar tidak ada field 'gaib' yang ikut terkirim
     return this.prisma.branch.create({
       data: {
         branchCode: createBranchDto.branchCode,
         name: createBranchDto.name,
         address: createBranchDto.address,
         phone: createBranchDto.phone,
-        region: createBranchDto.region,
+        // PERUBAHAN: Kita ubah menjadi regionId agar sesuai dengan skema Laci 11
+        regionId: (createBranchDto as any).regionId || null,
       },
     });
   }
@@ -23,20 +23,22 @@ export class BranchesService {
   async findAll() {
     return this.prisma.branch.findMany({
       orderBy: { id: 'desc' },
+      // PERUBAHAN: Ikut sertakan data wilayahnya agar bisa dibaca Frontend
+      include: { region: true },
     });
   }
 
   async findOne(id: string) {
     const branch = await this.prisma.branch.findUnique({
       where: { id },
+      include: { region: true },
     });
-    if (!branch) throw new NotFoundException(`Cabang dengan ID ${id} tidak ditemukan`);
+    if (!branch)
+      throw new NotFoundException(`Cabang dengan ID ${id} tidak ditemukan`);
     return branch;
   }
 
   async update(id: string, updateBranchDto: UpdateBranchDto) {
-    // CARA PALING AMAN: Sebutkan field yang boleh di-update saja.
-    // Ini menghilangkan error 'createdAt' karena kita tidak menyertakannya di sini.
     return this.prisma.branch.update({
       where: { id },
       data: {
@@ -44,7 +46,8 @@ export class BranchesService {
         name: updateBranchDto.name,
         address: updateBranchDto.address,
         phone: updateBranchDto.phone,
-        region: updateBranchDto.region,
+        // PERUBAHAN: Kita ubah menjadi regionId
+        regionId: (updateBranchDto as any).regionId || null,
       },
     });
   }
