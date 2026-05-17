@@ -159,7 +159,6 @@ export default function ShipmentsPage() {
     if (!selectedOrder) return;
 
     try {
-      // 1. Variabel penentu URL otomatis
       const API_URL = import.meta.env.VITE_API_URL;
 
       const formData = new FormData();
@@ -173,7 +172,6 @@ export default function ShipmentsPage() {
       formData.append('otherFees', String(Number(awbData.otherFees) || 0));
       if (awbFile) formData.append('file', awbFile);
 
-      // 2. Memanggil URL dinamis menggunakan backtick
       await axios.post(`${API_URL}/shipments`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
@@ -239,7 +237,6 @@ export default function ShipmentsPage() {
       const finalY = (doc as any).lastAutoTable.finalY || 150;
       doc.text('Hormat Kami,', 40, finalY + 25);
 
-      // INSERT TTD & STEMPEL LURUS
       try {
         const stempelImg = await loadAsset(stempelImage);
         doc.addImage(
@@ -399,9 +396,17 @@ export default function ShipmentsPage() {
                 ) : (
                   paginatedOrders.map((o) => {
                     const branch = branches.find((b) => b.id === o.branchId);
-                    const region = branch?.region?.toUpperCase() || 'SMG';
+
+                    // --- PERBAIKAN BUG WHITE SCREEN DISINI ---
+                    // Mengambil nama wilayah dari objek region, dengan fallback jika kosong
+                    const region =
+                      branch?.region?.name?.toUpperCase() || 'BELUM DIATUR';
+
                     const isLuarKota =
-                      region !== 'SEMARANG' && region !== 'SMG';
+                      region !== 'SEMARANG' &&
+                      region !== 'SMG' &&
+                      region !== 'BELUM DIATUR';
+
                     const shipmentData = o.shipment || null;
                     const formattedDate = new Date(
                       o.createdAt,
