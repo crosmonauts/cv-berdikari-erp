@@ -25,6 +25,7 @@ import {
   PackagePlus,
   Barcode,
   MapPin,
+  Info,
 } from 'lucide-react';
 import {
   getProducts,
@@ -48,6 +49,9 @@ export default function ProductsPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  // --- UI STATE BARU: Untuk Tab Menu ---
+  const [activeTab, setActiveTab] = useState<'utama' | 'wilayah'>('utama');
 
   // State form ditambahkan regionPrices (Format: { "id-wilayah": "harga" })
   const [formData, setFormData] = useState<any>({
@@ -95,6 +99,7 @@ export default function ProductsPage() {
   const handleOpenAdd = () => {
     setIsEdit(false);
     setSelectedId(null);
+    setActiveTab('utama'); // Reset tab ke Info Utama saat buka modal
     setFormData({
       sku: '',
       name: '',
@@ -111,6 +116,7 @@ export default function ProductsPage() {
   const handleEdit = (p: Product) => {
     setIsEdit(true);
     setSelectedId(p.id);
+    setActiveTab('utama'); // Reset tab ke Info Utama saat buka modal
 
     // Memetakan harga wilayah dari backend ke format form { "id-wilayah": "harga" }
     const mappedPrices: Record<string, string> = {};
@@ -385,7 +391,6 @@ export default function ProductsPage() {
           </Table>
         </div>
         <div className="flex items-center justify-between px-6 py-4 bg-slate-50/50 border-t border-slate-100">
-          {/* Pagination Buttons - Dipertahankan untuk ringkas baris */}
           <div className="text-[10px] font-bold text-slate-500 uppercase">
             Total {filteredProducts.length} ITEM
           </div>
@@ -412,7 +417,7 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      {/* DIALOG TAMBAH / EDIT PRODUK */}
+      {/* DIALOG TAMBAH / EDIT PRODUK (UI BARU DENGAN TAB) */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-xl bg-white rounded-xl border-none shadow-2xl p-6">
           <DialogHeader>
@@ -422,179 +427,214 @@ export default function ProductsPage() {
             </DialogTitle>
           </DialogHeader>
 
-          <form onSubmit={handleSubmit} className="mt-2 flex flex-col gap-4">
-            {/* Bagian Atas: Data Utama */}
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <Label className="text-[10px] font-bold uppercase text-slate-400">
-                  Kode SKU
-                </Label>
-                <Input
-                  value={formData.sku}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      sku: e.target.value.toUpperCase(),
-                    })
-                  }
-                  required
-                  placeholder="ATK-001"
-                  className="h-9 font-semibold uppercase bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
-                />
-              </div>
-              <div className="space-y-1">
-                <Label className="text-[10px] font-bold uppercase text-slate-400">
-                  Barcode
-                </Label>
-                <div className="relative">
-                  <Barcode className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
-                  <Input
-                    value={formData.barcode}
-                    onChange={(e) =>
-                      setFormData({ ...formData, barcode: e.target.value })
-                    }
-                    placeholder="Scan..."
-                    className="h-9 pl-9 font-semibold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
-                  />
-                </div>
-              </div>
-              <div className="space-y-1 col-span-2">
-                <Label className="text-[10px] font-bold uppercase text-slate-400">
-                  Nama Barang
-                </Label>
-                <Input
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                  required
-                  placeholder="Contoh: Kertas HVS"
-                  className="h-9 font-semibold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
-                />
-              </div>
-            </div>
+          {/* TAB NAVIGATION KOSMETIK */}
+          <div className="flex bg-slate-100 p-1 rounded-lg mt-2 mb-4">
+            <button
+              type="button"
+              onClick={() => setActiveTab('utama')}
+              className={`flex flex-1 items-center justify-center gap-2 py-2 text-[10px] font-bold uppercase tracking-widest rounded-md transition-all ${
+                activeTab === 'utama'
+                  ? 'bg-white shadow-sm text-indigo-600 ring-1 ring-slate-200/50'
+                  : 'text-slate-500 hover:text-slate-700'
+              }`}
+            >
+              <Info className="h-3 w-3" /> Info Utama
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('wilayah')}
+              className={`flex flex-1 items-center justify-center gap-2 py-2 text-[10px] font-bold uppercase tracking-widest rounded-md transition-all ${
+                activeTab === 'wilayah'
+                  ? 'bg-white shadow-sm text-indigo-600 ring-1 ring-slate-200/50'
+                  : 'text-slate-500 hover:text-slate-700'
+              }`}
+            >
+              <MapPin className="h-3 w-3" /> Harga Wilayah
+            </button>
+          </div>
 
-            <div className="grid grid-cols-3 gap-3 border-t border-b border-slate-100 py-4 my-1">
-              <div className="space-y-1">
-                <Label className="text-[10px] font-bold uppercase text-slate-400">
-                  SKU Klien Default
-                </Label>
-                <Input
-                  value={formData.defaultClientSku}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      defaultClientSku: e.target.value.toUpperCase(),
-                    })
-                  }
-                  placeholder="Opsional"
-                  className="h-9 font-bold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-amber-500"
-                />
-              </div>
-              <div className="space-y-1">
-                <Label className="text-[10px] font-bold uppercase text-slate-400">
-                  Harga Jual Default
-                </Label>
-                <Input
-                  type="text"
-                  inputMode="decimal"
-                  value={formData.price}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      price: e.target.value.replace(/,/g, '.'),
-                    })
-                  }
-                  required
-                  className="h-9 font-bold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
-                />
-              </div>
-              {!isEdit ? (
-                <>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {/* CONTENT TAB 1: INFO UTAMA */}
+            {activeTab === 'utama' && (
+              <div className="animate-in fade-in zoom-in-95 duration-200">
+                <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
                     <Label className="text-[10px] font-bold uppercase text-slate-400">
-                      Kulakan
+                      Kode SKU
+                    </Label>
+                    <Input
+                      value={formData.sku}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          sku: e.target.value.toUpperCase(),
+                        })
+                      }
+                      required
+                      placeholder="ATK-001"
+                      className="h-9 font-semibold uppercase bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label className="text-[10px] font-bold uppercase text-slate-400">
+                      Barcode
+                    </Label>
+                    <div className="relative">
+                      <Barcode className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+                      <Input
+                        value={formData.barcode}
+                        onChange={(e) =>
+                          setFormData({ ...formData, barcode: e.target.value })
+                        }
+                        placeholder="Scan..."
+                        className="h-9 pl-9 font-semibold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-1 col-span-2">
+                    <Label className="text-[10px] font-bold uppercase text-slate-400">
+                      Nama Barang
+                    </Label>
+                    <Input
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                      required
+                      placeholder="Contoh: Kertas HVS"
+                      className="h-9 font-semibold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-3 border-t border-slate-100 pt-4 mt-4">
+                  <div className="space-y-1">
+                    <Label className="text-[10px] font-bold uppercase text-slate-400">
+                      SKU Klien Default
+                    </Label>
+                    <Input
+                      value={formData.defaultClientSku}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          defaultClientSku: e.target.value.toUpperCase(),
+                        })
+                      }
+                      placeholder="Opsional"
+                      className="h-9 font-bold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-amber-500"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label className="text-[10px] font-bold uppercase text-slate-400">
+                      Harga Jual Default
                     </Label>
                     <Input
                       type="text"
                       inputMode="decimal"
-                      value={formData.buyPrice}
+                      value={formData.price}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          buyPrice: e.target.value.replace(/,/g, '.'),
+                          price: e.target.value.replace(/,/g, '.'),
                         })
                       }
                       required
-                      className="h-9 font-bold bg-indigo-50 border-none ring-1 ring-indigo-200 focus:ring-2 focus:ring-indigo-600"
+                      className="h-9 font-bold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
                     />
                   </div>
-                  <div className="space-y-1">
-                    <Label className="text-[10px] font-bold uppercase text-slate-400">
-                      Stok Awal
-                    </Label>
-                    <Input
-                      type="number"
-                      value={formData.stock}
-                      onChange={(e) =>
-                        setFormData({ ...formData, stock: e.target.value })
-                      }
-                      required
-                      className="h-9 font-bold bg-indigo-50 border-none ring-1 ring-indigo-200 focus:ring-2 focus:ring-indigo-600"
-                    />
-                  </div>
-                </>
-              ) : null}
-            </div>
-
-            {/* Bagian Bawah: Data Harga 12 Wilayah (Scrollable) */}
-            <div className="space-y-2">
-              <div className="flex items-center gap-1.5 text-indigo-600">
-                <MapPin className="h-4 w-4" />
-                <Label className="text-[10px] font-bold uppercase tracking-widest">
-                  Harga Khusus Wilayah (Opsional)
-                </Label>
-              </div>
-
-              {regions.length === 0 ? (
-                <p className="text-xs text-slate-400 italic">
-                  Data wilayah belum tersedia dari server.
-                </p>
-              ) : (
-                <div className="grid grid-cols-2 gap-3 max-h-[160px] overflow-y-auto pr-2 pb-2">
-                  {regions.map((region) => (
-                    <div key={region.id} className="flex flex-col space-y-1">
-                      <Label className="text-[9px] font-bold text-slate-500 uppercase">
-                        {region.name}
-                      </Label>
-                      <div className="relative">
-                        <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">
-                          Rp
-                        </span>
+                  {!isEdit ? (
+                    <>
+                      <div className="space-y-1">
+                        <Label className="text-[10px] font-bold uppercase text-slate-400">
+                          Kulakan
+                        </Label>
                         <Input
                           type="text"
                           inputMode="decimal"
-                          placeholder="Kosong = Harga Default"
-                          value={formData.regionPrices[region.id] || ''}
-                          onChange={(e) => {
-                            const val = e.target.value.replace(/,/g, '.');
+                          value={formData.buyPrice}
+                          onChange={(e) =>
                             setFormData({
                               ...formData,
-                              regionPrices: {
-                                ...formData.regionPrices,
-                                [region.id]: val,
-                              },
-                            });
-                          }}
-                          className="h-8 pl-8 text-xs font-semibold bg-white border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-emerald-500"
+                              buyPrice: e.target.value.replace(/,/g, '.'),
+                            })
+                          }
+                          required
+                          className="h-9 font-bold bg-indigo-50 border-none ring-1 ring-indigo-200 focus:ring-2 focus:ring-indigo-600"
                         />
                       </div>
-                    </div>
-                  ))}
+                      <div className="space-y-1">
+                        <Label className="text-[10px] font-bold uppercase text-slate-400">
+                          Stok Awal
+                        </Label>
+                        <Input
+                          type="number"
+                          value={formData.stock}
+                          onChange={(e) =>
+                            setFormData({ ...formData, stock: e.target.value })
+                          }
+                          required
+                          className="h-9 font-bold bg-indigo-50 border-none ring-1 ring-indigo-200 focus:ring-2 focus:ring-indigo-600"
+                        />
+                      </div>
+                    </>
+                  ) : null}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
+            {/* CONTENT TAB 2: HARGA WILAYAH */}
+            {activeTab === 'wilayah' && (
+              <div className="animate-in fade-in zoom-in-95 duration-200 space-y-3">
+                <div className="bg-amber-50 p-3 rounded-lg border border-amber-100 mb-2">
+                  <p className="text-[10px] font-semibold text-amber-700 leading-relaxed">
+                    <strong>Penting:</strong> Jika harga wilayah dibiarkan
+                    kosong, maka sistem PO akan otomatis menggunakan{' '}
+                    <strong>Harga Jual Default</strong> saat cabang di wilayah
+                    tersebut melakukan pemesanan.
+                  </p>
+                </div>
+
+                {regions.length === 0 ? (
+                  <p className="text-xs text-slate-400 italic text-center py-4">
+                    Data wilayah belum tersedia dari server.
+                  </p>
+                ) : (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[220px] overflow-y-auto pr-2 pb-2">
+                    {regions.map((region) => (
+                      <div key={region.id} className="flex flex-col space-y-1">
+                        <Label className="text-[9px] font-bold text-slate-500 uppercase">
+                          {region.name}
+                        </Label>
+                        <div className="relative">
+                          <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-400">
+                            Rp
+                          </span>
+                          <Input
+                            type="text"
+                            inputMode="decimal"
+                            placeholder="Sama spt default"
+                            value={formData.regionPrices[region.id] || ''}
+                            onChange={(e) => {
+                              const val = e.target.value.replace(/,/g, '.');
+                              setFormData({
+                                ...formData,
+                                regionPrices: {
+                                  ...formData.regionPrices,
+                                  [region.id]: val,
+                                },
+                              });
+                            }}
+                            className="h-8 pl-7 text-[11px] font-semibold bg-white border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-emerald-500"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* TOMBOL SIMPAN (SELALU MUNCUL DI BAWAH TAB MANAPUN) */}
             <Button
               type="submit"
               className="w-full h-10 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg mt-2 text-xs uppercase tracking-widest border-none shadow-md transition-all active:scale-95"
@@ -615,7 +655,6 @@ export default function ProductsPage() {
             </DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmitRestock} className="space-y-4 mt-4">
-            {/* Isi Form Restock (Sama seperti sebelumnya) */}
             <div className="space-y-1">
               <Label className="text-[10px] font-bold text-slate-400 uppercase">
                 Jumlah Barang Masuk

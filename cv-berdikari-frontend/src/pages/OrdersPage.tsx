@@ -160,16 +160,41 @@ export default function OrdersPage() {
     });
   };
 
-  // --- REVISI: ANTI DOUBLE ITEM (RACE CONDITION FIX) ---
+  // --- LOGIKA PINTAR HARGA WILAYAH ---
   const handleAddToCart = () => {
+    // 1. Wajib pilih cabang dulu agar sistem tahu wilayahnya
+    if (!formData.branchId) {
+      alert(
+        'Mohon pilih Cabang Klien terlebih dahulu agar sistem dapat menyesuaikan harga wilayah!',
+      );
+      return;
+    }
+
     const product = products.find((p) => p.id === tempItem.productId);
     if (product) {
-      // Menggunakan prevCart untuk membaca memory paling akhir, bukan tampilan layar
+      // 2. Cari regionId dari cabang yang dipilih
+      const selectedBranch = branches.find((b) => b.id === formData.branchId);
+      const branchRegionId = selectedBranch?.regionId;
+
+      // 3. Tentukan Harga: Cek apakah produk punya harga khusus untuk region ini
+      let finalPrice = product.price; // Mulai dengan harga default
+
+      if (branchRegionId && (product as any).regionPrices) {
+        const specialPriceData = (product as any).regionPrices.find(
+          (rp: any) => rp.regionId === branchRegionId,
+        );
+
+        // Jika harga khusus ditemukan, ganti finalPrice dengan harga tersebut
+        if (specialPriceData) {
+          finalPrice = specialPriceData.price;
+        }
+      }
+
+      // 4. Masukkan ke Keranjang dengan Harga Pintar
       setCartItems((prevCart) => {
         const existing = prevCart.find((item) => item.productId === product.id);
 
         if (existing) {
-          // Jika sudah ada di memori terakhir, tambahkan jumlahnya saja
           return prevCart.map((item) =>
             item.productId === product.id
               ? {
@@ -181,14 +206,13 @@ export default function OrdersPage() {
               : item,
           );
         } else {
-          // Jika belum ada, buat baris baru
           return [
             ...prevCart,
             {
               productId: product.id,
               sku: product.sku,
               name: product.name,
-              price: product.price,
+              price: finalPrice, // <--- Menggunakan harga yang sudah dicocokkan dengan wilayah
               quantity: tempItem.quantity,
               clientItemCode: tempItem.clientItemCode,
             },
@@ -223,7 +247,7 @@ export default function OrdersPage() {
         productId: it.productId,
         name: it.product.name,
         sku: it.product.sku,
-        price: it.priceAtBuy,
+        price: it.priceAtBuy, // Tetap gunakan harga histori transaksi lama (Aman)
         quantity: it.quantity,
         clientItemCode: it.clientItemCode || '',
       }));
@@ -622,18 +646,25 @@ export default function OrdersPage() {
               </div>
               <div className="space-y-1">
                 <Label className="text-[10px] font-bold uppercase text-slate-400">
-                  Cabang
+                  Cabang Klien
                 </Label>
                 <Select
                   value={formData.branchId}
-                  onValueChange={(val) =>
-                    setFormData({ ...formData, branchId: val })
-                  }
+                  onValueChange={(val) => {
+                    setFormData({ ...formData, branchId: val });
+                    // SISTEM ANTI-KECURANGAN HARGA: Kosongkan keranjang jika ganti cabang!
+                    if (cartItems.length > 0) {
+                      alert(
+                        'Perhatian: Cabang diubah! Keranjang dikosongkan otomatis untuk menyesuaikan ulang harga khusus wilayah.',
+                      );
+                      setCartItems([]);
+                    }
+                  }}
                   required
                   disabled={!!editingId}
                 >
                   <SelectTrigger className="h-9 bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600 shadow-none">
-                    <SelectValue placeholder="Pilih..." />
+                    <SelectValue placeholder="Pilih Cabang..." />
                   </SelectTrigger>
                   <SelectContent className="bg-white">
                     {branches.map((b) => (
@@ -742,7 +773,8 @@ export default function OrdersPage() {
                           <td className="p-2 font-semibold">
                             {item.name} <br />
                             <span className="text-[8px] text-slate-400 font-normal">
-                              Internal: {item.sku}
+                              Internal: {item.sku} | @Rp{' '}
+                              {item.price.toLocaleString('id-ID')}
                             </span>
                           </td>
                           <td className="p-2 text-center font-bold text-slate-600">
@@ -752,7 +784,10 @@ export default function OrdersPage() {
                             {item.quantity}
                           </td>
                           <td className="p-2 text-right font-bold text-slate-800">
-                            Rp {(item.price * item.quantity).toLocaleString()}
+                            Rp{' '}
+                            {(item.price * item.quantity).toLocaleString(
+                              'id-ID',
+                            )}
                           </td>
                           <td className="p-2 text-center">
                             <button
@@ -859,7 +894,10 @@ export default function OrdersPage() {
                         {item.quantity}
                       </td>
                       <td className="p-3 text-right font-bold text-indigo-600 pr-4">
-                        Rp {(item.priceAtBuy * item.quantity).toLocaleString()}
+                        Rp{' '}
+                        {(item.priceAtBuy * item.quantity).toLocaleString(
+                          'id-ID',
+                        )}
                       </td>
                     </TableRow>
                   ))
