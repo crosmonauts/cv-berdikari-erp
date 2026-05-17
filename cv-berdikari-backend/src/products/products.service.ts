@@ -7,21 +7,21 @@ import { PrismaService } from '../prisma/prisma.service';
 export class ProductsService {
   constructor(private prisma: PrismaService) {}
 
-  // 1. CREATE PRODUCT (KLOTER PERTAMA)
+  // 1. CREATE PRODUCT (DENGAN HARGA PER WILAYAH)
   async create(createProductDto: CreateProductDto) {
     return this.prisma.$transaction(async (tx) => {
-      // Simpan produk utama
+      // 1.1 Simpan produk utama
       const product = await tx.product.create({
         data: {
           sku: createProductDto.sku,
           name: createProductDto.name,
-          defaultClientSku: (createProductDto as any).defaultClientSku || null, // <-- TAMBAHAN: Simpan kode klien dari frontend
-          price: createProductDto.price,
+          defaultClientSku: (createProductDto as any).defaultClientSku || null,
+          price: createProductDto.price, // Harga default
           barcode: createProductDto.barcode,
         },
       });
 
-      // Simpan kloter stok pertama
+      // 1.2 Simpan kloter stok pertama
       await tx.stockBatch.create({
         data: {
           productId: product.id,
@@ -32,12 +32,26 @@ export class ProductsService {
         },
       });
 
+      // --- TAMBAHAN: Simpan daftar harga per wilayah ---
+      // Mengecek apakah frontend mengirimkan data `regionPrices`
+      const regionPricesData = (createProductDto as any).regionPrices;
+      if (regionPricesData && Array.isArray(regionPricesData)) {
+        for (const rp of regionPricesData) {
+          await tx.productRegionPrice.create({
+            data: {
+              productId: product.id,
+              regionId: rp.regionId,
+              price: Number(rp.price), // Harga jual untuk wilayah tersebut
+            },
+          });
+        }
+      }
+
       return product;
     });
   }
 
-  // 2. RESTOCK (TAMBAH KLOTER BARU UNTUK FIFO)
-  // Fungsi ini dipanggil oleh tombol "Restock" di Frontend
+  // 2. RESTOCK (TETAP SAMA - TIDAK PENGARUH KE HARGA JUAL)
   async restock(
     productId: string,
     data: { quantity: number; purchasePrice: number },
@@ -48,18 +62,24 @@ export class ProductsService {
         initialQuantity: Number(data.quantity),
         currentQuantity: Number(data.quantity),
         purchasePrice: Number(data.purchasePrice),
-        receivedAt: new Date(), // Waktu ini menjadi penanda antrean FIFO
+        receivedAt: new Date(),
       },
     });
   }
 
-  // 3. FIND ALL (HITUNG STOK GABUNGAN DARI SEMUA KLOTER)
+  // 3. FIND ALL (INCLUDE HARGA PER WILAYAH)
   async findAll() {
     const products = await this.prisma.product.findMany({
       include: {
         batches: {
           where: { currentQuantity: { gt: 0 } },
-          orderBy: { receivedAt: 'asc' }, // FIFO: Yang paling lama didahulukan
+          orderBy: { receivedAt: 'asc' },
+        },
+        // --- TAMBAHAN: Ambil data harga wilayah saat me-load produk ---
+        regionPrices: {
+          include: {
+            region: true, // Sertakan nama wilayahnya juga
+          },
         },
       },
     });
@@ -69,7 +89,6 @@ export class ProductsService {
         (sum, b) => sum + b.currentQuantity,
         0,
       );
-      // Harga beli diambil dari kloter tertua (First In)
       const currentBuyPrice =
         p.batches.length > 0 ? p.batches[0].purchasePrice : 0;
 
@@ -84,7 +103,10 @@ export class ProductsService {
   async findOne(id: string) {
     const product = await this.prisma.product.findUnique({
       where: { id },
-      include: { batches: true },
+      include: {
+        batches: true,
+        regionPrices: { include: { region: true } }, // --- TAMBAHAN
+      },
     });
 
     if (!product) throw new NotFoundException('Produk tidak ditemukan!');
@@ -95,14 +117,14 @@ export class ProductsService {
     };
   }
 
-  // 4. MESIN FIFO (DIPANGGIL SAAT BARANG DI-SCAN DI GUDANG)
+  // 4. MESIN FIFO (TETAP SAMA)
   async deductStockFIFO(productId: string, quantityToDeduct: number) {
     return this.prisma.$transaction(async (tx) => {
       let remainingNeed = quantityToDeduct;
 
       const activeBatches = await tx.stockBatch.findMany({
         where: { productId: productId, currentQuantity: { gt: 0 } },
-        orderBy: { receivedAt: 'asc' }, // Mengambil stok dari kloter paling lama
+        orderBy: { receivedAt: 'asc' },
       });
 
       for (const batch of activeBatches) {
@@ -131,10 +153,38 @@ export class ProductsService {
     });
   }
 
-  update(id: string, updateProductDto: UpdateProductDto) {
-    return this.prisma.product.update({
-      where: { id },
-      data: updateProductDto,
+  // 5. UPDATE (DENGAN HARGA PER WILAYAH)
+  async update(id: string, updateProductDto: UpdateProductDto) {
+    return this.prisma.$transaction(async (tx) => {
+      // 5.1 Ekstrak data wilayah agar tidak ikut tersimpan di tabel utama
+      const { regionPrices, ...mainProductData } = updateProductDto as any;
+
+      // 5.2 Update data produk utama
+      const updatedProduct = await tx.product.update({
+        where: { id },
+        data: mainProductData,
+      });
+
+      // 5.3 Update harga wilayah (Hapus yang lama, masukkan yang baru)
+      if (regionPrices && Array.isArray(regionPrices)) {
+        // Bersihkan dulu harga lama untuk produk ini
+        await tx.productRegionPrice.deleteMany({
+          where: { productId: id },
+        });
+
+        // Masukkan harga baru
+        for (const rp of regionPrices) {
+          await tx.productRegionPrice.create({
+            data: {
+              productId: id,
+              regionId: rp.regionId,
+              price: Number(rp.price),
+            },
+          });
+        }
+      }
+
+      return updatedProduct;
     });
   }
 

@@ -11,7 +11,8 @@ import { TaxReportsModule } from './tax-reports/tax-reports.module';
 import { OrdersModule } from './orders/orders.module';
 import { ShipmentsModule } from './shipments/shipments.module';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { AuthModule } from './auth/auth.module'; // <-- Import AuthModule
+import { AuthModule } from './auth/auth.module';
+import { RegionsModule } from './regions/regions.module'; // <-- IMPORT BARU
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { AuthModule } from './auth/auth.module'; // <-- Import AuthModule
     OrdersModule,
     ShipmentsModule,
     DashboardModule,
-    AuthModule, // <-- AuthModule didaftarkan di sini
+    AuthModule,
+    RegionsModule, // <-- DIDAFTARKAN DI SINI
   ],
   controllers: [AppController],
   providers: [AppService],

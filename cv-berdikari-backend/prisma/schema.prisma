@@ -8,7 +8,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // DI PRISMA 7: Koneksi URL diatur di prisma.config.ts
 }
 
 // ---------------------------------------------------------
@@ -32,8 +31,12 @@ model Branch {
   name       String
   address    String
   npwp       String?
-  region     String          @default("JATENG") 
   phone      String?         
+  
+  // PERUBAHAN: Relasi diubah mengarah ke Laci 11 (Region)
+  regionId   String?
+  region     Region?         @relation(fields: [regionId], references: [id])
+  
   orders     PurchaseOrder[]
 }
 
@@ -41,17 +44,20 @@ model Branch {
 // Laci 3: Katalog Produk ATK (Core Inventory)
 // ---------------------------------------------------------
 model Product {
-  id                String       @id @default(uuid())
-  sku               String       @unique
-  barcode           String?      @unique
-  name              String
-  defaultClientSku  String?
-  price             Float        // Harga Jual (Gross / Sudah termasuk PPN 11%)
-  createdAt         DateTime     @default(now())
+  id               String       @id @default(uuid())
+  sku              String       @unique
+  barcode          String?      @unique
+  name             String
+  defaultClientSku String?
+  price            Float        // Harga Jual Default (Jika wilayah belum diatur)
+  createdAt        DateTime     @default(now())
   
   // Relasi
-  batches    StockBatch[] // Kloter stok masuk (Untuk FIFO)
-  orderItems OrderItem[]  // Detail barang di PO
+  batches      StockBatch[] // Kloter stok masuk (Untuk FIFO)
+  orderItems   OrderItem[]  // Detail barang di PO
+  
+  // PERUBAHAN: Relasi ke tabel harga per wilayah
+  regionPrices ProductRegionPrice[] 
 }
 
 // ---------------------------------------------------------
@@ -76,7 +82,7 @@ model PurchaseOrder {
   id            String   @id @default(uuid())
   poNumber      String   @unique
   status        String   @default("PENDING")
-  paymentStatus String?  @default("BELUM") // <-- KOLOM BARU DITAMBAHKAN DI SINI
+  paymentStatus String?  @default("BELUM") 
   totalAmount   Float
   poDocumentUrl String?  
   createdAt     DateTime @default(now())
@@ -130,15 +136,15 @@ model Invoice {
 // Laci 8: Laporan Pajak (CoreTax / DPP & PPN)
 // ---------------------------------------------------------
 model TaxReport {
-  id            String  @id @default(uuid())
-  taxFakturNum  String  @unique
-  dpp           Float   // Dasar Pengenaan Pajak (Harga / 1.11)
-  taxAmount     Float   // Nilai PPN (11%)
-  status        String  @default("UNREPORTED")
+  id           String  @id @default(uuid())
+  taxFakturNum String  @unique
+  dpp          Float   // Dasar Pengenaan Pajak (Harga / 1.11)
+  taxAmount    Float   // Nilai PPN (11%)
+  status       String  @default("UNREPORTED")
   
   // Relasi
-  invoiceId     String  @unique
-  invoice       Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  invoiceId    String  @unique
+  invoice      Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
 }
 
 // ---------------------------------------------------------
@@ -172,4 +178,34 @@ model Shipment {
   // Relasi
   orderId        String   @unique
   order          PurchaseOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+// ---------------------------------------------------------
+// Laci 11: Manajemen Wilayah & Harga Khusus (NEW)
+// ---------------------------------------------------------
+model Region {
+  id          String   @id @default(uuid())
+  code        String   @unique // Contoh: "JABODETABEK", "SULAWESI"
+  name        String   // Contoh: "Jawa Barat", "Ambon"
+  description String?
+  createdAt   DateTime @default(now())
+
+  // Relasi
+  branches      Branch[]
+  productPrices ProductRegionPrice[]
+}
+
+model ProductRegionPrice {
+  id        String   @id @default(uuid())
+  price     Float    // Harga jual khusus untuk wilayah ini
+  
+  // Relasi
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  regionId  String
+  region    Region   @relation(fields: [regionId], references: [id], onDelete: Cascade)
+
+  // Memastikan 1 Produk hanya punya 1 Harga di 1 Wilayah yang sama
+  @@unique([productId, regionId])
 }

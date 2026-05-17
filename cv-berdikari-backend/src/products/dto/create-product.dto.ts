@@ -1,8 +1,8 @@
-import { IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import { IsNumber, IsOptional, IsString, Min, IsArray } from 'class-validator';
 
 export class CreateProductDto {
   @IsString()
-  sku!: string; // Tambahkan tanda '!' agar TS tidak komplain
+  sku!: string;
 
   @IsString()
   name!: string;
@@ -26,4 +26,9 @@ export class CreateProductDto {
   @IsString()
   @IsOptional()
   defaultClientSku?: string;
+
+  // --- TAMBAHAN WAJIB UNTUK HARGA WILAYAH ---
+  @IsOptional()
+  @IsArray()
+  regionPrices?: any[];
 }
