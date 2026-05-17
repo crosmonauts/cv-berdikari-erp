@@ -18,16 +18,15 @@ const adapter_pg_1 = require("@prisma/adapter-pg");
 let PrismaService = PrismaService_1 = class PrismaService extends client_1.PrismaClient {
     logger = new common_1.Logger(PrismaService_1.name);
     constructor() {
-        const pool = new pg_1.Pool({
-            connectionString: 'postgresql://postgres:root@localhost:5432/cv_berdikari?schema=public',
-        });
+        const connectionString = process.env.DATABASE_URL;
+        const pool = new pg_1.Pool({ connectionString });
         const adapter = new adapter_pg_1.PrismaPg(pool);
         super({ adapter });
     }
     async onModuleInit() {
         try {
             await this.$connect();
-            this.logger.log('✅ Berhasil konek ke Database PostgreSQL');
+            this.logger.log('✅ Berhasil konek ke Database PostgreSQL (Neon)');
         }
         catch (error) {
             this.logger.error('❌ Gagal konek ke Database!');

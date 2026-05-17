@@ -49,22 +49,22 @@ export default function ProductsPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<any>({
     sku: '',
     name: '',
     barcode: '',
     defaultClientSku: '',
-    buyPrice: 0,
-    price: 0,
-    stock: 0,
+    buyPrice: '',
+    price: '',
+    stock: '',
   });
 
   // 2. STATE DIALOG RESTOCK (KLOTER BARU)
   const [isRestockOpen, setIsRestockOpen] = useState(false);
   const [selectedRestock, setSelectedRestock] = useState<any>(null);
-  const [restockData, setRestockData] = useState({
+  const [restockData, setRestockData] = useState<any>({
     quantity: 1,
-    purchasePrice: 0,
+    purchasePrice: '',
   });
 
   const fetchData = async () => {
@@ -94,9 +94,9 @@ export default function ProductsPage() {
       name: '',
       barcode: '',
       defaultClientSku: '',
-      buyPrice: 0,
-      price: 0,
-      stock: 0,
+      buyPrice: '',
+      price: '',
+      stock: '',
     });
     setIsOpen(true);
   };
@@ -109,16 +109,16 @@ export default function ProductsPage() {
       name: p.name,
       barcode: p.barcode || '',
       defaultClientSku: (p as any).defaultClientSku || '',
-      buyPrice: (p as any).buyPrice || 0,
-      price: p.price,
-      stock: p.stock,
+      buyPrice: (p as any).buyPrice || '',
+      price: p.price || '',
+      stock: p.stock || '',
     });
     setIsOpen(true);
   };
 
   const handleOpenRestock = (p: Product) => {
     setSelectedRestock(p);
-    setRestockData({ quantity: 1, purchasePrice: (p as any).buyPrice || 0 });
+    setRestockData({ quantity: 1, purchasePrice: (p as any).buyPrice || '' });
     setIsRestockOpen(true);
   };
 
@@ -149,14 +149,16 @@ export default function ProductsPage() {
           name: formData.name,
           barcode: safeBarcode,
           defaultClientSku: formData.defaultClientSku,
-          price: formData.price,
+          price: Number(formData.price), // Pastikan konversi ke angka
         };
-        // Bypass TS check karena defaultClientSku belum ada di file types.ts Anda
         await updateProduct(selectedId, updatePayload as any);
       } else {
         const createPayload = {
           ...formData,
           barcode: safeBarcode,
+          buyPrice: Number(formData.buyPrice), // Konversi ke angka
+          price: Number(formData.price),
+          stock: Number(formData.stock),
         };
         await createProduct(createPayload as any);
       }
@@ -175,8 +177,8 @@ export default function ProductsPage() {
     try {
       await restockProduct(
         selectedRestock.id,
-        restockData.quantity,
-        restockData.purchasePrice,
+        Number(restockData.quantity),
+        Number(restockData.purchasePrice), // Konversi aman ke angka
       );
       setIsRestockOpen(false);
       fetchData();
@@ -492,11 +494,14 @@ export default function ProductsPage() {
                   Harga Jual (Netto)
                 </Label>
                 <Input
-                  type="number"
-                  value={formData.price || ''}
-                  onChange={(e) =>
-                    setFormData({ ...formData, price: Number(e.target.value) })
-                  }
+                  type="text"
+                  inputMode="decimal"
+                  value={formData.price}
+                  onChange={(e) => {
+                    // Merubah koma menjadi titik secara instan
+                    const val = e.target.value.replace(/,/g, '.');
+                    setFormData({ ...formData, price: val });
+                  }}
                   required
                   className="h-9 rounded-lg bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600 font-bold"
                 />
@@ -507,14 +512,13 @@ export default function ProductsPage() {
                     Modal Kulak (Rp)
                   </Label>
                   <Input
-                    type="number"
-                    value={formData.buyPrice || ''}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        buyPrice: Number(e.target.value),
-                      })
-                    }
+                    type="text"
+                    inputMode="decimal"
+                    value={formData.buyPrice}
+                    onChange={(e) => {
+                      const val = e.target.value.replace(/,/g, '.');
+                      setFormData({ ...formData, buyPrice: val });
+                    }}
                     required
                     className="h-9 rounded-lg bg-indigo-50 border-none ring-1 ring-indigo-200 focus:ring-2 focus:ring-indigo-600 font-bold"
                   />
@@ -528,9 +532,9 @@ export default function ProductsPage() {
                 </Label>
                 <Input
                   type="number"
-                  value={formData.stock || ''}
+                  value={formData.stock}
                   onChange={(e) =>
-                    setFormData({ ...formData, stock: Number(e.target.value) })
+                    setFormData({ ...formData, stock: e.target.value })
                   }
                   required
                   className="h-9 rounded-lg bg-indigo-50 border-none ring-1 ring-indigo-200 focus:ring-2 focus:ring-indigo-600 font-bold"
@@ -571,7 +575,7 @@ export default function ProductsPage() {
                 onChange={(e) =>
                   setRestockData({
                     ...restockData,
-                    quantity: Number(e.target.value),
+                    quantity: e.target.value,
                   })
                 }
                 required
@@ -583,15 +587,14 @@ export default function ProductsPage() {
                 Harga Modal Baru (Kulakan)
               </Label>
               <Input
-                type="number"
-                min="0"
+                type="text"
+                inputMode="decimal"
                 value={restockData.purchasePrice}
-                onChange={(e) =>
-                  setRestockData({
-                    ...restockData,
-                    purchasePrice: Number(e.target.value),
-                  })
-                }
+                onChange={(e) => {
+                  // Merubah koma menjadi titik secara instan untuk Restock
+                  const val = e.target.value.replace(/,/g, '.');
+                  setRestockData({ ...restockData, purchasePrice: val });
+                }}
                 required
                 className="h-9 font-bold bg-emerald-50 border-none ring-1 ring-emerald-200 focus:ring-2 focus:ring-emerald-600 text-emerald-700"
               />

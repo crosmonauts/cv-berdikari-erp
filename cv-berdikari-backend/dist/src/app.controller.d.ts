@@ -9,8 +9,8 @@ export declare class AppController {
         message: string;
         user: {
             id: string;
-            name: string;
             email: string;
+            name: string;
             password: string;
             role: string;
             createdAt: Date;
