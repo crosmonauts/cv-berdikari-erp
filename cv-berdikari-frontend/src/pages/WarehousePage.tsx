@@ -152,7 +152,6 @@ export default function WarehousePage() {
         1,
       );
       toast.info(`Scan ${item.product?.name || 'barang'} dibatalkan (1)`);
-      setLastScannedItemId(null);
       await fetchOrderItems(selectedOrder.id);
     } catch (error: any) {
       const msg =
@@ -173,7 +172,6 @@ export default function WarehousePage() {
       toast.success('Status pesanan diubah ke SELESAI');
       setSelectedOrder(null);
       setOrderItems([]);
-      setLastScannedItemId(null);
       await fetchOrders();
     } catch (error: any) {
       const msg =
