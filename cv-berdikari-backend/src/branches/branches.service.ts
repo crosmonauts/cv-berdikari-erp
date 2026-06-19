@@ -16,6 +16,7 @@ export class BranchesService {
         address: createBranchDto.address ?? '',
         phone: createBranchDto.phone ?? null,
         regionId: createBranchDto.regionId ?? null,
+        npwp: createBranchDto.npwp ?? null,
       },
     });
   }
@@ -58,6 +59,7 @@ export class BranchesService {
         address: updateBranchDto.address ?? '',
         phone: updateBranchDto.phone ?? null,
         regionId: updateBranchDto.regionId ?? null,
+        npwp: updateBranchDto.npwp ?? null,
       },
     });
   }

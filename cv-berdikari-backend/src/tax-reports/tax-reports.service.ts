@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { getPpnRate } from '../common/utils/calculator.util';
 
 @Injectable()
 export class TaxReportsService {
@@ -27,7 +28,7 @@ export class TaxReportsService {
     // 2. JALANKAN RUMUS (Sesuai catatan manual Mas Nanda)
     const totalGross = invoice.order.totalAmount; 
     
-    const ppnRate = parseFloat(process.env.PPN_RATE || '0.11');
+    const ppnRate = getPpnRate();
     const dpp = totalGross / (1 + ppnRate);
     const ppn = totalGross - dpp;
 

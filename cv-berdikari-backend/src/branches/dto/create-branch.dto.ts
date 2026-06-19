@@ -20,4 +20,8 @@ export class CreateBranchDto {
   @IsOptional()
   @IsString()
   regionId?: string;
+
+  @IsOptional()
+  @IsString()
+  npwp?: string;
 }

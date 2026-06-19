@@ -1,17 +1,16 @@
-// src/common/utils/calculator.util.ts
+export const getPpnRate = (): number => {
+  return parseFloat(process.env.PPN_RATE || '0.11');
+};
 
-export const hitungKeuangan = (hargaJual: number, hargaKulak: number) => {
-  // Pastikan harga tidak negatif
-  const jual = hargaJual || 0;
-  const kulak = hargaKulak || 0;
-
-  const dpp = jual / 1.11;
-  const ppn = jual - dpp;
-  const laba = dpp - kulak;
+export function calculateFinancials(hargaJual: number, hargaKulak: number) {
+  const ppnRate = getPpnRate();
+  const dpp = hargaJual / (1 + ppnRate);
+  const ppn = hargaJual - dpp;
+  const grossProfit = dpp - hargaKulak;
 
   return {
     dpp: parseFloat(dpp.toFixed(2)),
     ppn: parseFloat(ppn.toFixed(2)),
-    laba: parseFloat(laba.toFixed(2))
+    grossProfit: parseFloat(grossProfit.toFixed(2)),
   };
-};
+}

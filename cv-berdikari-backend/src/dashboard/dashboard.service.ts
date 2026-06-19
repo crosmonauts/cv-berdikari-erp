@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { getPpnRate } from '../common/utils/calculator.util';
 
 @Injectable()
 export class DashboardService {
@@ -30,10 +31,13 @@ export class DashboardService {
     const allOrders = await this.prisma.purchaseOrder.findMany();
     const branchCount = await this.prisma.branch.count();
 
-    // PERBAIKAN: Include shipment & items agar tabel "5 Aktivitas Terbaru" di UI tampil angkanya
+    // PERBAIKAN: Include shipment & items, exclude PENDING/BATAL agar data bermakna
     const recentOrders = await this.prisma.purchaseOrder.findMany({
       take: 5,
       orderBy: { createdAt: 'desc' },
+      where: {
+        status: { notIn: ['PENDING', 'BATAL'] },
+      },
       include: {
         branch: true,
         shipment: true, // Untuk tampilkan ongkir per baris
@@ -50,7 +54,8 @@ export class DashboardService {
     completedOrders.forEach((order) => {
       // A. Hitung Pendapatan & Modal dari Barang
       order.items.forEach((item) => {
-        const revenueNetto = item.priceAtBuy / 1.11;
+        const ppnRate = getPpnRate();
+        const revenueNetto = item.priceAtBuy / (1 + ppnRate);
         const modal = (item as any).costPriceAtBuy || 0;
 
         totalNetRevenue += revenueNetto * item.quantity;
