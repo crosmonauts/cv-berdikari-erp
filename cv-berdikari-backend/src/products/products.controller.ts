@@ -29,14 +29,14 @@ export class ProductsController {
 
   // 3. Ambil Semua Produk
   @Get()
-  @Roles('SUPERADMIN', 'ADMIN', 'GUDANG')
+  @Roles('SUPERADMIN', 'ADMIN', 'GUDANG', 'EKSPEDISI')
   findAll(@Query() query: PaginationQueryDto) {
     return this.productsService.findAll(query);
   }
 
   // 4. Ambil Satu Produk
   @Get(':id')
-  @Roles('SUPERADMIN', 'ADMIN', 'GUDANG')
+  @Roles('SUPERADMIN', 'ADMIN', 'GUDANG', 'EKSPEDISI')
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(id);
   }

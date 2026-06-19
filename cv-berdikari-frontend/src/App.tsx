@@ -34,7 +34,7 @@ function App() {
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<ErrorBoundary><DashboardPage /></ErrorBoundary>} />
             <Route path="/products" element={
-              <RouteGuard allowedRoles={['SUPERADMIN', 'ADMIN', 'GUDANG']}>
+              <RouteGuard allowedRoles={['SUPERADMIN', 'ADMIN', 'GUDANG', 'EKSPEDISI']}>
                 <ErrorBoundary><ProductsPage /></ErrorBoundary>
               </RouteGuard>
             } />

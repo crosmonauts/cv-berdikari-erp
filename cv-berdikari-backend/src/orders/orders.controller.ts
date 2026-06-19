@@ -58,7 +58,7 @@ export class OrdersController {
   }
 
   @Get('counts')
-  @Roles('SUPERADMIN', 'ADMIN')
+  @Roles('SUPERADMIN', 'ADMIN', 'GUDANG', 'EKSPEDISI')
   counts() {
     return this.ordersService.getCounts();
   }
