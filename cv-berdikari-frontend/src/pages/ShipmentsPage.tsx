@@ -30,8 +30,6 @@ import {
   Search,
   ArrowUpDown,
   FileText,
-  ChevronLeft,
-  ChevronRight,
   AlertTriangle,
   RefreshCw,
   Loader2,
@@ -60,6 +58,8 @@ const loadAsset = (src: string): Promise<HTMLImageElement> => {
     img.src = src;
   });
 };
+
+const LOCAL_REGIONS = (import.meta.env.VITE_LOCAL_REGIONS || 'SEMARANG,SMG').split(',');
 
 export default function ShipmentsPage() {
   const [orders, setOrders] = useState<any[]>([]);
@@ -431,8 +431,7 @@ export default function ShipmentsPage() {
                       branch?.region?.name?.toUpperCase() || 'BELUM DIATUR';
 
                     const isLuarKota =
-                      region !== 'SEMARANG' &&
-                      region !== 'SMG' &&
+                      !LOCAL_REGIONS.includes(region) &&
                       region !== 'BELUM DIATUR';
 
                     const shipmentData = o.shipment || null;

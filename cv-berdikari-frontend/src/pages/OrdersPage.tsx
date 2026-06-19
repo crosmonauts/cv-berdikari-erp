@@ -39,8 +39,6 @@ import {
   CalendarDays,
   Search,
   ArrowUpDown,
-  ChevronLeft,
-  ChevronRight,
   CheckCircle2,
   Receipt,
   Clock,

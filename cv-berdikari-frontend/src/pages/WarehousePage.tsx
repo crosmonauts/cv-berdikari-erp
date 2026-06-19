@@ -1,61 +1,74 @@
 import { useEffect, useState, useRef } from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogHeader,
+  DialogFooter,
+  DialogDescription,
+} from '@/components/ui/dialog';
 import {
   PackageOpen,
   Search,
   ScanBarcode,
   Barcode,
   PackageCheck,
-  ArrowRight,
   FileText,
   ChevronLeft,
   ChevronRight,
+  Box,
+  ScanLine,
+  CircleDot,
+  Loader2,
+  AlertTriangle,
+  RefreshCw,
+  Undo2,
 } from 'lucide-react';
-import { getOrders } from '@/modules/orders/api';
-import { getOrderItems, scanOrderItemBarcode } from '@/modules/order-items/api';
+import { getOrders, updateOrderStatus } from '@/modules/orders/api';
+import { getOrderItems, scanOrderItemBarcode, revertScanOrderItem } from '@/modules/order-items/api';
 import type { Order } from '@/modules/orders/types';
+import type { OrderItem } from '@/modules/order-items/types';
+import { toast } from 'sonner';
 
 export default function WarehousePage() {
-  // Variabel penentu URL otomatis untuk Preview PDF
   const API_URL = import.meta.env.VITE_API_URL;
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // --- STATE PAGINATION ---
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  // --- STATE SCANNER TERMINAL ---
-  const [isScanOpen, setIsScanOpen] = useState(false);
-  const [isScanningStatus, setIsScanningStatus] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const [orderItems, setOrderItems] = useState<any[]>([]);
+  const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
+  const [orderItemsMap, setOrderItemsMap] = useState<Record<string, OrderItem[]>>({});
+
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [previewOrder, setPreviewOrder] = useState<Order | null>(null);
 
   const [barcodeInput, setBarcodeInput] = useState('');
   const [scanQty, setScanQty] = useState<number>(1);
+  const [isScanningStatus, setIsScanningStatus] = useState(false);
+  const [isReverting, setIsReverting] = useState(false);
+  const [lastScannedItemId, setLastScannedItemId] = useState<number | null>(null);
+  const [highlightedItemId, setHighlightedItemId] = useState<number | null>(null);
+  const [isCompleteConfirmOpen, setIsCompleteConfirmOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const fetchOrders = async () => {
+    setIsError(false);
     try {
       const data = await getOrders();
-      // Hanya tampilkan PO yang PENDING atau DIPROSES untuk antrean gudang
       setOrders(
         data.filter((o) => o.status === 'PENDING' || o.status === 'DIPROSES'),
       );
     } catch (error) {
       console.error('Gagal mengambil data pesanan:', error);
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }
@@ -65,32 +78,38 @@ export default function WarehousePage() {
     fetchOrders();
   }, []);
 
-  // Reset pagination ke halaman 1 saat pencarian berubah
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm]);
-
-  const handleOpenScanner = async (order: Order) => {
-    setSelectedOrder(order);
-    setScanQty(1); // Reset QTY ke 1 setiap buka terminal
-    setIsScanOpen(true);
-    await fetchOrderItems(order.id);
-
-    setTimeout(() => {
-      inputRef.current?.focus();
-    }, 200);
-  };
 
   const fetchOrderItems = async (orderId: string) => {
     try {
       const items = await getOrderItems(orderId);
       setOrderItems(items);
+      setOrderItemsMap((prev) => ({ ...prev, [orderId]: items }));
+      return items;
     } catch (error) {
       console.error('Gagal mengambil detail barang:', error);
+      return [];
     }
   };
 
-  // --- LOGIKA SMART SCANNER (1x Hit API ke Backend) ---
+  const handleSelectOrder = async (order: Order) => {
+    setSelectedOrder(order);
+    setScanQty(1);
+    setBarcodeInput('');
+    setIsScanningStatus(false);
+    await fetchOrderItems(order.id);
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 200);
+  };
+
+  const handlePreviewPDF = (order: Order) => {
+    setPreviewOrder(order);
+    setIsPreviewOpen(true);
+  };
+
   const handleScanSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedOrder || !barcodeInput.trim()) return;
@@ -99,24 +118,25 @@ export default function WarehousePage() {
     setIsScanningStatus(true);
 
     try {
-      // Hit ke API Backend yang sudah kita buat mampu menerima QTY
       const result = await scanOrderItemBarcode(
         selectedOrder.id,
         barcodeInput,
         qtyToProcess,
       );
-
-      if (result.success) {
-        // Jika sukses, reload data barang untuk update visual progress bar
-        await fetchOrderItems(selectedOrder.id);
-      } else {
-        // Jika gagal (melebihi kapasitas, barcode salah, dll), tampilkan pesan error dari backend
-        alert(`Gagal: ${result.message}`);
-      }
-    } catch (error) {
-      alert('Terjadi kesalahan jaringan saat memproses scan!');
+      const productName = result?.product?.name || 'Barang';
+      toast.success(`${productName} — berhasil di-scan (${qtyToProcess})`);
+      const scannedId = result?.id ?? null;
+      setLastScannedItemId(scannedId);
+      setHighlightedItemId(scannedId);
+      setTimeout(() => setHighlightedItemId(null), 2000);
+      await fetchOrderItems(selectedOrder.id);
+    } catch (error: any) {
+      const msg =
+        error.response?.data?.message ||
+        error.message ||
+        'Gagal memproses scan';
+      toast.error(msg);
     } finally {
-      // Apapun yang terjadi (sukses/gagal), wajib kosongkan input & reset QTY ke 1
       setBarcodeInput('');
       setScanQty(1);
       setIsScanningStatus(false);
@@ -124,7 +144,48 @@ export default function WarehousePage() {
     }
   };
 
-  // --- LOGIKA FILTER & PAGINATION ---
+  const handleUndoScan = async (item: OrderItem) => {
+    if (!selectedOrder || isReverting) return;
+    setIsReverting(true);
+    try {
+      await revertScanOrderItem(
+        selectedOrder.id,
+        String(item.productId),
+        1,
+      );
+      toast.info(`Scan ${item.product?.name || 'barang'} dibatalkan (1)`);
+      setLastScannedItemId(null);
+      await fetchOrderItems(selectedOrder.id);
+    } catch (error: any) {
+      const msg =
+        error.response?.data?.message ||
+        error.message ||
+        'Gagal membatalkan scan';
+      toast.error(msg);
+    } finally {
+      setIsReverting(false);
+    }
+  };
+
+  const handleCompletePicking = async () => {
+    if (!selectedOrder) return;
+    setIsCompleteConfirmOpen(false);
+    try {
+      await updateOrderStatus(selectedOrder.id, 'SELESAI');
+      toast.success('Status pesanan diubah ke SELESAI');
+      setSelectedOrder(null);
+      setOrderItems([]);
+      setLastScannedItemId(null);
+      await fetchOrders();
+    } catch (error: any) {
+      const msg =
+        error.response?.data?.message ||
+        error.message ||
+        'Gagal mengubah status';
+      toast.error(msg);
+    }
+  };
+
   const filteredOrders = orders.filter(
     (o) =>
       o.poNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -137,301 +198,556 @@ export default function WarehousePage() {
     currentPage * itemsPerPage,
   );
 
+  const getOrderProgress = (orderId: string) => {
+    const items = orderItemsMap[orderId];
+    if (!items || items.length === 0) return { total: 0, scanned: 0, percentage: 0 };
+    const total = items.reduce((sum, i) => sum + i.quantity, 0);
+    const scanned = items.reduce((sum, i) => sum + (i.scannedQty || 0), 0);
+    return {
+      total,
+      scanned,
+      percentage: total > 0 ? Math.round((scanned / total) * 100) : 0,
+    };
+  };
+
+  const getStatusIcon = (orderId: string, status: string) => {
+    const { percentage } = getOrderProgress(orderId);
+    if (percentage >= 100)
+      return <PackageCheck className="h-4 w-4 text-success" aria-label="Selesai" />;
+    if (status === 'DIPROSES' || percentage > 0)
+      return <Loader2 className="h-4 w-4 text-warning animate-spin" aria-label="Sedang diproses" />;
+    return <CircleDot className="h-4 w-4 text-slate-500" aria-label="Menunggu" />;
+  };
+
+  if (isError) {
+    return (
+      <div className="min-h-full px-4 py-6 flex flex-col items-center justify-center text-center">
+        <div className="h-14 w-14 rounded-2xl bg-red-500/10 flex items-center justify-center mb-4">
+          <AlertTriangle className="h-7 w-7 text-red-400" />
+        </div>
+        <h2 className="text-lg font-semibold text-white mb-2">Gagal Memuat Gudang</h2>
+        <p className="text-sm text-slate-400 max-w-md mb-6">
+          Tidak dapat memuat data antrean gudang. Periksa koneksi server atau coba lagi.
+        </p>
+        <button
+          onClick={fetchOrders}
+          className="h-9 px-5 bg-brand-600 hover:bg-brand-500 text-white font-semibold text-xs rounded-lg transition-colors flex items-center gap-2"
+        >
+          <RefreshCw className="h-4 w-4" /> Coba Lagi
+        </button>
+      </div>
+    );
+  }
+
   if (isLoading)
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-xs font-bold text-slate-400 animate-pulse uppercase tracking-widest">
-          Mengakses Terminal Gudang...
+      <div className="min-h-full px-4 py-6 space-y-6">
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 rounded-xl bg-white/5 animate-pulse" />
+          <div className="space-y-2">
+            <div className="h-5 w-48 rounded-md bg-white/10 animate-pulse" />
+            <div className="h-3 w-36 rounded-md bg-white/5 animate-pulse" />
+          </div>
+        </div>
+        <div className="bg-[#0f172a] rounded-xl ring-1 ring-white/10 p-6">
+          <div className="space-y-3">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="h-20 rounded-xl bg-white/5 animate-pulse" />
+            ))}
+          </div>
         </div>
       </div>
     );
 
   return (
-    <div className="min-h-screen bg-slate-300 px-2 pt-1 pb-10 space-y-4 font-sans">
-      {/* HEADER SECTION */}
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-indigo-600 ring-1 ring-slate-200">
-            <PackageOpen className="h-5 w-5" />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
-              Operasional Gudang
-            </h1>
-            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">
-              Antrean Penyiapan Barang
-            </p>
-          </div>
-        </div>
-
-        <div className="relative group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-indigo-600 transition-colors" />
-          <Input
-            placeholder="Cari No. PO atau Cabang..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-64 h-10 pl-9 rounded-xl bg-white border-none ring-1 ring-slate-200 text-sm font-medium focus:ring-2 focus:ring-indigo-500 shadow-sm"
-          />
-        </div>
-      </div>
-
-      {/* TABLE ANTREAN GUDANG */}
-      <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-sm ring-1 ring-slate-200 overflow-hidden flex flex-col">
-        <div className="flex-1 overflow-x-auto">
-          <Table>
-            <TableHeader className="bg-slate-50/50 border-b">
-              <TableRow className="hover:bg-transparent border-none">
-                <TableHead className="pl-6 py-4 text-[10px] font-bold uppercase text-slate-400">
-                  Nomor PO
-                </TableHead>
-                <TableHead className="py-4 text-[10px] font-bold uppercase text-slate-400">
-                  Cabang Tujuan
-                </TableHead>
-                <TableHead className="py-4 text-[10px] font-bold uppercase text-slate-400 text-center">
-                  Status
-                </TableHead>
-                <TableHead className="pr-6 py-4 text-[10px] font-bold uppercase text-slate-400 text-right">
-                  Aksi
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {paginatedOrders.length === 0 ? (
-                <TableRow>
-                  <TableCell
-                    colSpan={4}
-                    className="text-center py-24 text-xs font-medium text-slate-400 italic bg-white"
-                  >
-                    Semua barang sudah disiapkan dan dikirim. Antrean kosong.
-                  </TableCell>
-                </TableRow>
-              ) : (
-                paginatedOrders.map((o) => (
-                  <TableRow
-                    key={o.id}
-                    className="group hover:bg-slate-50/50 transition-colors border-b border-slate-50 last:border-none"
-                  >
-                    <TableCell className="pl-6 py-4 font-black text-indigo-600 text-sm uppercase tracking-tight">
-                      {o.poNumber}
-                    </TableCell>
-                    <TableCell className="py-4 font-semibold text-slate-600 text-sm">
-                      {(o as any).branch?.name || 'Cabang Terdaftar'}
-                    </TableCell>
-                    <TableCell className="py-4 text-center">
-                      <span className="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-md text-[9px] font-bold uppercase ring-1 ring-indigo-100 shadow-sm">
-                        {o.status}
-                      </span>
-                    </TableCell>
-                    <TableCell className="pr-6 py-4 text-right">
-                      <Button
-                        onClick={() => handleOpenScanner(o)}
-                        className="h-9 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[10px] gap-1.5 border-none uppercase transition-all active:scale-95 shadow-md"
-                      >
-                        <ScanBarcode className="h-4 w-4" /> BUKA TERMINAL{' '}
-                        <ArrowRight className="h-3.5 w-3.5 ml-1" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </div>
-
-        {/* KONTROL PAGINATION DI FOOTER TABEL */}
-        <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 bg-slate-50/50 border-t border-slate-100 gap-4">
-          <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-3">
-            {totalPages > 0 ? (
-              <span>
-                Halaman {currentPage} dari {totalPages}
-              </span>
-            ) : (
-              <span>0 Data</span>
-            )}
-            <span className="font-black text-indigo-400">
-              | TOTAL {filteredOrders.length} ANTREAN
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              disabled={currentPage <= 1}
-              className="h-8 px-3 text-[10px] font-bold uppercase text-slate-600 rounded-lg border-none shadow-sm ring-1 ring-slate-200 hover:bg-white transition-colors disabled:opacity-50"
-            >
-              <ChevronLeft className="h-3.5 w-3.5 mr-1" /> SEBELUMNYA
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() =>
-                setCurrentPage((p) => Math.min(Math.max(1, totalPages), p + 1))
-              }
-              disabled={currentPage >= totalPages || totalPages === 0}
-              className="h-8 px-3 text-[10px] font-bold uppercase text-slate-600 rounded-lg border-none shadow-sm ring-1 ring-slate-200 hover:bg-white transition-colors disabled:opacity-50"
-            >
-              SELANJUTNYA <ChevronRight className="h-3.5 w-3.5 ml-1" />
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* POP-UP TERMINAL SCANNER (SPLIT VIEW MODE) */}
-      <Dialog open={isScanOpen} onOpenChange={setIsScanOpen}>
-        <DialogContent className="sm:max-w-7xl h-[90vh] bg-white rounded-2xl border-none shadow-2xl p-0 overflow-hidden flex flex-col">
-          <div className="px-6 py-4 border-b bg-slate-50/50 flex items-center justify-between shrink-0">
-            <DialogTitle className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <Barcode className="h-5 w-5 text-indigo-600" /> Terminal Scan PO:{' '}
-              {selectedOrder?.poNumber}
-            </DialogTitle>
-          </div>
-
-          <div className="flex-1 flex flex-col lg:flex-row min-h-0 overflow-hidden p-6 gap-6">
-            {/* KIRI: DOKUMEN PDF PO */}
-            <div className="w-full lg:w-1/2 flex flex-col gap-2">
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
-                <FileText className="h-3 w-3" /> Dokumen Fisik Purchase Order
+    <div className="min-h-full bg-background font-sans">
+      <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
+        {/* HEADER */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-xl bg-brand-50 ring-1 ring-brand-200 flex items-center justify-center">
+              <PackageOpen className="h-5 w-5 text-brand-600" />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold text-foreground tracking-tight">
+                Gudang — Stasiun Scan
+              </h1>
+              <p className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wider font-mono">
+                Manajemen Picking &amp; Pengemasan
               </p>
-              <div className="flex-1 bg-slate-100 rounded-2xl border-2 border-slate-200 border-dashed overflow-hidden relative">
-                {selectedOrder?.poDocumentUrl ? (
-                  <iframe
-                    src={`${API_URL}${selectedOrder.poDocumentUrl}#toolbar=0`}
-                    className="w-full h-full rounded-xl bg-white"
-                    title="Preview PO"
+            </div>
+          </div>
+        </div>
+
+        {/* DARK PANEL */}
+        <div className="bg-[#0f172a] rounded-xl ring-1 ring-white/10 overflow-hidden">
+          <div className="flex flex-col lg:flex-row">
+            {/* ===== LEFT COLUMN: ANTREAN SCAN ===== */}
+            <div className="flex-1 min-w-0 p-6 border-b lg:border-b-0 lg:border-r border-white/5">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-2">
+                  <Box className="h-4 w-4 text-brand-400" />
+                  <h2 className="text-sm font-bold text-white uppercase tracking-wider">
+                    Antrean Scan
+                  </h2>
+                  <span className="text-[10px] font-mono text-slate-500 bg-white/5 px-2 py-0.5 rounded-md">
+                    {filteredOrders.length}
+                  </span>
+                </div>
+                <div className="relative">
+                  <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-500" />
+                  <Input
+                    placeholder="Cari PO atau Cabang..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-48 h-9 pl-8 rounded-lg bg-white/10 border border-white/10 text-xs text-slate-200 placeholder:text-slate-500 focus:border-brand-500 focus:ring-1 focus:ring-brand-500/30"
                   />
-                ) : (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400">
-                    <PackageOpen className="h-10 w-10 mb-2 opacity-20" />
-                    <p className="text-xs font-bold uppercase tracking-widest opacity-40">
-                      Dokumen PDF Tidak Tersedia
+                </div>
+              </div>
+
+              <div className="space-y-2.5">
+                {paginatedOrders.length === 0 ? (
+                  <div className="text-center py-16">
+                    <PackageCheck className="h-10 w-10 text-success/40 mx-auto mb-3" />
+                    <p className="text-xs font-medium text-slate-500 italic">
+                      Semua barang sudah disiapkan. Antrean kosong.
                     </p>
                   </div>
+                ) : (
+                  paginatedOrders.map((order) => {
+                    const progress = getOrderProgress(order.id);
+                    const isSelected = selectedOrder?.id === order.id;
+                    return (
+                      <button
+                        key={order.id}
+                        onClick={() => handleSelectOrder(order)}
+                        className={`w-full text-left block p-4 rounded-xl border transition-all ${
+                          isSelected
+                            ? 'bg-brand-600/10 border-brand-500/40 ring-1 ring-brand-500/20'
+                            : 'bg-white/5 border-white/10 hover:bg-white/[0.07]'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="font-bold text-sm text-white font-mono tracking-tight">
+                                {order.poNumber}
+                              </span>
+                              <span className="text-[10px] text-slate-500 font-medium">
+                                {(order as any).branch?.name || 'Cabang Terdaftar'}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              {getStatusIcon(order.id, order.status)}
+                              {progress.total > 0 ? (
+                                <span className="text-[11px] font-mono text-slate-400">
+                                  {progress.scanned}/{progress.total} item
+                                  {progress.scanned >= progress.total ? (
+                                    <span className="text-success ml-1">selesai</span>
+                                  ) : (
+                                    <span className="text-slate-500 ml-1">tersedia</span>
+                                  )}
+                                </span>
+                              ) : (
+                                <span className="text-[11px] font-mono text-slate-500">
+                                  {order.status === 'DIPROSES' ? 'Sedang diproses' : 'Menunggu'}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <Button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handlePreviewPDF(order);
+                              }}
+                              variant="ghost"
+                              className="h-7 w-7 p-0 rounded-lg text-slate-500 hover:text-slate-300 hover:bg-white/5"
+                            >
+                              <FileText className="h-3.5 w-3.5" />
+                            </Button>
+                            <Button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleSelectOrder(order);
+                              }}
+                              className="h-7 px-2.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-white font-bold text-[10px] uppercase gap-1 border-none transition-all active:scale-95"
+                            >
+                              <ScanBarcode className="h-3 w-3" />
+                              Scan
+                            </Button>
+                          </div>
+                        </div>
+                        {progress.total > 0 && (
+                          <div
+                            className="mt-3 h-1.5 bg-white/10 rounded-full overflow-hidden"
+                            role="progressbar"
+                            aria-valuenow={progress.percentage}
+                            aria-valuemin={0}
+                            aria-valuemax={100}
+                            aria-label={`Kemajuan: ${progress.scanned} dari ${progress.total} item`}
+                          >
+                            <div
+                              className={`h-full rounded-full transition-all duration-500 ${
+                                progress.percentage >= 100
+                                  ? 'bg-success'
+                                  : 'bg-brand-500'
+                              }`}
+                              style={{ width: `${progress.percentage}%` }}
+                            />
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })
                 )}
               </div>
-            </div>
 
-            {/* KANAN: FORM SCAN & TABEL BARANG */}
-            <div className="w-full lg:w-1/2 flex flex-col gap-6 overflow-hidden">
-              {/* FORM SMART SCANNER */}
-              <form
-                onSubmit={handleScanSubmit}
-                className={`bg-slate-950 p-6 rounded-2xl flex flex-col shadow-xl shrink-0 transition-opacity ${isScanningStatus ? 'opacity-50 pointer-events-none' : ''}`}
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <p className="text-indigo-400 font-bold text-[9px] tracking-[0.2em] uppercase opacity-80 flex items-center gap-2">
-                    <ScanBarcode className="h-3 w-3" /> Terminal Scanner Aktif
-                  </p>
-                  {isScanningStatus && (
-                    <span className="text-amber-400 font-bold text-[9px] uppercase animate-pulse">
-                      Memproses...
+              {/* PAGINATION */}
+              <div className="flex flex-col sm:flex-row items-center justify-between mt-6 pt-4 border-t border-white/5 gap-4">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest font-mono">
+                  {totalPages > 0 ? (
+                    <span>
+                      Hal {currentPage}/{totalPages}
                     </span>
+                  ) : (
+                    <span>0 Data</span>
                   )}
+                  <span className="text-brand-400 ml-3">
+                    | {filteredOrders.length} antrean
+                  </span>
                 </div>
-
-                <div className="flex items-stretch gap-3 w-full">
-                  {/* INPUT QTY MULTIPLIER */}
-                  <div className="flex flex-col w-20 shrink-0">
-                    <span className="text-slate-400 text-[9px] font-bold mb-1.5 uppercase tracking-wider">
-                      Jml (Qty)
-                    </span>
-                    <Input
-                      type="number"
-                      min="1"
-                      value={scanQty}
-                      onChange={(e) => setScanQty(Number(e.target.value))}
-                      className="h-12 bg-white border-none rounded-xl text-center text-slate-900 text-lg font-black focus:ring-4 focus:ring-indigo-500 transition-all shadow-inner"
-                      disabled={isScanningStatus}
-                      title="Ubah angka ini jika barang lebih dari 1"
-                    />
-                  </div>
-
-                  {/* INPUT BARCODE UTAMA */}
-                  <div className="flex flex-col flex-1">
-                    <span className="text-slate-400 text-[9px] font-bold mb-1.5 uppercase tracking-wider">
-                      Data Barcode
-                    </span>
-                    <Input
-                      ref={inputRef}
-                      value={barcodeInput}
-                      onChange={(e) => setBarcodeInput(e.target.value)}
-                      placeholder="TEMBAK SCANNER KE SINI..."
-                      className="h-12 bg-white/10 border-indigo-500/30 rounded-xl text-center text-white text-lg font-bold tracking-[0.2em] placeholder:text-slate-600 focus:ring-4 focus:ring-indigo-500 focus:bg-white/20 transition-all"
-                      autoComplete="off"
-                      disabled={isScanningStatus}
-                    />
-                  </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                    disabled={currentPage <= 1}
+                    className="h-7 px-2.5 text-[10px] font-bold uppercase text-slate-400 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 disabled:opacity-30"
+                  >
+                    <ChevronLeft className="h-3 w-3 mr-1" /> Sebelumnya
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() =>
+                      setCurrentPage((p) => Math.min(Math.max(1, totalPages), p + 1))
+                    }
+                    disabled={currentPage >= totalPages || totalPages === 0}
+                    className="h-7 px-2.5 text-[10px] font-bold uppercase text-slate-400 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 disabled:opacity-30"
+                  >
+                    Selanjutnya <ChevronRight className="h-3 w-3 ml-1" />
+                  </Button>
                 </div>
-
-                <p className="text-slate-500 text-[10px] mt-4 font-medium italic">
-                  💡 Tips: Jika ada 100 barang yg sama, ubah QTY menjadi 100,
-                  lalu scan 1 barcode saja.
-                </p>
-              </form>
-
-              {/* TABEL LIST BARANG PO */}
-              <div className="flex-1 rounded-xl ring-1 ring-slate-200 overflow-auto shadow-sm bg-white">
-                <Table>
-                  <TableHeader className="bg-slate-50/80 sticky top-0 z-10 backdrop-blur-sm shadow-sm">
-                    <TableRow className="border-none">
-                      <TableHead className="pl-6 py-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                        Deskripsi Barang
-                      </TableHead>
-                      <TableHead className="py-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">
-                        Req Qty
-                      </TableHead>
-                      <TableHead className="py-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 text-center">
-                        Discan
-                      </TableHead>
-                      <TableHead className="pr-6 py-3 text-[10px] font-bold uppercase tracking-wider text-right">
-                        Status
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {orderItems.map((item) => {
-                      const isDone = item.scannedQty >= item.quantity;
-                      return (
-                        <TableRow
-                          key={item.id}
-                          className={`transition-colors border-b border-slate-50 last:border-none ${isDone ? 'bg-emerald-50/30' : 'hover:bg-slate-50/50'}`}
-                        >
-                          <TableCell className="pl-6 py-3">
-                            <span
-                              className={`font-bold block text-xs uppercase ${isDone ? 'text-emerald-800' : 'text-slate-700'}`}
-                            >
-                              {item.product.name}
-                            </span>
-                            <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">
-                              {item.product.sku}
-                            </span>
-                          </TableCell>
-                          <TableCell className="text-center font-bold text-slate-400 text-xs">
-                            {item.quantity}
-                          </TableCell>
-                          <TableCell className="text-center">
-                            <span
-                              className={`px-2 py-0.5 rounded text-[11px] font-black tracking-wider ${isDone ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-indigo-600'}`}
-                            >
-                              {item.scannedQty}
-                            </span>
-                          </TableCell>
-                          <TableCell className="pr-6 text-right">
-                            {isDone ? (
-                              <PackageCheck className="h-5 w-5 text-emerald-500 ml-auto drop-shadow-sm" />
-                            ) : (
-                              <div className="h-1.5 w-6 bg-slate-200 rounded-full ml-auto" />
-                            )}
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
               </div>
             </div>
+
+            {/* ===== RIGHT COLUMN: SCANNER TERMINAL ===== */}
+            <div className="w-full lg:w-[420px] shrink-0 p-6">
+              <div className="flex items-center gap-2 mb-6">
+                <ScanLine className="h-4 w-4 text-brand-400" />
+                <h2 className="text-sm font-bold text-white uppercase tracking-wider">
+                  Scanner Terminal
+                </h2>
+                {isScanningStatus && (
+                  <span className="text-[10px] font-mono text-warning uppercase animate-pulse ml-auto">
+                    Memproses...
+                  </span>
+                )}
+              </div>
+
+              {selectedOrder ? (
+                <div className="space-y-4">
+                  {/* SELECTED ORDER INFO */}
+                  <div className="bg-white/5 rounded-xl border border-white/10 p-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">
+                          PO Aktif
+                        </p>
+                        <p className="text-sm font-bold text-white font-mono mt-0.5">
+                          {selectedOrder.poNumber}
+                        </p>
+                        <p className="text-[10px] text-slate-400">
+                          {(selectedOrder as any).branch?.name || 'Cabang Terdaftar'}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        {(() => {
+                          const p = getOrderProgress(selectedOrder.id);
+                          const done = p.total > 0 && p.scanned >= p.total;
+                          return (
+                            <span
+                              className={`text-[10px] font-bold font-mono ${
+                                done ? 'text-success' : 'text-warning'
+                              }`}
+                            >
+                              {done
+                                ? 'SELESAI'
+                                : `${p.scanned}/${p.total}`}
+                            </span>
+                          );
+                        })()}
+                      </div>
+                    </div>
+                    {(() => {
+                      const p = getOrderProgress(selectedOrder.id);
+                      if (p.total > 0) {
+                        return (
+                          <div
+                            className="mt-2.5 h-1 bg-white/10 rounded-full overflow-hidden"
+                            role="progressbar"
+                            aria-valuenow={p.percentage}
+                            aria-valuemin={0}
+                            aria-valuemax={100}
+                            aria-label={`Kemajuan: ${p.scanned} dari ${p.total} item`}
+                          >
+                            <div
+                              className={`h-full rounded-full transition-all ${
+                                p.percentage >= 100
+                                  ? 'bg-success'
+                                  : 'bg-brand-500'
+                              }`}
+                              style={{ width: `${p.percentage}%` }}
+                            />
+                          </div>
+                        );
+                      }
+                      return null;
+                    })()}
+                  </div>
+
+                  {/* SCANNER FORM */}
+                  <form
+                    onSubmit={handleScanSubmit}
+                    className={`bg-white/5 rounded-xl border border-white/10 p-4 space-y-4 transition-opacity ${
+                      isScanningStatus ? 'opacity-50 pointer-events-none' : ''
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="flex flex-col w-[72px] shrink-0">
+                        <span className="text-[10px] text-slate-500 font-semibold mb-1 uppercase tracking-wider font-mono">
+                          Qty
+                        </span>
+                        <Input
+                          type="number"
+                          min="1"
+                          value={scanQty}
+                          onChange={(e) => setScanQty(Number(e.target.value))}
+                          className="h-10 bg-white/10 border border-white/10 rounded-lg text-center text-white text-sm font-semibold font-mono focus:border-brand-500 focus:ring-1 focus:ring-brand-500/30"
+                          disabled={isScanningStatus}
+                        />
+                      </div>
+                      <div className="flex flex-col flex-1">
+                        <span className="text-[10px] text-slate-500 font-semibold mb-1 uppercase tracking-wider font-mono">
+                          Data Barcode
+                        </span>
+                        <Input
+                          ref={inputRef}
+                          value={barcodeInput}
+                          onChange={(e) => setBarcodeInput(e.target.value)}
+                          placeholder="TEMBAK SCANNER KE SINI..."
+                          className="h-10 bg-white/10 border border-white/20 rounded-lg text-center text-white text-sm font-semibold tracking-[0.15em] font-mono placeholder:text-slate-600 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/40"
+                          autoComplete="off"
+                          disabled={isScanningStatus}
+                        />
+                      </div>
+                      <div className="flex flex-col self-end">
+                        <Button
+                          type="submit"
+                          disabled={isScanningStatus || !barcodeInput.trim()}
+                          className="h-10 px-4 rounded-lg bg-brand-600 hover:bg-brand-500 text-white font-bold text-[10px] uppercase gap-1.5 border-none disabled:opacity-40"
+                        >
+                          <Barcode className="h-4 w-4" />
+                          Scan
+                        </Button>
+                      </div>
+                    </div>
+                    <p className="text-[10px] text-slate-600 italic leading-relaxed">
+                      Tip: Jika ada banyak barang sama, ubah QTY lalu scan 1 barcode.
+                    </p>
+                  </form>
+
+                  {/* ITEMS TABLE */}
+                  <div className="bg-white/5 rounded-xl border border-white/10 overflow-hidden">
+                    <div className="px-4 py-2.5 border-b border-white/5">
+                    <p className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider font-mono">
+                      Hasil Scan — {orderItems.length} item
+                    </p>
+                    </div>
+                    <div className="divide-y divide-white/5 max-h-[420px] overflow-y-auto">
+                      {orderItems.length === 0 ? (
+                        <div className="px-4 py-8 text-center">
+                          <p className="text-[10px] text-slate-500 italic">
+                            Belum ada data barang.
+                          </p>
+                        </div>
+                      ) : (
+                        orderItems.map((item) => {
+                          const isDone = (item.scannedQty || 0) >= item.quantity;
+                          const isHighlighted = highlightedItemId === item.id;
+                          return (
+                            <div
+                              key={item.id}
+                              className={`px-4 py-3 flex items-center justify-between gap-3 transition-all duration-500 ${
+                                isDone ? 'bg-success/5' : ''
+                              } ${
+                                isHighlighted
+                                  ? 'bg-brand-500/20 ring-1 ring-brand-500/40 scale-[1.02]'
+                                  : ''
+                              }`}
+                              aria-live="polite"
+                              aria-label={`${item.product.name}, ${item.scannedQty || 0} dari ${item.quantity} di-scan`}
+                            >
+                              <div className="min-w-0 flex-1">
+                                <p
+                                  className={`text-xs font-bold truncate ${
+                                    isDone ? 'text-success' : 'text-slate-200'
+                                  }`}
+                                >
+                                  {item.product.name}
+                                </p>
+                                <p className="text-[10px] font-mono text-slate-500 uppercase tracking-wider">
+                                  {item.product.sku}
+                                </p>
+                              </div>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <div className="text-center">
+                                  <p className="text-[10px] text-slate-500 font-mono">Req</p>
+                                  <p className="text-xs font-bold text-slate-300 font-mono">
+                                    {item.quantity}
+                                  </p>
+                                </div>
+                                <div className="text-center">
+                                  <p className="text-[10px] text-slate-500 font-mono">Scan</p>
+                                  <p
+                                    className={`text-xs font-bold font-mono ${
+                                      isDone ? 'text-success' : 'text-slate-400'
+                                    }`}
+                                  >
+                                    {item.scannedQty || 0}
+                                  </p>
+                                </div>
+                                {(item.scannedQty || 0) > 0 && (
+                                  <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => handleUndoScan(item)}
+                                    disabled={isReverting}
+                                    className="h-7 w-7 p-0 rounded-lg text-slate-500 hover:text-warning hover:bg-warning/10"
+                                    aria-label={`Batalkan scan ${item.product.name}`}
+                                  >
+                                    <Undo2 className="h-3.5 w-3.5" />
+                                  </Button>
+                                )}
+                                {isDone && (
+                                  <PackageCheck className="h-4 w-4 text-success shrink-0" />
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
+                  </div>
+
+                  {/* COMPLETE PICKING BUTTON */}
+                  {(() => {
+                    const p = getOrderProgress(selectedOrder.id);
+                    const allDone = p.total > 0 && p.scanned >= p.total;
+                    if (!allDone) return null;
+                    return (
+                      <Button
+                        type="button"
+                        onClick={() => setIsCompleteConfirmOpen(true)}
+                        className="w-full h-11 rounded-xl bg-success hover:bg-success/80 text-white font-bold text-xs uppercase tracking-wider gap-2 border-none transition-all active:scale-95"
+                      >
+                        <PackageCheck className="h-4 w-4" />
+                        Selesaikan Picking
+                      </Button>
+                    );
+                  })()}
+                </div>
+              ) : (
+                /* PLACEHOLDER */
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <ScanBarcode className="h-12 w-12 text-slate-700 mb-4" />
+                  <p className="text-sm font-bold text-slate-500">
+                    Pilih pesanan dari antrean
+                  </p>
+                  <p className="text-[10px] text-slate-600 mt-1">
+                    untuk memulai scanning barang
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
+        </div>
+      </div>
+
+      {/* DIALOG: PREVIEW PDF */}
+      <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+        <DialogContent className="sm:max-w-4xl h-[85vh] bg-[#0f172a] rounded-2xl border border-white/10 shadow-2xl p-0 overflow-hidden flex flex-col">
+          <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between shrink-0">
+            <DialogTitle className="text-base font-bold text-white flex items-center gap-2">
+              <FileText className="h-4 w-4 text-brand-400" />
+              Dokumen PO: {previewOrder?.poNumber}
+            </DialogTitle>
+          </div>
+          <div className="flex-1 bg-white/5 m-4 rounded-xl overflow-hidden relative">
+            {previewOrder?.poDocumentUrl ? (
+              <iframe
+                src={`${API_URL}${previewOrder.poDocumentUrl}#toolbar=0`}
+                className="w-full h-full rounded-xl"
+                title="Preview PO"
+              />
+            ) : (
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-500">
+                <PackageOpen className="h-10 w-10 mb-2 opacity-20" />
+                <p className="text-xs font-bold uppercase tracking-widest opacity-40 font-mono">
+                  Dokumen PDF Tidak Tersedia
+                </p>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* DIALOG: KONFIRMASI SELESAI PICKING */}
+      <Dialog open={isCompleteConfirmOpen} onOpenChange={setIsCompleteConfirmOpen}>
+        <DialogContent className="sm:max-w-md bg-[#0f172a] rounded-2xl border border-white/10 shadow-2xl p-0">
+          <DialogHeader className="px-6 pt-6 pb-2">
+            <DialogTitle className="text-base font-bold text-white flex items-center gap-2">
+              <PackageCheck className="h-5 w-5 text-success" />
+              Selesaikan Picking
+            </DialogTitle>
+            <DialogDescription className="text-xs text-slate-400 mt-2 leading-relaxed">
+              Apakah Anda yakin ingin menyelesaikan proses picking untuk PO{' '}
+              <span className="font-mono text-slate-300">{selectedOrder?.poNumber}</span>?
+              Semua barang yang sudah di-scan akan ditandai sebagai SELESAI.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="px-6 pb-6 pt-2 gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsCompleteConfirmOpen(false)}
+              className="h-9 px-4 text-[10px] font-bold uppercase text-slate-400 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10"
+            >
+              Batal
+            </Button>
+            <Button
+              type="button"
+              onClick={handleCompletePicking}
+              className="h-9 px-4 text-[10px] font-bold uppercase rounded-lg bg-success hover:bg-success/80 text-white border-none gap-1.5"
+            >
+              <PackageCheck className="h-3.5 w-3.5" />
+              Selesaikan
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

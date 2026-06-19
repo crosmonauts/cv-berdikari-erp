@@ -44,6 +44,7 @@ import type { ProductCategory as ProductCategoryType } from '@/modules/product-c
 import { toast } from 'sonner';
 import { PageHeader } from '@/components/shared/page-header';
 import { PaginationFooter } from '@/components/shared/pagination-footer';
+import { ConfirmDialog } from '@/components/shared/confirm-dialog';
 import { Skeleton } from '@/components/shared/skeleton';
 import { useUserRole } from '@/hooks/useUserRole';
 
@@ -80,6 +81,8 @@ export default function ProductsPage() {
   const [isRestockOpen, setIsRestockOpen] = useState(false);
   const [selectedRestock, setSelectedRestock] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<string | null>(null);
   const [restockData, setRestockData] = useState<any>({
     quantity: 1,
     purchasePrice: '',
@@ -163,15 +166,17 @@ export default function ProductsPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (
-      window.confirm('Hapus produk ini dari katalog? Data stok juga hilang.')
-    ) {
-      try {
-        await deleteProduct(id);
-        fetchData();
-      } catch (error) {
-        toast.error('Gagal menghapus produk.');
-      }
+    setPendingDelete(id);
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!pendingDelete) return;
+    try {
+      await deleteProduct(pendingDelete);
+      fetchData();
+    } catch (error) {
+      toast.error('Gagal menghapus produk.');
     }
   };
 
@@ -440,6 +445,14 @@ export default function ProductsPage() {
           label="PRODUK"
         />
       </div>
+
+      <ConfirmDialog
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+        title="Hapus Produk"
+        description="Hapus produk ini dari katalog? Data stok juga hilang."
+        onConfirm={handleConfirmDelete}
+      />
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-xl bg-white rounded-xl border-none shadow-2xl p-6">

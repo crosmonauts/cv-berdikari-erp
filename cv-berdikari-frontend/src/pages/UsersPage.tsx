@@ -44,6 +44,7 @@ import type { User as UserType } from '@/modules/users/types';
 import { toast } from 'sonner';
 import { PageHeader } from '@/components/shared/page-header';
 import { PaginationFooter } from '@/components/shared/pagination-footer';
+import { ConfirmDialog } from '@/components/shared/confirm-dialog';
 import { Skeleton } from '@/components/shared/skeleton';
 
 const roleColors: Record<string, string> = {
@@ -63,6 +64,8 @@ export default function UsersPage() {
   const itemsPerPage = 10;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<string | null>(null);
 
   const [isOpen, setIsOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -141,9 +144,14 @@ export default function UsersPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Hapus pengguna ini? Tindakan ini tidak bisa dibatalkan.')) return;
+    setPendingDelete(id);
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!pendingDelete) return;
     try {
-      await deleteUser(id);
+      await deleteUser(pendingDelete);
       toast.success('Pengguna berhasil dihapus');
       fetchData();
     } catch (error) {
@@ -259,8 +267,16 @@ export default function UsersPage() {
         </Table>
         <PaginationFooter
           currentPage={currentPage} totalPages={totalPages}
-          totalItems={filtered.length} onPageChange={setCurrentPage} label="PENGGUNA" />
+          totalItems={filtered.length} onPageChange={setCurrentPage} label="PENGGUNA"         />
       </div>
+
+      <ConfirmDialog
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+        title="Hapus Pengguna"
+        description="Hapus pengguna ini? Tindakan ini tidak bisa dibatalkan."
+        onConfirm={handleConfirmDelete}
+      />
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-md bg-white rounded-xl p-6 border-none shadow-2xl">

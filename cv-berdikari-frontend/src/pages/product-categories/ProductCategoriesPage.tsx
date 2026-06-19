@@ -36,6 +36,7 @@ import type { ProductCategory } from '@/modules/product-categories/types';
 import { toast } from 'sonner';
 import { PageHeader } from '@/components/shared/page-header';
 import { PaginationFooter } from '@/components/shared/pagination-footer';
+import { ConfirmDialog } from '@/components/shared/confirm-dialog';
 import { Skeleton } from '@/components/shared/skeleton';
 
 export default function ProductCategoriesPage() {
@@ -48,6 +49,8 @@ export default function ProductCategoriesPage() {
   const itemsPerPage = 10;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<string | null>(null);
 
   const [isOpen, setIsOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -124,9 +127,14 @@ export default function ProductCategoriesPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Hapus kategori ini? Produk dalam kategori ini tidak akan terhapus.')) return;
+    setPendingDelete(id);
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!pendingDelete) return;
     try {
-      await deleteProductCategory(id);
+      await deleteProductCategory(pendingDelete);
       fetchData();
     } catch (error) {
       toast.error('Gagal menghapus kategori.');
@@ -251,6 +259,14 @@ export default function ProductCategoriesPage() {
           label="KATEGORI"
         />
       </div>
+
+      <ConfirmDialog
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+        title="Hapus Kategori"
+        description="Hapus kategori ini? Produk dalam kategori ini tidak akan terhapus."
+        onConfirm={handleConfirmDelete}
+      />
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-md bg-white rounded-xl p-6 border-none shadow-2xl">

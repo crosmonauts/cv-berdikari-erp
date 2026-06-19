@@ -32,8 +32,6 @@ import {
   ArrowUpDown,
   FileText,
   FileDown,
-  ChevronLeft,
-  ChevronRight,
   AlertTriangle,
   RefreshCw,
   Loader2,

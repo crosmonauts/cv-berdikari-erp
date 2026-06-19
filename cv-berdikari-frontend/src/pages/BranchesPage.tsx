@@ -47,6 +47,7 @@ import { getRegions } from '@/modules/regions/api';
 import { toast } from 'sonner';
 import { PageHeader } from '@/components/shared/page-header';
 import { PaginationFooter } from '@/components/shared/pagination-footer';
+import { ConfirmDialog } from '@/components/shared/confirm-dialog';
 import { Skeleton } from '@/components/shared/skeleton';
 
 export default function BranchesPage() {
@@ -65,6 +66,8 @@ export default function BranchesPage() {
   const itemsPerPage = 10;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     branchCode: '',
@@ -118,14 +121,18 @@ export default function BranchesPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (window.confirm('Hapus cabang ini? Data PO terkait mungkin terpengaruh.')) {
-      try {
-        await deleteBranch(id);
-        toast.success('Cabang berhasil dihapus');
-        fetchData();
-      } catch (error) {
-        toast.error('Gagal menghapus cabang. Mungkin cabang ini sudah memiliki PO.');
-      }
+    setPendingDelete(id);
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!pendingDelete) return;
+    try {
+      await deleteBranch(pendingDelete);
+      toast.success('Cabang berhasil dihapus');
+      fetchData();
+    } catch (error) {
+      toast.error('Gagal menghapus cabang. Mungkin cabang ini sudah memiliki PO.');
     }
   };
 
@@ -330,6 +337,14 @@ export default function BranchesPage() {
           label="CABANG"
         />
       </div>
+
+      <ConfirmDialog
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+        title="Hapus Cabang"
+        description="Hapus cabang ini? Data PO terkait mungkin terpengaruh."
+        onConfirm={handleConfirmDelete}
+      />
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-md bg-white rounded-xl border-none shadow-2xl p-6">

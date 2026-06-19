@@ -36,6 +36,7 @@ import type { Region } from '@/modules/regions/types';
 import { toast } from 'sonner';
 import { PageHeader } from '@/components/shared/page-header';
 import { PaginationFooter } from '@/components/shared/pagination-footer';
+import { ConfirmDialog } from '@/components/shared/confirm-dialog';
 import { Skeleton } from '@/components/shared/skeleton';
 
 export default function RegionsPage() {
@@ -48,6 +49,8 @@ export default function RegionsPage() {
   const itemsPerPage = 10;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<string | null>(null);
 
   const [isOpen, setIsOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -125,9 +128,14 @@ export default function RegionsPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Hapus wilayah ini? Data terkait (cabang, harga) akan terpengaruh.')) return;
+    setPendingDelete(id);
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!pendingDelete) return;
     try {
-      await deleteRegion(id);
+      await deleteRegion(pendingDelete);
       fetchData();
     } catch (error) {
       toast.error('Gagal menghapus wilayah.');
@@ -247,6 +255,14 @@ export default function RegionsPage() {
           label="WILAYAH"
         />
       </div>
+
+      <ConfirmDialog
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+        title="Hapus Wilayah"
+        description="Hapus wilayah ini? Data terkait (cabang, harga) akan terpengaruh."
+        onConfirm={handleConfirmDelete}
+      />
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-md bg-white rounded-xl p-6 border-none shadow-2xl">
