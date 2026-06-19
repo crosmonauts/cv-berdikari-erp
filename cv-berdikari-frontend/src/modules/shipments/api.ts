@@ -1,17 +1,14 @@
-import axios from 'axios';
+import api from '@/lib/api';
 import type { Shipment } from './types';
 
-const BASE_URL = import.meta.env.VITE_API_URL;
-const API_URL = `${BASE_URL}/shipments`;
+const API_URL = `/shipments`;
 
-// Mengambil daftar pengiriman dan memastikan hasilnya berupa array of Shipment
 export const getShipments = async (): Promise<Shipment[]> => {
-  const response = await axios.get(API_URL);
-  return response.data;
+  const response = await api.get(API_URL);
+  return response.data.data;
 };
 
-// Mengirim FormData dan memastikan balasan dari server sesuai dengan tipe Shipment
 export const createShipment = async (data: FormData): Promise<Shipment> => {
-  const response = await axios.post(API_URL, data);
+  const response = await api.post(API_URL, data);
   return response.data;
 };

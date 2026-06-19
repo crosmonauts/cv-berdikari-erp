@@ -14,7 +14,7 @@ export default function TaxReportsPage() {
     setError(false);
     try {
       const res = await getTaxReports();
-      setData(Array.isArray(res) ? res : (res as any).data ?? []);
+      setData(res);
     } catch {
       setError(true);
     } finally {

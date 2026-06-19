@@ -1,17 +1,28 @@
-import axios from 'axios';
+import api from '@/lib/api';
 import type { Invoice } from './types';
 
-const API_URL = import.meta.env.VITE_API_URL;
-
 export const getInvoices = async (): Promise<Invoice[]> => {
-  const response = await axios.get(`${API_URL}/invoices`);
+  const response = await api.get(`/invoices`);
+  return response.data.data;
+};
+
+export const getInvoice = async (id: string): Promise<Invoice> => {
+  const response = await api.get(`/invoices/${id}`);
   return response.data;
 };
 
-// Fungsi untuk membuat tagihan baru
 export const createInvoice = async (
-  invoiceData: Omit<Invoice, 'id'>,
+  invoiceData: Omit<Invoice, 'id' | 'order'>,
 ): Promise<Invoice> => {
-  const response = await axios.post(`${API_URL}/invoices`, invoiceData);
+  const response = await api.post(`/invoices`, invoiceData);
   return response.data;
+};
+
+export const updateInvoice = async (id: string, data: Partial<Invoice>): Promise<Invoice> => {
+  const response = await api.patch(`/invoices/${id}`, data);
+  return response.data;
+};
+
+export const deleteInvoice = async (id: string): Promise<void> => {
+  await api.delete(`/invoices/${id}`);
 };

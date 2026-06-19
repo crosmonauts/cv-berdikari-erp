@@ -1,22 +1,32 @@
-import axios from 'axios';
-import type { Order } from './types';
+import api from '@/lib/api';
+import type { Order, OrderCounts } from './types';
 
-const API_URL = import.meta.env.VITE_API_URL;
+export const getOrderCounts = async (): Promise<OrderCounts> => {
+  const response = await api.get('/orders/counts');
+  return response.data;
+};
 
-// Fungsi mengambil data PO
 export const getOrders = async (): Promise<Order[]> => {
-  const response = await axios.get(`${API_URL}/orders`);
+  const response = await api.get(`/orders`);
+  return response.data.data;
+};
+
+export const getOrder = async (id: string): Promise<Order> => {
+  const response = await api.get(`/orders/${id}`);
   return response.data;
 };
 
-// Fungsi baru untuk menambah PO (Sekarang menerima FormData atau JSON bebas)
 export const createOrder = async (data: any): Promise<Order> => {
-  const response = await axios.post(`${API_URL}/orders`, data);
+  const response = await api.post(`/orders`, data);
   return response.data;
 };
 
-// Fungsi untuk mengirim perubahan data PO ke backend (Bug path /orders sudah diperbaiki!)
 export const updateOrder = async (id: string, data: any) => {
-  const response = await axios.patch(`${API_URL}/orders/${id}`, data);
+  const response = await api.patch(`/orders/${id}`, data);
+  return response.data;
+};
+
+export const updateOrderStatus = async (id: string, status: string) => {
+  const response = await api.patch(`/orders/${id}/status`, { status });
   return response.data;
 };
