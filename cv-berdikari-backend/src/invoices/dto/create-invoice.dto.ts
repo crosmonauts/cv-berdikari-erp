@@ -1,5 +1,15 @@
+import { IsString, IsNotEmpty, IsDateString } from 'class-validator';
+
 export class CreateInvoiceDto {
+  @IsString()
+  @IsNotEmpty()
   invoiceNumber: string;
-  dueDate: string; // Tanggal jatuh tempo
-  orderId: string; // ID dari Kertas PO yang ditagihkan
+
+  @IsDateString()
+  @IsNotEmpty()
+  dueDate: string;
+
+  @IsString()
+  @IsNotEmpty()
+  orderId: string;
 }

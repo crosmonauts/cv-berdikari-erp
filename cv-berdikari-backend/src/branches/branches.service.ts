@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBranchDto } from './dto/create-branch.dto';
 import { UpdateBranchDto } from './dto/update-branch.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 @Injectable()
 export class BranchesService {
@@ -12,19 +13,27 @@ export class BranchesService {
       data: {
         branchCode: createBranchDto.branchCode,
         name: createBranchDto.name,
-        // Tambahkan || '' agar Prisma tidak protes jika undefined
-        address: createBranchDto.address || '',
-        phone: createBranchDto.phone || '',
-        regionId: (createBranchDto as any).regionId || null,
+        address: createBranchDto.address ?? '',
+        phone: createBranchDto.phone ?? null,
+        regionId: createBranchDto.regionId ?? null,
       },
     });
   }
 
-  async findAll() {
-    return this.prisma.branch.findMany({
-      orderBy: { id: 'desc' },
-      include: { region: true },
-    });
+  async findAll(query: PaginationQueryDto) {
+    const page = query.page ?? 1;
+    const limit = query.limit ?? 20;
+    const skip = (page - 1) * limit;
+    const [data, total] = await Promise.all([
+      this.prisma.branch.findMany({
+        skip,
+        take: limit,
+        orderBy: { id: 'desc' },
+        include: { region: true },
+      }),
+      this.prisma.branch.count(),
+    ]);
+    return { data, total, page, limit, totalPages: Math.ceil(total / limit) };
   }
 
   async findOne(id: string) {
@@ -38,20 +47,24 @@ export class BranchesService {
   }
 
   async update(id: string, updateBranchDto: UpdateBranchDto) {
+    const existing = await this.prisma.branch.findUnique({ where: { id } });
+    if (!existing)
+      throw new NotFoundException(`Cabang dengan ID ${id} tidak ditemukan`);
     return this.prisma.branch.update({
       where: { id },
       data: {
         branchCode: updateBranchDto.branchCode,
         name: updateBranchDto.name,
-        // Tambahkan || '' agar Prisma tidak protes jika undefined
-        address: updateBranchDto.address || '',
-        phone: updateBranchDto.phone || '',
-        regionId: (updateBranchDto as any).regionId || null,
+        address: updateBranchDto.address ?? '',
+        phone: updateBranchDto.phone ?? null,
+        regionId: updateBranchDto.regionId ?? null,
       },
     });
   }
 
   async remove(id: string) {
+    const existing = await this.prisma.branch.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundException(`Cabang dengan ID ${id} tidak ditemukan`);
     return this.prisma.branch.delete({
       where: { id },
     });

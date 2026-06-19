@@ -1,4 +1,15 @@
-import { IsNumber, IsOptional, IsString, Min, IsArray } from 'class-validator';
+import { IsNumber, IsOptional, IsString, Min, IsArray, IsNotEmpty, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+
+export class RegionPriceDto {
+  @IsString()
+  @IsNotEmpty()
+  regionId: string;
+
+  @IsNumber()
+  @Min(0)
+  price: number;
+}
 
 export class CreateProductDto {
   @IsString()
@@ -23,12 +34,13 @@ export class CreateProductDto {
   @IsOptional()
   barcode?: string;
 
-  @IsString()
   @IsOptional()
-  defaultClientSku?: string;
+  @IsString()
+  categoryId?: string;
 
-  // --- TAMBAHAN WAJIB UNTUK HARGA WILAYAH ---
   @IsOptional()
   @IsArray()
-  regionPrices?: any[];
+  @ValidateNested({ each: true })
+  @Type(() => RegionPriceDto)
+  regionPrices?: RegionPriceDto[];
 }

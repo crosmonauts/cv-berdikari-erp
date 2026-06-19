@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 @Injectable()
 export class TaxReportsService {
@@ -26,10 +27,8 @@ export class TaxReportsService {
     // 2. JALANKAN RUMUS (Sesuai catatan manual Mas Nanda)
     const totalGross = invoice.order.totalAmount; 
     
-    // Rumus: DPP = Total / 1.11
-    const dpp = totalGross / 1.11;
-    
-    // Rumus: PPN = Total - DPP
+    const ppnRate = parseFloat(process.env.PPN_RATE || '0.11');
+    const dpp = totalGross / (1 + ppnRate);
     const ppn = totalGross - dpp;
 
     // 3. Simpan ke Database
@@ -54,26 +53,35 @@ export class TaxReportsService {
   /**
    * MENAMPILKAN SEMUA LAPORAN PAJAK
    */
-  async findAll() {
-    return this.prisma.taxReport.findMany({
-      include: {
-        invoice: {
-          select: {
-            invoiceNumber: true,
-            issuedDate: true,
-            order: {
-              select: {
-                poNumber: true,
-                totalAmount: true,
+  async findAll(query: PaginationQueryDto) {
+    const page = query.page ?? 1;
+    const limit = query.limit ?? 20;
+    const skip = (page - 1) * limit;
+    const [data, total] = await Promise.all([
+      this.prisma.taxReport.findMany({
+        skip,
+        take: limit,
+        include: {
+          invoice: {
+            select: {
+              invoiceNumber: true,
+              issuedDate: true,
+              order: {
+                select: {
+                  poNumber: true,
+                  totalAmount: true,
+                },
               },
             },
           },
         },
-      },
-      orderBy: {
-        id: 'desc',
-      },
-    });
+        orderBy: {
+          id: 'desc',
+        },
+      }),
+      this.prisma.taxReport.count(),
+    ]);
+    return { data, total, page, limit, totalPages: Math.ceil(total / limit) };
   }
 
   /**
@@ -99,6 +107,8 @@ export class TaxReportsService {
    * UPDATE NOMOR FAKTUR ATAU STATUS
    */
   async update(id: string, dto: { taxFakturNum?: string; status?: string }) {
+    const existing = await this.prisma.taxReport.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundException('Laporan pajak tidak ditemukan.');
     return this.prisma.taxReport.update({
       where: { id },
       data: dto,
@@ -109,6 +119,8 @@ export class TaxReportsService {
    * HAPUS LAPORAN PAJAK
    */
   async remove(id: string) {
+    const existing = await this.prisma.taxReport.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundException('Laporan pajak tidak ditemukan.');
     return this.prisma.taxReport.delete({
       where: { id },
     });

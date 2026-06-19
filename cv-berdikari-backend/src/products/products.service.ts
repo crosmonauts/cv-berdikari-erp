@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 @Injectable()
 export class ProductsService {
@@ -15,9 +16,9 @@ export class ProductsService {
         data: {
           sku: createProductDto.sku,
           name: createProductDto.name,
-          defaultClientSku: (createProductDto as any).defaultClientSku || null,
           price: createProductDto.price, // Harga default
           barcode: createProductDto.barcode,
+          categoryId: (createProductDto as any).categoryId || null,
         },
       });
 
@@ -41,7 +42,8 @@ export class ProductsService {
             data: {
               productId: product.id,
               regionId: rp.regionId,
-              price: Number(rp.price), // Harga jual untuk wilayah tersebut
+              price: Number(rp.price),
+              clientSku: rp.clientSku || null,
             },
           });
         }
@@ -68,23 +70,32 @@ export class ProductsService {
   }
 
   // 3. FIND ALL (INCLUDE HARGA PER WILAYAH)
-  async findAll() {
-    const products = await this.prisma.product.findMany({
-      include: {
-        batches: {
-          where: { currentQuantity: { gt: 0 } },
-          orderBy: { receivedAt: 'asc' },
-        },
-        // --- TAMBAHAN: Ambil data harga wilayah saat me-load produk ---
-        regionPrices: {
-          include: {
-            region: true, // Sertakan nama wilayahnya juga
+  async findAll(query: PaginationQueryDto) {
+    const page = query.page ?? 1;
+    const limit = query.limit ?? 20;
+    const skip = (page - 1) * limit;
+    const [products, total] = await Promise.all([
+      this.prisma.product.findMany({
+        skip,
+        take: limit,
+        include: {
+          category: true,
+          batches: {
+            where: { currentQuantity: { gt: 0 } },
+            orderBy: { receivedAt: 'asc' },
+          },
+          // --- TAMBAHAN: Ambil data harga wilayah saat me-load produk ---
+          regionPrices: {
+            include: {
+              region: true, // Sertakan nama wilayahnya juga
+            },
           },
         },
-      },
-    });
+      }),
+      this.prisma.product.count(),
+    ]);
 
-    return products.map((p) => {
+    const data = products.map((p) => {
       const totalStock = p.batches.reduce(
         (sum, b) => sum + b.currentQuantity,
         0,
@@ -98,14 +109,17 @@ export class ProductsService {
         buyPrice: currentBuyPrice,
       };
     });
+
+    return { data, total, page, limit, totalPages: Math.ceil(total / limit) };
   }
 
   async findOne(id: string) {
     const product = await this.prisma.product.findUnique({
       where: { id },
       include: {
+        category: true,
         batches: true,
-        regionPrices: { include: { region: true } }, // --- TAMBAHAN
+        regionPrices: { include: { region: true } },
       },
     });
 
@@ -117,40 +131,65 @@ export class ProductsService {
     };
   }
 
-  // 4. MESIN FIFO (TETAP SAMA)
+  // 4. MESIN FIFO — dipanggil dari luar tanpa tx (auto-wrap transaction)
   async deductStockFIFO(productId: string, quantityToDeduct: number) {
     return this.prisma.$transaction(async (tx) => {
-      let remainingNeed = quantityToDeduct;
-
-      const activeBatches = await tx.stockBatch.findMany({
-        where: { productId: productId, currentQuantity: { gt: 0 } },
-        orderBy: { receivedAt: 'asc' },
-      });
-
-      for (const batch of activeBatches) {
-        if (remainingNeed <= 0) break;
-
-        if (batch.currentQuantity >= remainingNeed) {
-          await tx.stockBatch.update({
-            where: { id: batch.id },
-            data: { currentQuantity: batch.currentQuantity - remainingNeed },
-          });
-          remainingNeed = 0;
-        } else {
-          remainingNeed -= batch.currentQuantity;
-          await tx.stockBatch.update({
-            where: { id: batch.id },
-            data: { currentQuantity: 0 },
-          });
-        }
-      }
-
-      if (remainingNeed > 0) {
-        throw new Error(
-          `Stok gudang tidak mencukupi! Kurang ${remainingNeed} unit.`,
-        );
-      }
+      await this.deductStockFIFOWithTx(tx, productId, quantityToDeduct);
     });
+  }
+
+  // Dipanggil dari dalam transaction orang lain (scanBarcode dll)
+  async deductStockFIFOWithTx(
+    tx: any,
+    productId: string,
+    quantityToDeduct: number,
+  ) {
+    let remainingNeed = quantityToDeduct;
+    const activeBatches = await tx.stockBatch.findMany({
+      where: { productId, currentQuantity: { gt: 0 } },
+      orderBy: { receivedAt: 'asc' },
+    });
+
+    for (const batch of activeBatches) {
+      if (remainingNeed <= 0) break;
+
+      if (batch.currentQuantity >= remainingNeed) {
+        await tx.stockBatch.update({
+          where: { id: batch.id },
+          data: { currentQuantity: batch.currentQuantity - remainingNeed },
+        });
+        remainingNeed = 0;
+      } else {
+        remainingNeed -= batch.currentQuantity;
+        await tx.stockBatch.update({
+          where: { id: batch.id },
+          data: { currentQuantity: 0 },
+        });
+      }
+    }
+
+    if (remainingNeed > 0) {
+      throw new NotFoundException(
+        `Stok gudang tidak mencukupi! Kurang ${remainingNeed} unit.`,
+      );
+    }
+  }
+
+  // Reverse FIFO — credit stock back to latest batch
+  async creditStockFIFOWithTx(tx: any, productId: string, qty: number) {
+    const latestBatch = await tx.stockBatch.findFirst({
+      where: { productId },
+      orderBy: { receivedAt: 'desc' },
+    });
+
+    if (latestBatch) {
+      await tx.stockBatch.update({
+        where: { id: latestBatch.id },
+        data: { currentQuantity: { increment: qty } },
+      });
+    } else {
+      throw new NotFoundException('Tidak ada batch stok untuk dikembalikan!');
+    }
   }
 
   // 5. UPDATE (DENGAN HARGA PER WILAYAH)
@@ -179,6 +218,7 @@ export class ProductsService {
               productId: id,
               regionId: rp.regionId,
               price: Number(rp.price),
+              clientSku: rp.clientSku || null,
             },
           });
         }
@@ -188,7 +228,9 @@ export class ProductsService {
     });
   }
 
-  remove(id: string) {
+  async remove(id: string) {
+    const existing = await this.prisma.product.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundException('Produk tidak ditemukan!');
     return this.prisma.product.delete({
       where: { id },
     });

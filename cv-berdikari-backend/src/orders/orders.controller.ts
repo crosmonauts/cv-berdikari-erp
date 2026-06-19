@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UseInterceptors, UploadedFile, Query } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
@@ -10,6 +10,7 @@ import { extname } from 'path';
 import * as fs from 'fs'; // <-- Tambahan library untuk mengelola folder
 import { OrdersService } from './orders.service';
 import { fileFilter, limits } from '../common/utils/file-upload.util';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('orders')
@@ -51,8 +52,8 @@ export class OrdersController {
 
   @Get()
   @Roles('SUPERADMIN', 'ADMIN', 'GUDANG', 'EKSPEDISI')
-  findAll() {
-    return this.ordersService.findAll();
+  findAll(@Query() query: PaginationQueryDto) {
+    return this.ordersService.findAll(query);
   }
 
   @Get('counts')

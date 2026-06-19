@@ -1,20 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { CreateShipmentDto } from './dto/create-shipment.dto';
+import { UpdateShipmentDto } from './dto/update-shipment.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 @Injectable()
 export class ShipmentsService {
   constructor(private prisma: PrismaService) {}
 
-  async createShipment(createShipmentDto: any) {
-    // 1. Cek apakah PO-nya benar-benar ada
+  async createShipment(createShipmentDto: CreateShipmentDto) {
     const order = await this.prisma.purchaseOrder.findUnique({
       where: { id: createShipmentDto.orderId },
     });
 
     if (!order) throw new NotFoundException('Pesanan (PO) tidak ditemukan');
 
-    // 2. Gunakan UPSERT: Solusi cerdas untuk error "Unique Constraint Violation"
-    // Jika orderId sudah punya shipment, dia akan UPDATE. Jika belum, dia akan CREATE.
     return this.prisma.shipment.upsert({
       where: {
         orderId: createShipmentDto.orderId,
@@ -23,7 +23,6 @@ export class ShipmentsService {
         documentNumber: createShipmentDto.documentNumber,
         shippingCost: createShipmentDto.shippingCost,
         otherFees: createShipmentDto.otherFees,
-        // Update URL bukti resi hanya jika ada file baru yang diunggah
         ...(createShipmentDto.proofUrl && {
           proofUrl: createShipmentDto.proofUrl,
         }),
@@ -39,9 +38,42 @@ export class ShipmentsService {
     });
   }
 
-  findAll() {
-    return this.prisma.shipment.findMany({
-      include: { order: true },
+  async findAll(query: PaginationQueryDto) {
+    const page = query.page ?? 1;
+    const limit = query.limit ?? 20;
+    const skip = (page - 1) * limit;
+    const [data, total] = await Promise.all([
+      this.prisma.shipment.findMany({
+        skip,
+        take: limit,
+        include: { order: true },
+      }),
+      this.prisma.shipment.count(),
+    ]);
+    return { data, total, page, limit, totalPages: Math.ceil(total / limit) };
+  }
+
+  async findOne(id: string) {
+    const shipment = await this.prisma.shipment.findUnique({
+      where: { id },
+      include: { order: { select: { poNumber: true } } },
     });
+    if (!shipment) throw new NotFoundException('Shipment tidak ditemukan!');
+    return shipment;
+  }
+
+  async update(id: string, updateShipmentDto: UpdateShipmentDto) {
+    const existing = await this.prisma.shipment.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundException('Shipment tidak ditemukan!');
+    return this.prisma.shipment.update({
+      where: { id },
+      data: updateShipmentDto,
+    });
+  }
+
+  async remove(id: string) {
+    const existing = await this.prisma.shipment.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundException('Shipment tidak ditemukan!');
+    return this.prisma.shipment.delete({ where: { id } });
   }
 }

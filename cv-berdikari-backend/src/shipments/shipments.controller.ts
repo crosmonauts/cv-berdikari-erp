@@ -9,6 +9,7 @@ import {
   UseGuards,
   UseInterceptors,
   UploadedFile,
+  Query,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
@@ -20,6 +21,7 @@ import { ShipmentsService } from './shipments.service';
 import { fileFilter, limits } from '../common/utils/file-upload.util';
 import { CreateShipmentDto } from './dto/create-shipment.dto';
 import { UpdateShipmentDto } from './dto/update-shipment.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('shipments')
@@ -56,8 +58,8 @@ export class ShipmentsController {
 
   @Get()
   @Roles('SUPERADMIN', 'ADMIN', 'EKSPEDISI')
-  findAll() {
-    return this.shipmentsService.findAll();
+  findAll(@Query() query: PaginationQueryDto) {
+    return this.shipmentsService.findAll(query);
   }
 
   @Get(':id')

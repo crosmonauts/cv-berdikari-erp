@@ -1,6 +1,19 @@
+import { IsString, IsNumber, IsNotEmpty, Min } from 'class-validator';
+
 export class CreateTaxReportDto {
+  @IsString()
+  @IsNotEmpty()
   taxFakturNum: string;
-  dpp: number;       // Dasar Pengenaan Pajak
-  taxAmount: number; // Jumlah Pajak (misal 11% atau 12%)
-  invoiceId: string; // ID Tagihan yang dipajakkan
+
+  @IsNumber()
+  @Min(0)
+  dpp: number;
+
+  @IsNumber()
+  @Min(0)
+  taxAmount: number;
+
+  @IsString()
+  @IsNotEmpty()
+  invoiceId: string;
 }
