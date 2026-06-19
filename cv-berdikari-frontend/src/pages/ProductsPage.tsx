@@ -11,6 +11,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
   Dialog,
   DialogContent,
   DialogHeader,
@@ -29,6 +36,7 @@ import {
   AlertTriangle,
   RefreshCw,
   Loader2,
+  ArrowUpDown,
 } from 'lucide-react';
 import {
   getProducts,
@@ -56,6 +64,7 @@ export default function ProductsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [search, setSearch] = useState('');
+  const [sortKey, setSortKey] = useState('name-asc');
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -249,11 +258,34 @@ export default function ProductsPage() {
     }
   };
 
-  const filteredProducts = products.filter(
-    (p) =>
-      p.sku.toLowerCase().includes(search.toLowerCase()) ||
-      p.name.toLowerCase().includes(search.toLowerCase()),
-  );
+  const sortPresets = [
+    { value: 'name-asc', label: 'Nama A-Z' },
+    { value: 'name-desc', label: 'Nama Z-A' },
+    { value: 'sku-asc', label: 'SKU A-Z' },
+    { value: 'sku-desc', label: 'SKU Z-A' },
+    { value: 'price-asc', label: 'Harga Terendah' },
+    { value: 'price-desc', label: 'Harga Tertinggi' },
+    { value: 'stock-asc', label: 'Stok Tersedikit' },
+    { value: 'stock-desc', label: 'Stok Terbanyak' },
+  ];
+
+  const filteredProducts = products
+    .filter(
+      (p) =>
+        p.sku.toLowerCase().includes(search.toLowerCase()) ||
+        p.name.toLowerCase().includes(search.toLowerCase()),
+    )
+    .sort((a, b) => {
+      const [field, order] = sortKey.split('-') as ['name' | 'sku' | 'price' | 'stock', 'asc' | 'desc'];
+      const multiplier = order === 'asc' ? 1 : -1;
+      if (field === 'name' || field === 'sku') {
+        return multiplier * a[field].localeCompare(b[field]);
+      }
+      if (field === 'price' || field === 'stock') {
+        return multiplier * ((a[field] || 0) - (b[field] || 0));
+      }
+      return 0;
+    });
 
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const paginatedProducts = filteredProducts.slice(
@@ -311,6 +343,19 @@ export default function ProductsPage() {
             className="w-48 h-9 pl-9 rounded-xl bg-white ring-1 ring-border focus:ring-2 focus:ring-brand-600 transition-all text-sm"
           />
         </div>
+        <Select value={sortKey} onValueChange={setSortKey}>
+          <SelectTrigger className="w-[160px] h-9 bg-white ring-1 ring-border rounded-xl text-xs font-bold shadow-none focus:ring-2 focus:ring-brand-600">
+            <ArrowUpDown className="h-3.5 w-3.5 mr-2 text-brand-800" />
+            <SelectValue placeholder="Urutkan" />
+          </SelectTrigger>
+          <SelectContent className="bg-white">
+            {sortPresets.map((opt) => (
+              <SelectItem key={opt.value} value={opt.value} className="text-xs font-medium">
+                {opt.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         {canManage && (
           <Button
             onClick={handleOpenAdd}

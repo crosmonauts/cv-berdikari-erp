@@ -117,17 +117,23 @@ export default function ShipmentsPage() {
   const fetchData = async () => {
     setIsError(false);
     try {
-      const [ord, br] = await Promise.all([getOrders(), getBranches()]);
+      const ord = await getOrders();
       setOrders(
         ord.filter((o) => o.status === 'DIKIRIM' || o.status === 'SELESAI'),
       );
-      setBranches(br);
     } catch (e) {
       console.error(e);
       setIsError(true);
-    } finally {
       setIsLoading(false);
+      return;
     }
+    try {
+      const br = await getBranches();
+      setBranches(br);
+    } catch {
+      setBranches([]);
+    }
+    setIsLoading(false);
   };
 
   const filteredAndSortedOrders = orders

@@ -33,6 +33,8 @@ import {
   RefreshCw,
   Shield,
   Loader2,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import {
   getUsers,
@@ -63,6 +65,7 @@ export default function UsersPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [pendingDelete, setPendingDelete] = useState<string | null>(null);
@@ -123,6 +126,7 @@ export default function UsersPage() {
     try {
       if (editingId) {
         const payload: any = { name: formData.name, email: formData.email, role: formData.role };
+        if (formData.password) payload.password = formData.password;
         await updateUser(editingId, payload);
         toast.success('Data pengguna berhasil diperbarui');
       } else {
@@ -296,15 +300,22 @@ export default function UsersPage() {
               <Input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required className="h-10 bg-muted border-none ring-1 ring-border focus:ring-2 focus:ring-brand-800" />
             </div>
-            {!editingId && (
-              <div className="space-y-1">
-                <Label className="text-xs font-semibold uppercase text-muted-foreground">Password</Label>
-                <Input type="password" value={formData.password}
+            <div className="space-y-1">
+              <Label className="text-xs font-semibold uppercase text-muted-foreground">
+                {editingId ? 'Password Baru (kosongi jika tidak diubah)' : 'Password'}
+              </Label>
+              <div className="relative">
+                <Input type={showPassword ? 'text' : 'password'} value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  required minLength={6}
-                  className="h-10 bg-muted border-none ring-1 ring-border focus:ring-2 focus:ring-brand-800" />
+                  required={!editingId} minLength={6}
+                  placeholder={editingId ? 'Kosongi jika tidak diubah' : ''}
+                  className="h-10 bg-muted border-none ring-1 ring-border focus:ring-2 focus:ring-brand-800 pr-10" />
+                <button type="button" onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
               </div>
-            )}
+            </div>
             <div className="space-y-1">
               <Label className="text-xs font-semibold uppercase text-muted-foreground">Role / Hak Akses</Label>
               <Select value={formData.role} onValueChange={(val) => setFormData({ ...formData, role: val })} required>

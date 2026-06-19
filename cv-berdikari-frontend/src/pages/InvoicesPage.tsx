@@ -143,20 +143,25 @@ export default function InvoicesPage() {
   const fetchData = async () => {
     setIsError(false);
     try {
-      const [inv, ord, br] = await Promise.all([
+      const [inv, ord] = await Promise.all([
         getInvoices(),
         getOrders(),
-        getBranches(),
       ]);
       setInvoices(inv);
       setOrders(ord);
-      setBranches(br);
     } catch (e) {
       console.error(e);
       setIsError(true);
-    } finally {
       setIsLoading(false);
+      return;
     }
+    try {
+      const br = await getBranches();
+      setBranches(br);
+    } catch {
+      setBranches([]);
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {

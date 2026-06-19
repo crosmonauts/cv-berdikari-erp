@@ -46,17 +46,6 @@ const allNav: (NavItem | NavGroup)[] = [
 function filterNavByRole(nav: (NavItem | NavGroup)[], role: string): (NavItem | NavGroup)[] {
   return nav.filter((item) => {
     if ('children' in item) {
-      if (item.name === 'Master Data') {
-        const allowedChildren: Record<string, string[]> = {
-          SUPERADMIN: ['Produk', 'Cabang', 'Wilayah', 'Kategori', 'Pengguna'],
-          ADMIN: ['Produk', 'Cabang', 'Wilayah', 'Kategori'],
-          GUDANG: ['Produk'],
-          EKSPEDISI: [],
-        };
-        const visible = (allowedChildren[role] || []);
-        item.children = item.children.filter((c) => visible.includes(c.name));
-        return item.children.length > 0;
-      }
       return true;
     }
     const flatItem = item as NavItem;

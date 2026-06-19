@@ -126,20 +126,25 @@ export default function OrdersPage() {
   const fetchData = async () => {
     setIsError(false);
     try {
-      const [o, b, p] = await Promise.all([
+      const [o, p] = await Promise.all([
         getOrders(),
-        getBranches(),
         getProducts(),
       ]);
       setOrders(o);
-      setBranches(b);
       setProducts(p);
     } catch (error) {
       console.error(error);
       setIsError(true);
-    } finally {
       setIsLoading(false);
+      return;
     }
+    try {
+      const b = await getBranches();
+      setBranches(b);
+    } catch {
+      setBranches([]);
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -576,58 +581,81 @@ export default function OrdersPage() {
                         </TableCell>
 
                         <TableCell className="py-4 text-center">
-                          <Select
-                            value={paymentStatus}
-                            onValueChange={(val) =>
-                              handleUpdatePaymentStatus(order, val)
-                            }
-                          >
-                            <SelectTrigger
-                              className={`w-[130px] mx-auto h-8 text-[10px] font-bold uppercase tracking-wider border-none shadow-sm ring-1 transition-all focus:ring-2 ${
+                          {canManage ? (
+                            <Select
+                              value={paymentStatus}
+                              onValueChange={(val) =>
+                                handleUpdatePaymentStatus(order, val)
+                              }
+                            >
+                              <SelectTrigger
+                                className={`w-[130px] mx-auto h-8 text-[10px] font-bold uppercase tracking-wider border-none shadow-sm ring-1 transition-all focus:ring-2 ${
+                                  paymentStatus === 'PAID'
+                                    ? 'bg-emerald-50 text-emerald-700 ring-emerald-200'
+                                    : paymentStatus === 'PARTIAL'
+                                      ? 'bg-brand-50 text-brand-900 ring-brand-200'
+                                      : 'bg-muted text-muted-foreground ring-border'
+                                }`}
+                              >
+                                <div className="flex items-center gap-1.5">
+                                  {paymentStatus === 'PAID' && (
+                                    <CheckCircle2 className="h-3 w-3" />
+                                  )}
+                                  {paymentStatus === 'PARTIAL' && (
+                                    <Receipt className="h-3 w-3" />
+                                  )}
+                                  {paymentStatus === 'UNPAID' && (
+                                    <Clock className="h-3 w-3" />
+                                  )}
+                                  <SelectValue placeholder="Status" />
+                                </div>
+                              </SelectTrigger>
+                              <SelectContent
+                                position="popper"
+                                className="bg-white"
+                              >
+                                <SelectItem
+                                  value="UNPAID"
+                                  className="text-[10px] font-bold text-muted-foreground"
+                                >
+                                  UNPAID
+                                </SelectItem>
+                                <SelectItem
+                                  value="PARTIAL"
+                                  className="text-[10px] font-bold text-brand-800"
+                                >
+                                  PARTIAL
+                                </SelectItem>
+                                <SelectItem
+                                  value="PAID"
+                                  className="text-[10px] font-bold text-emerald-600"
+                                >
+                                  PAID
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                          ) : (
+                            <span
+                              className={`inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full ${
                                 paymentStatus === 'PAID'
-                                  ? 'bg-emerald-50 text-emerald-700 ring-emerald-200'
+                                  ? 'bg-emerald-50 text-emerald-700'
                                   : paymentStatus === 'PARTIAL'
-                                    ? 'bg-brand-50 text-brand-900 ring-brand-200'
-                                    : 'bg-muted text-muted-foreground ring-border'
+                                    ? 'bg-brand-50 text-brand-900'
+                                    : 'bg-muted text-muted-foreground'
                               }`}
                             >
-                              <div className="flex items-center gap-1.5">
-                                {paymentStatus === 'PAID' && (
-                                  <CheckCircle2 className="h-3 w-3" />
-                                )}
-                                {paymentStatus === 'PARTIAL' && (
-                                  <Receipt className="h-3 w-3" />
-                                )}
-                                {paymentStatus === 'UNPAID' && (
-                                  <Clock className="h-3 w-3" />
-                                )}
-                                <SelectValue placeholder="Status" />
-                              </div>
-                            </SelectTrigger>
-                            <SelectContent
-                              position="popper"
-                              className="bg-white"
-                            >
-                              <SelectItem
-                                value="UNPAID"
-                                className="text-[10px] font-bold text-muted-foreground"
-                              >
-                                UNPAID
-                              </SelectItem>
-                              <SelectItem
-                                value="PARTIAL"
-                                className="text-[10px] font-bold text-brand-800"
-                              >
-                                PARTIAL
-                              </SelectItem>
-                              <SelectItem
-                                value="PAID"
-                                className="text-[10px] font-bold text-emerald-600"
-                              >
-                                PAID
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
+                              {paymentStatus === 'PAID' && (
+                                <CheckCircle2 className="h-3 w-3" />
+                              )}
+                              {paymentStatus === 'PARTIAL' && (
+                                <Receipt className="h-3 w-3" />
+                              )}
+                              {paymentStatus === 'UNPAID' && (
+                                <Clock className="h-3 w-3" />
+                              )}
+                              {paymentStatus}
+                            </span>
+                          )}
                         </TableCell>
 
                         <TableCell className="pr-6 py-4 text-right">
