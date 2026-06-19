@@ -34,6 +34,9 @@ import {
   FileDown,
   ChevronLeft,
   ChevronRight,
+  AlertTriangle,
+  RefreshCw,
+  Loader2,
 } from 'lucide-react';
 import { getInvoices, createInvoice } from '@/modules/invoices/api';
 import { getOrders } from '@/modules/orders/api';
@@ -41,6 +44,11 @@ import { getBranches } from '@/modules/branches/api';
 import { getOrderItems } from '@/modules/order-items/api';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { toast } from 'sonner';
+import { PageHeader } from '@/components/shared/page-header';
+import { PaginationFooter } from '@/components/shared/pagination-footer';
+import { Skeleton } from '@/components/shared/skeleton';
+import { useUserRole } from '@/hooks/useUserRole';
 
 // ASSETS
 import logoBerdikari from '@/assets/logo.png';
@@ -71,37 +79,40 @@ function terbilang(nominal: number): string {
     'Sepuluh',
     'Sebelas',
   ];
+  const n = Math.round(nominal);
+  if (n === 0) return ' Nol';
   let temp = '';
-  if (nominal < 12) temp = ' ' + bilangan[Math.floor(nominal)];
-  else if (nominal < 20) temp = terbilang(nominal - 10) + ' Belas';
-  else if (nominal < 100)
-    temp = terbilang(nominal / 10) + ' Puluh' + terbilang(nominal % 10);
-  else if (nominal < 200) temp = ' Seratus' + terbilang(nominal - 100);
-  else if (nominal < 1000)
-    temp = terbilang(nominal / 100) + ' Ratus' + terbilang(nominal % 100);
-  else if (nominal < 2000) temp = ' Seribu' + terbilang(nominal - 1000);
-  else if (nominal < 1000000)
-    temp = terbilang(nominal / 1000) + ' Ribu' + terbilang(nominal % 1000);
-  else if (nominal < 1000000000)
+  if (n < 12) temp = ' ' + bilangan[n];
+  else if (n < 20) temp = terbilang(n - 10) + ' Belas';
+  else if (n < 100)
+    temp = terbilang(Math.floor(n / 10)) + ' Puluh' + terbilang(n % 10);
+  else if (n < 200) temp = ' Seratus' + terbilang(n - 100);
+  else if (n < 1000)
+    temp = terbilang(Math.floor(n / 100)) + ' Ratus' + terbilang(n % 100);
+  else if (n < 2000) temp = ' Seribu' + terbilang(n - 1000);
+  else if (n < 1000000)
+    temp = terbilang(Math.floor(n / 1000)) + ' Ribu' + terbilang(n % 1000);
+  else if (n < 1000000000)
     temp =
-      terbilang(nominal / 1000000) + ' Juta' + terbilang(nominal % 1000000);
+      terbilang(Math.floor(n / 1000000)) + ' Juta' + terbilang(n % 1000000);
   return temp;
 }
 
 export default function InvoicesPage() {
+  const { canManage } = useUserRole();
   const [invoices, setInvoices] = useState<any[]>([]);
   const [orders, setOrders] = useState<any[]>([]);
   const [branches, setBranches] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-
-  const currentActualYear = new Date().getFullYear();
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
-  const [selectedYear, setSelectedYear] = useState(currentActualYear);
-  const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
-
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [sortOrder, setSortOrder] = useState('desc');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -124,6 +135,7 @@ export default function InvoicesPage() {
     { val: 11, label: 'November' },
     { val: 12, label: 'Desember' },
   ];
+  const currentActualYear = new Date().getFullYear();
   const years = [
     currentActualYear,
     currentActualYear - 1,
@@ -131,6 +143,7 @@ export default function InvoicesPage() {
   ];
 
   const fetchData = async () => {
+    setIsError(false);
     try {
       const [inv, ord, br] = await Promise.all([
         getInvoices(),
@@ -142,6 +155,7 @@ export default function InvoicesPage() {
       setBranches(br);
     } catch (e) {
       console.error(e);
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }
@@ -213,16 +227,20 @@ export default function InvoicesPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
       await createInvoice({
         ...formData,
         dueDate: new Date(formData.dueDate).toISOString(),
       });
+      toast.success('Tagihan baru berhasil dibuat');
       setIsOpen(false);
       fetchData();
       setFormData({ invoiceNumber: '', dueDate: '', orderId: '' });
     } catch (e) {
-      alert('Gagal! Mungkin Nomor Invoice duplikat.');
+      toast.error('Gagal! Mungkin Nomor Invoice duplikat.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -399,7 +417,7 @@ export default function InvoicesPage() {
       doc.text('( Dinny Elvandari Prinawati )', 145, finalY + 75);
       doc.save(`Invoice_${invoice.invoiceNumber}.pdf`);
     } catch (e) {
-      alert('Error Cetak Invoice');
+      toast.error('Error Cetak Invoice');
     }
   };
 
@@ -524,101 +542,116 @@ export default function InvoicesPage() {
 
       doc.save(`Kwitansi_${invoice.invoiceNumber}.pdf`);
     } catch (e) {
-      alert('Error Cetak Kwitansi');
+      toast.error('Error Cetak Kwitansi');
     }
   };
 
-  if (isLoading)
+  if (isError) {
     return (
-      <div className="p-10 text-center animate-pulse font-bold text-slate-400">
-        Sinkronisasi Data...
+      <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
+        <div className="h-14 w-14 rounded-2xl bg-destructive/10 flex items-center justify-center mb-4">
+          <AlertTriangle className="h-7 w-7 text-destructive" />
+        </div>
+        <h2 className="text-lg font-semibold text-foreground mb-2">Gagal Memuat Tagihan</h2>
+        <p className="text-sm text-muted-foreground max-w-md mb-6">
+          Tidak dapat memuat data tagihan. Periksa koneksi server atau coba lagi.
+        </p>
+        <Button onClick={fetchData} className="gap-2">
+          <RefreshCw className="h-4 w-4" /> Coba Lagi
+        </Button>
       </div>
     );
+  }
 
-  return (
-    <div className="min-h-screen bg-slate-300 px-2 pt-1 pb-10 space-y-4 font-sans">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-indigo-600 shadow-sm ring-1 ring-slate-200">
-            <Receipt className="h-5 w-5" />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
-              Daftar Tagihan
-            </h1>
-            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
-              Invoice History
-            </p>
+  if (isLoading) {
+    return (
+      <div className="min-h-full space-y-6">
+        <div className="h-10 w-64 rounded-lg bg-muted/70 animate-pulse" />
+        <div className="h-12 rounded-xl bg-muted/70 animate-pulse" />
+        <div className="bg-white rounded-xl shadow-sm ring-1 ring-border overflow-hidden">
+          <div className="p-6 space-y-4">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-4">
+                <Skeleton className="h-4 w-28" />
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-8 w-20" />
+              </div>
+            ))}
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            onClick={() => setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')}
-            className="h-11 bg-white border-none ring-1 ring-slate-200 shadow-sm text-xs font-bold text-slate-600 px-4 rounded-xl hover:bg-slate-50 transition-colors"
-          >
-            <ArrowUpDown className="h-3.5 w-3.5 mr-2 text-indigo-600" />{' '}
-            {sortOrder === 'desc' ? 'TERBARU' : 'TERLAMA'}
-          </Button>
-          <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl shadow-sm ring-1 ring-slate-200 h-11">
-            <CalendarDays className="h-4 w-4 text-slate-400 ml-2" />
-            <Select
-              value={selectedMonth.toString()}
-              onValueChange={(v) => setSelectedMonth(Number(v))}
-            >
-              <SelectTrigger className="w-[130px] h-8 border-none font-bold text-xs shadow-none focus:ring-0">
-                <SelectValue placeholder="Bulan" />
-              </SelectTrigger>
-              <SelectContent className="bg-white">
-                {months.map((m) => (
-                  <SelectItem key={m.val} value={m.val.toString()}>
-                    {m.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select
-              value={selectedYear.toString()}
-              onValueChange={(v) => setSelectedYear(Number(v))}
-            >
-              <SelectTrigger className="w-[90px] h-8 border-none font-bold text-xs shadow-none focus:ring-0">
-                <SelectValue placeholder="Tahun" />
-              </SelectTrigger>
-              <SelectContent className="bg-white">
-                {years.map((y) => (
-                  <SelectItem key={y} value={y.toString()}>
-                    {y}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-full space-y-6">
+      <PageHeader icon={Receipt} title="Daftar Tagihan" subtitle="Invoice History">
+        <Button
+          variant="outline"
+          onClick={() => setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')}
+          className="h-9 bg-white ring-1 ring-border text-xs font-semibold text-muted-foreground px-4 rounded-xl hover:bg-muted"
+        >
+          <ArrowUpDown className="h-3.5 w-3.5 mr-2 text-brand-800" />
+          {sortOrder === 'desc' ? 'TERBARU' : 'TERLAMA'}
+        </Button>
+        <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl ring-1 ring-border h-9">
+          <CalendarDays className="h-4 w-4 text-muted-foreground ml-1" />
+          <Select value={selectedMonth.toString()} onValueChange={(v) => setSelectedMonth(Number(v))}>
+            <SelectTrigger className="w-[110px] h-7 border-none font-semibold text-xs shadow-none focus:ring-0">
+              <SelectValue placeholder="Bulan" />
+            </SelectTrigger>
+            <SelectContent className="bg-white">
+              {months.map((m) => (
+                <SelectItem key={m.val} value={m.val.toString()}>
+                  {m.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={selectedYear.toString()} onValueChange={(v) => setSelectedYear(Number(v))}>
+            <SelectTrigger className="w-[80px] h-7 border-none font-semibold text-xs shadow-none focus:ring-0">
+              <SelectValue placeholder="Tahun" />
+            </SelectTrigger>
+            <SelectContent className="bg-white">
+              {years.map((y) => (
+                <SelectItem key={y} value={y.toString()}>
+                  {y}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        {canManage && (
           <Button
             onClick={handleOpenAdd}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl h-11 px-5 shadow-md transition-all active:scale-95"
+            className="h-9 bg-brand-800 hover:bg-brand-900 text-white font-semibold text-xs rounded-xl px-5 shadow-md transition-all active:scale-95"
           >
-            <Plus className="mr-2 h-4 w-4" /> BUAT TAGIHAN
+            <Plus className="mr-1.5 h-3.5 w-3.5" /> Buat Tagihan
           </Button>
+        )}
 
-          <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent className="bg-white rounded-xl border-none shadow-2xl">
               <DialogHeader>
                 <DialogTitle className="font-bold">Invoice Baru</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-1">
-                  <Label className="text-[10px] font-bold uppercase text-slate-400">
+                  <Label className="text-xs font-semibold uppercase text-muted-foreground">
                     No. Tagihan (Auto-Generate)
                   </Label>
                   <Input
                     value={formData.invoiceNumber}
                     readOnly
-                    className="h-9 font-bold bg-slate-100 text-slate-600 uppercase border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600 cursor-not-allowed"
+                    className="h-9 font-bold bg-muted text-muted-foreground uppercase border-none ring-1 ring-border focus:ring-2 focus:ring-brand-800 cursor-not-allowed"
                     title="Nomor digenerate otomatis berdasarkan bulan dan tahun saat ini"
                   />
                 </div>
                 <div className="space-y-1">
-                  <Label className="text-[10px] font-bold uppercase text-slate-400">
+                  <Label className="text-xs font-semibold uppercase text-muted-foreground">
                     Pilih PO
                   </Label>
                   <Select
@@ -628,7 +661,7 @@ export default function InvoicesPage() {
                     }
                     required
                   >
-                    <SelectTrigger className="h-9 bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600 shadow-none">
+                    <SelectTrigger className="h-9 bg-muted border-none ring-1 ring-border focus:ring-2 focus:ring-brand-800 shadow-none">
                       <SelectValue placeholder="Pilih PO..." />
                     </SelectTrigger>
                     <SelectContent className="bg-white">
@@ -641,7 +674,7 @@ export default function InvoicesPage() {
                   </Select>
                 </div>
                 <div className="space-y-1">
-                  <Label className="text-[10px] font-bold uppercase text-slate-400">
+                  <Label className="text-xs font-semibold uppercase text-muted-foreground">
                     Jatuh Tempo
                   </Label>
                   <Input
@@ -651,53 +684,53 @@ export default function InvoicesPage() {
                       setFormData({ ...formData, dueDate: e.target.value })
                     }
                     required
-                    className="h-9 font-semibold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
+                    className="h-9 font-semibold bg-muted border-none ring-1 ring-border focus:ring-2 focus:ring-brand-800"
                   />
                 </div>
                 <Button
                   type="submit"
-                  className="w-full h-10 bg-indigo-600 hover:bg-indigo-700 text-white font-bold uppercase tracking-widest text-xs mt-2 transition-all active:scale-95 shadow-md"
+                  disabled={isSubmitting}
+                  className="w-full h-10 bg-brand-800 hover:bg-brand-900 text-white font-bold uppercase tracking-widest text-xs mt-2 transition-all active:scale-95 shadow-md"
                 >
-                  SIMPAN
+                  {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'SIMPAN'}
                 </Button>
               </form>
             </DialogContent>
           </Dialog>
-        </div>
-      </div>
+      </PageHeader>
 
-      <div className="max-w-6xl mx-auto space-y-4">
-        <div className="relative group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors" />
+      <div className="space-y-6">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Cari berdasarkan No. Tagihan atau Nomor PO..."
-            className="pl-11 h-12 bg-white border-none ring-1 ring-slate-200 rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-600 transition-all font-medium text-sm"
+            placeholder="Cari No. Tagihan atau PO..."
+            className="pl-10 h-11 bg-white ring-1 ring-border rounded-xl focus:ring-2 focus:ring-brand-800 transition-all text-sm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden ring-1 ring-slate-200 flex flex-col">
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden ring-1 ring-border flex flex-col">
           <div className="flex-1 overflow-x-auto">
             <Table>
-              <TableHeader className="bg-slate-50">
-                <TableRow className="border-b border-slate-100">
-                  <TableHead className="pl-6 py-4 text-[10px] font-bold uppercase text-slate-400">
+              <TableHeader className="bg-muted">
+                <TableRow className="border-b border-border">
+                  <TableHead className="pl-6 py-4 text-xs font-semibold uppercase text-muted-foreground">
                     No. Tagihan
                   </TableHead>
-                  <TableHead className="py-4 text-[10px] font-bold uppercase text-slate-400">
+                  <TableHead className="py-4 text-xs font-semibold uppercase text-muted-foreground">
                     Tgl Terbit
                   </TableHead>
-                  <TableHead className="py-4 text-[10px] font-bold uppercase text-slate-400">
+                  <TableHead className="py-4 text-xs font-semibold uppercase text-muted-foreground">
                     Ref. PO
                   </TableHead>
-                  <TableHead className="text-center py-4 text-[10px] font-bold uppercase text-slate-400">
+                  <TableHead className="text-center py-4 text-xs font-semibold uppercase text-muted-foreground">
                     Jatuh Tempo
                   </TableHead>
-                  <TableHead className="text-right py-4 text-[10px] font-bold uppercase text-slate-400">
+                  <TableHead className="text-right py-4 text-xs font-semibold uppercase text-muted-foreground">
                     Total
                   </TableHead>
-                  <TableHead className="pr-6 text-right py-4 text-[10px] font-bold uppercase text-slate-400">
+                  <TableHead className="pr-6 text-right py-4 text-xs font-semibold uppercase text-muted-foreground">
                     Aksi
                   </TableHead>
                 </TableRow>
@@ -707,8 +740,8 @@ export default function InvoicesPage() {
                   <TableRow>
                     <TableCell colSpan={6} className="py-24 text-center">
                       <div className="flex flex-col items-center gap-2 opacity-40">
-                        <FileText className="h-10 w-10 text-slate-400" />
-                        <p className="text-xs font-bold uppercase italic text-slate-500">
+                        <FileText className="h-10 w-10 text-muted-foreground" />
+                        <p className="text-xs font-bold uppercase italic text-muted-foreground">
                           Tidak ada tagihan ditemukan.
                         </p>
                       </div>
@@ -727,19 +760,19 @@ export default function InvoicesPage() {
                     return (
                       <TableRow
                         key={inv.id}
-                        className="hover:bg-slate-50/50 border-b border-slate-50 last:border-none transition-colors"
+                        className="hover:bg-muted/50 border-b border-border/50 last:border-none transition-colors"
                       >
-                        <TableCell className="pl-6 py-4 font-black text-indigo-600 uppercase tracking-tight">
+                        <TableCell className="pl-6 py-4 font-bold text-brand-800 uppercase tracking-tight">
                           {inv.invoiceNumber}
                         </TableCell>
-                        <TableCell className="py-4 font-bold text-slate-600 text-xs">
+                        <TableCell className="py-4 font-bold text-muted-foreground text-xs">
                           {issuedDate}
                         </TableCell>
-                        <TableCell className="py-4 font-bold text-slate-800 text-xs uppercase">
+                        <TableCell className="py-4 font-bold text-foreground text-xs uppercase">
                           {relOrder?.poNumber || '-'}
                         </TableCell>
                         <TableCell className="text-center py-4">
-                          <span className="px-2 py-1 bg-amber-50 text-amber-700 ring-1 ring-amber-100 rounded-md text-[9px] font-bold whitespace-nowrap">
+                          <span className="px-2 py-1 bg-amber-50 text-amber-700 ring-1 ring-amber-100 rounded-md text-[10px] font-bold whitespace-nowrap">
                             <Calendar className="inline h-3 w-3 mr-1" />{' '}
                             {new Date(inv.dueDate).toLocaleDateString('id-ID', {
                               day: 'numeric',
@@ -748,7 +781,7 @@ export default function InvoicesPage() {
                             })}
                           </span>
                         </TableCell>
-                        <TableCell className="text-right py-4 font-black text-slate-900 text-xs">
+                        <TableCell className="text-right py-4 font-bold text-foreground text-xs">
                           Rp{' '}
                           {relOrder?.totalAmount.toLocaleString('id-ID') || 0}
                         </TableCell>
@@ -762,7 +795,7 @@ export default function InvoicesPage() {
                                   onClick={() =>
                                     handlePrintInvoice(inv, relOrder)
                                   }
-                                  className="h-8 w-8 text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                                  className="h-8 w-8 text-brand-800 hover:bg-brand-50 rounded-lg"
                                   title="Download Invoice PDF"
                                 >
                                   <FileDown className="h-4 w-4" />
@@ -790,44 +823,13 @@ export default function InvoicesPage() {
             </Table>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 bg-slate-50/50 border-t border-slate-100 gap-4">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-3">
-              {totalPages > 0 ? (
-                <span>
-                  Halaman {currentPage} dari {totalPages}
-                </span>
-              ) : (
-                <span>0 Data</span>
-              )}
-              <span className="font-black text-indigo-400">
-                | TOTAL {filteredAndSortedInvoices.length} ITEM
-              </span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                disabled={currentPage <= 1}
-                className="h-8 px-3 text-[10px] font-bold uppercase text-slate-600 rounded-lg border-none shadow-sm ring-1 ring-slate-200 hover:bg-white transition-colors disabled:opacity-50"
-              >
-                <ChevronLeft className="h-3.5 w-3.5 mr-1" /> SEBELUMNYA
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() =>
-                  setCurrentPage((p) =>
-                    Math.min(Math.max(1, totalPages), p + 1),
-                  )
-                }
-                disabled={currentPage >= totalPages || totalPages === 0}
-                className="h-8 px-3 text-[10px] font-bold uppercase text-slate-600 rounded-lg border-none shadow-sm ring-1 ring-slate-200 hover:bg-white transition-colors disabled:opacity-50"
-              >
-                SELANJUTNYA <ChevronRight className="h-3.5 w-3.5 ml-1" />
-              </Button>
-            </div>
-          </div>
+          <PaginationFooter
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={filteredAndSortedInvoices.length}
+            onPageChange={setCurrentPage}
+            label="TAGIHAN"
+          />
         </div>
       </div>
     </div>

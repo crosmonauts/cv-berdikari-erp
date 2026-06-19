@@ -34,6 +34,7 @@ import {
   ChevronRight,
   AlertTriangle,
   RefreshCw,
+  Loader2,
 } from 'lucide-react';
 import { getOrders } from '@/modules/orders/api';
 import { getBranches } from '@/modules/branches/api';
@@ -73,6 +74,8 @@ export default function ShipmentsPage() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [isAwbOpen, setIsAwbOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
@@ -166,6 +169,7 @@ export default function ShipmentsPage() {
   const handleSaveAwb = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedOrder) return;
+    setIsSubmitting(true);
 
     try {
       const formData = new FormData();
@@ -186,6 +190,8 @@ export default function ShipmentsPage() {
       fetchData();
     } catch (error: any) {
       toast.error(`Gagal! Info Backend: ${error.response?.data?.message}`);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -600,9 +606,10 @@ export default function ShipmentsPage() {
               </div>
               <Button
                 type="submit"
+                disabled={isSubmitting}
                 className="w-full bg-foreground text-white h-10 font-bold uppercase tracking-wide text-xs mt-4 hover:bg-foreground/90 transition-all active:scale-95 border-none shadow-sm"
               >
-                SIMPAN PERUBAHAN
+                {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'SIMPAN PERUBAHAN'}
               </Button>
             </form>
           </div>
