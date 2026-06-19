@@ -56,7 +56,7 @@ function getStatusColor(status: string): string {
   }
 }
 
-function getPaymentColor(status: string): string {
+function getPaymentColor(status: string | undefined): string {
   switch (status) {
     case 'PAID': return 'bg-emerald-50 text-emerald-700 ring-emerald-200';
     case 'PARTIAL': return 'bg-brand-50 text-brand-900 ring-brand-200';

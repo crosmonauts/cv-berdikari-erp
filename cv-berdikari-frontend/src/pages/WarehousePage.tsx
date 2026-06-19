@@ -54,8 +54,7 @@ export default function WarehousePage() {
   const [scanQty, setScanQty] = useState<number>(1);
   const [isScanningStatus, setIsScanningStatus] = useState(false);
   const [isReverting, setIsReverting] = useState(false);
-  const [lastScannedItemId, setLastScannedItemId] = useState<number | null>(null);
-  const [highlightedItemId, setHighlightedItemId] = useState<number | null>(null);
+  const [highlightedItemId, setHighlightedItemId] = useState<string | null>(null);
   const [isCompleteConfirmOpen, setIsCompleteConfirmOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -126,7 +125,6 @@ export default function WarehousePage() {
       const productName = result?.product?.name || 'Barang';
       toast.success(`${productName} — berhasil di-scan (${qtyToProcess})`);
       const scannedId = result?.id ?? null;
-      setLastScannedItemId(scannedId);
       setHighlightedItemId(scannedId);
       setTimeout(() => setHighlightedItemId(null), 2000);
       await fetchOrderItems(selectedOrder.id);

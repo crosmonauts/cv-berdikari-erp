@@ -50,7 +50,7 @@ export class ErrorBoundary extends Component<Props, State> {
               Coba Lagi
             </Button>
           </div>
-          {process.env.NODE_ENV === 'development' && this.state.error && (
+          {import.meta.env.DEV && this.state.error && (
             <pre className="mt-6 p-4 bg-muted rounded-lg text-xs text-left max-w-xl overflow-auto text-muted-foreground">
               {this.state.error.message}
               {this.state.error.stack}
