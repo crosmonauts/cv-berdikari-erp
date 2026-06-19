@@ -4,6 +4,7 @@ import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorator';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { UpdateStatusDto } from './dto/update-status.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
@@ -72,9 +73,9 @@ export class OrdersController {
   @Roles('SUPERADMIN', 'ADMIN', 'GUDANG')
   updateStatus(
     @Param('id') id: string,
-    @Body() body: { status: string },
+    @Body() dto: UpdateStatusDto,
   ) {
-    return this.ordersService.updateStatus(id, body.status);
+    return this.ordersService.updateStatus(id, dto.status);
   }
 
   @Patch(':id')

@@ -5,6 +5,7 @@ import { Roles } from '../auth/roles.decorator';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { RestockDto } from './dto/restock.dto';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -22,8 +23,8 @@ export class ProductsController {
   // 2. Restock (Tambah Kloter Baru untuk FIFO)
   @Post(':id/restock')
   @Roles('SUPERADMIN', 'ADMIN')
-  restock(@Param('id') id: string, @Body() body: { quantity: number, purchasePrice: number }) {
-    return this.productsService.restock(id, body);
+  restock(@Param('id') id: string, @Body() dto: RestockDto) {
+    return this.productsService.restock(id, dto);
   }
 
   // 3. Ambil Semua Produk
