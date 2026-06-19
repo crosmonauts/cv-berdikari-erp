@@ -1,10 +1,15 @@
 import type { Order } from "../orders/types";
 
 export interface DashboardStats {
-  totalProducts: number;
-  totalOrders: number;
-  totalBranches: number;
-  totalRevenue: number;
-  // Meminjam tipe data Order yang sudah kita buat sebelumnya
-  recentOrders: Order[]; 
+  totalProfit: number;
+  totalNetRevenue: number;
+  totalCOGS: number;
+  totalShippingCosts: number;
+  totalInventoryValue: number;
+  totalItemsInStock: number;
+  totalSales: number;
+  activeOrdersCount: number;
+  productCount: number;
+  branchCount: number;
+  recentOrders: Order[];
 }

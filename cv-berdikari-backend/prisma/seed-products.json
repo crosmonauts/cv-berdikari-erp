@@ -1,0 +1,7029 @@
+{
+  "products": [
+    {
+      "sku": "3MDOPE-001",
+      "name": "3M DOUBLE PE FOAM TAPE (12MM X 4 M) (PER ROLL)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160330055",
+          "price": 25400
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160330052",
+          "price": 22500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160330052",
+          "price": 22500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160330052",
+          "price": 22500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160330101",
+          "price": 19200
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160330048",
+          "price": 20800
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160330049",
+          "price": 21300
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160330050",
+          "price": 21700
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160330053",
+          "price": 23400
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160330054",
+          "price": 24100
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160330051",
+          "price": 22200
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160330056",
+          "price": 25400
+        }
+      ]
+    },
+    {
+      "sku": "3MDOPE-002",
+      "name": "3M DOUBLE PE FOAM TAPE (24MM X 4.5M) (PER ROLL)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160330036",
+          "price": 36500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160330033",
+          "price": 33883
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160330033",
+          "price": 33883
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160330033",
+          "price": 33883
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160330028",
+          "price": 31500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160330029",
+          "price": 32500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160330030",
+          "price": 32700
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160330031",
+          "price": 32700
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160330034",
+          "price": 33883
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160330035",
+          "price": 35500
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160330032",
+          "price": 33883
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160330037",
+          "price": 36500
+        }
+      ]
+    },
+    {
+      "sku": "3MPOIT-003",
+      "name": "3M POST IT STICKY YELLOW NOTES 654 3X3\" (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302781",
+          "price": 15000
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302778",
+          "price": 12500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302778",
+          "price": 12500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302778",
+          "price": 12500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302773",
+          "price": 10500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302774",
+          "price": 11000
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302775",
+          "price": 11500
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302776",
+          "price": 11500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302779",
+          "price": 13000
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302780",
+          "price": 13000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302777",
+          "price": 12000
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302782",
+          "price": 15000
+        }
+      ]
+    },
+    {
+      "sku": "ALKA10-004",
+      "name": "ALKOHOL KADAR 70 % 100ML (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O990210453",
+          "price": 31000
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O990210450",
+          "price": 27500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O990210450",
+          "price": 27500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O990210450",
+          "price": 27500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O990210445",
+          "price": 22950
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O990210446",
+          "price": 23500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O990210447",
+          "price": 24500
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O990210448",
+          "price": 25500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O990210451",
+          "price": 28500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O990210452",
+          "price": 28500
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O990210449",
+          "price": 25500
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O990210454",
+          "price": 31000
+        }
+      ]
+    },
+    {
+      "sku": "AMCOPO-005",
+      "name": "AMPLOP COKLAT POLOS A3 MEREK GARDA (PER PCS)",
+      "categoryName": "Kertas & Print",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302454",
+          "price": 1558
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302451",
+          "price": 1150
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302451",
+          "price": 1150
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302451",
+          "price": 1150
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302446",
+          "price": 875
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302447",
+          "price": 875
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302448",
+          "price": 890
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302449",
+          "price": 950
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302452",
+          "price": 1350
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302453",
+          "price": 1475
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302450",
+          "price": 1150
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302455",
+          "price": 1558
+        }
+      ]
+    },
+    {
+      "sku": "AMCOPO-006",
+      "name": "AMPLOP COKLAT POLOS A4 MEREK GARDA (PER PCS)",
+      "categoryName": "Kertas & Print",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302866",
+          "price": 690
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302863",
+          "price": 440
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302863",
+          "price": 440
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302863",
+          "price": 440
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302456",
+          "price": 390
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302457",
+          "price": 400
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302458",
+          "price": 415
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302459",
+          "price": 490
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302864",
+          "price": 490
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302865",
+          "price": 490
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302460",
+          "price": 430
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302867",
+          "price": 690
+        }
+      ]
+    },
+    {
+      "sku": "AMCOPO-007",
+      "name": "AMPLOP COKLAT POLOS F4 MEREK GARDA (PER PCS)",
+      "categoryName": "Kertas & Print",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302876",
+          "price": 895
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302873",
+          "price": 730
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302873",
+          "price": 730
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302873",
+          "price": 730
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302868",
+          "price": 650
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302869",
+          "price": 660
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302870",
+          "price": 660
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302871",
+          "price": 690
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302874",
+          "price": 790
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302875",
+          "price": 845
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302872",
+          "price": 710
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302877",
+          "price": 895
+        }
+      ]
+    },
+    {
+      "sku": "AMCOPO-008",
+      "name": "AMPLOP COKLAT POLOS KABINET MEREK GARDA (PER PCS)",
+      "categoryName": "Amplop & Mapping",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302886",
+          "price": 490
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302883",
+          "price": 330
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302883",
+          "price": 330
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302883",
+          "price": 330
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302878",
+          "price": 210
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302879",
+          "price": 210
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302880",
+          "price": 230
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302881",
+          "price": 290
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302884",
+          "price": 360
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302885",
+          "price": 390
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302882",
+          "price": 310
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302887",
+          "price": 490
+        }
+      ]
+    },
+    {
+      "sku": "AMCOPO-009",
+      "name": "AMPLOP COKLAT POLOS QUARTO MEREK GARDA (PER PCS)",
+      "categoryName": "Amplop & Mapping",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302906",
+          "price": 690
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302903",
+          "price": 435
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302903",
+          "price": 435
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302903",
+          "price": 435
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302898",
+          "price": 345
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302899",
+          "price": 367
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302900",
+          "price": 387
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302901",
+          "price": 395
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302904",
+          "price": 468
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302905",
+          "price": 585
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302902",
+          "price": 417
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302907",
+          "price": 690
+        }
+      ]
+    },
+    {
+      "sku": "AMMESI-010",
+      "name": "AMPLOP MERPATI 104 SILICON 80 GR (1 BOX ISI 100 PCS) MEREK KIKY",
+      "categoryName": "Amplop & Mapping",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302896",
+          "price": 25500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302893",
+          "price": 22500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302893",
+          "price": 22500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302893",
+          "price": 22500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302888",
+          "price": 19980
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302889",
+          "price": 21090
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302890",
+          "price": 19980
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302891",
+          "price": 21090
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302894",
+          "price": 23000
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302895",
+          "price": 23410
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302892",
+          "price": 22300
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302897",
+          "price": 25500
+        }
+      ]
+    },
+    {
+      "sku": "BAACBL-011",
+      "name": "BALLPOINT ACTION 0.5 BLACK MEREK STANDARD (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160323462",
+          "price": 3900
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160323459",
+          "price": 3500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160323459",
+          "price": 3500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160323459",
+          "price": 3500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160323454",
+          "price": 2850
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160323455",
+          "price": 3100
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160323456",
+          "price": 3200
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160323457",
+          "price": 3330
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160323460",
+          "price": 3600
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160323461",
+          "price": 3700
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160323458",
+          "price": 3400
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160323463",
+          "price": 3900
+        }
+      ]
+    },
+    {
+      "sku": "BAAEAC-012",
+      "name": "BALLPOINT AE7 ACTION 0.5 BLUE MEREK STANDARD (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160323452",
+          "price": 3900
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160323449",
+          "price": 3500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160323449",
+          "price": 3500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160323449",
+          "price": 3500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160323444",
+          "price": 2850
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160323445",
+          "price": 3100
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160323446",
+          "price": 3200
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160323447",
+          "price": 3330
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160323450",
+          "price": 3600
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160323451",
+          "price": 3700
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160323448",
+          "price": 3400
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160323453",
+          "price": 3900
+        }
+      ]
+    },
+    {
+      "sku": "BAABR3-013",
+      "name": "BATERAI ABC R3 AAA BLUE (1 PACK ISI 4 PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302936",
+          "price": 25500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302933",
+          "price": 21500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302933",
+          "price": 21500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302933",
+          "price": 21500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302928",
+          "price": 12000
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302929",
+          "price": 19500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302930",
+          "price": 20000
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302931",
+          "price": 20500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302934",
+          "price": 23500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302935",
+          "price": 27500
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302932",
+          "price": 21500
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302937",
+          "price": 25500
+        }
+      ]
+    },
+    {
+      "sku": "BAABR6-014",
+      "name": "BATERAI ABC R6 (AA) BIRU, (1 PACK ISI 4 PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302916",
+          "price": 22900
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302913",
+          "price": 19880
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302913",
+          "price": 19880
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302913",
+          "price": 19880
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302908",
+          "price": 15835
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302909",
+          "price": 16600
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302910",
+          "price": 18100
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302911",
+          "price": 18800
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302914",
+          "price": 20500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302915",
+          "price": 21700
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302912",
+          "price": 19300
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302917",
+          "price": 22900
+        }
+      ]
+    },
+    {
+      "sku": "BAENE9-015",
+      "name": "BATERAI ENERGIZER E91 AA MAX (1 PACK ISI 2)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302926",
+          "price": 27800
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302923",
+          "price": 22500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302923",
+          "price": 22500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302923",
+          "price": 22500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302918",
+          "price": 18500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302919",
+          "price": 20500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302920",
+          "price": 20500
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302921",
+          "price": 21000
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302924",
+          "price": 25500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302925",
+          "price": 27500
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302922",
+          "price": 21500
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302927",
+          "price": 27800
+        }
+      ]
+    },
+    {
+      "sku": "BAAEPE-016",
+      "name": "BAYFRESH AEROSOL PENGHARUM RUANGAN 225ML (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O210102115",
+          "price": 32300
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O210102108",
+          "price": 28300
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O210102108",
+          "price": 28300
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O210102108",
+          "price": 28300
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O210102103",
+          "price": 21800
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O210102109",
+          "price": 28600
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O210102110",
+          "price": 28600
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O210102107",
+          "price": 18700
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O210102114",
+          "price": 32300
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O210102104",
+          "price": 22600
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O210102105",
+          "price": 23400
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O210102106",
+          "price": 24100
+        }
+      ]
+    },
+    {
+      "sku": "BESOOB-026",
+      "name": "BETADINE SOLUTION OBAT LUKA ANTISEPTIK 5ML",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O990210465",
+          "price": 8950
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O990210460",
+          "price": 7714
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O990210460",
+          "price": 7714
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O990210460",
+          "price": 7714
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O990210455",
+          "price": 7548
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O990210456",
+          "price": 7548
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O990210457",
+          "price": 7548
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O990210458",
+          "price": 7548
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O990210461",
+          "price": 7992
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O990210464",
+          "price": 8325
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O990210459",
+          "price": 7714
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O990210466",
+          "price": 9000
+        }
+      ]
+    },
+    {
+      "sku": "BICLNO-027",
+      "name": "BINDER CLIP NO 105 MEREK KENKO (PER PCS)",
+      "categoryName": "Amplop & Mapping",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302488",
+          "price": 3680
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302485",
+          "price": 2980
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302485",
+          "price": 2980
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302485",
+          "price": 2980
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302480",
+          "price": 2700
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302481",
+          "price": 2750
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302482",
+          "price": 2780
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302483",
+          "price": 2880
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302486",
+          "price": 3080
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302487",
+          "price": 3880
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302484",
+          "price": 2980
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302489",
+          "price": 3680
+        }
+      ]
+    },
+    {
+      "sku": "BICLNO-028",
+      "name": "BINDER CLIP NO 107 MEREK KENKO (PER PCS)",
+      "categoryName": "Amplop & Mapping",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302498",
+          "price": 6100
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302495",
+          "price": 4500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302495",
+          "price": 4500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302495",
+          "price": 4500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302490",
+          "price": 2900
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302491",
+          "price": 3100
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302492",
+          "price": 3300
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302493",
+          "price": 3600
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302496",
+          "price": 5150
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302497",
+          "price": 5500
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302494",
+          "price": 4200
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302499",
+          "price": 6100
+        }
+      ]
+    },
+    {
+      "sku": "BICLNO-029",
+      "name": "BINDER CLIP NO 111 MEREK KENKO (PER PCS)",
+      "categoryName": "Amplop & Mapping",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302508",
+          "price": 9900
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302505",
+          "price": 8400
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302505",
+          "price": 8400
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302505",
+          "price": 8400
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302500",
+          "price": 6400
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302501",
+          "price": 6900
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302502",
+          "price": 7300
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302503",
+          "price": 7700
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302506",
+          "price": 8900
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302507",
+          "price": 9400
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302504",
+          "price": 7900
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302509",
+          "price": 9900
+        }
+      ]
+    },
+    {
+      "sku": "BICLNO-030",
+      "name": "BINDER CLIP NO 200 MEREK KENKO (PER PCS)",
+      "categoryName": "Amplop & Mapping",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302518",
+          "price": 18750
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302515",
+          "price": 16650
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302515",
+          "price": 16650
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302515",
+          "price": 16650
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302511",
+          "price": 12950
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302512",
+          "price": 13950
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302513",
+          "price": 14950
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302516",
+          "price": 17850
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302517",
+          "price": 18750
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302514",
+          "price": 15850
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302520",
+          "price": 15650
+        }
+      ]
+    },
+    {
+      "sku": "BICLNO-031",
+      "name": "BINDER CLIP NO 260 MEREK JOYKO (PER PCS)",
+      "categoryName": "Amplop & Mapping",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302529",
+          "price": 22240
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302526",
+          "price": 21240
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302526",
+          "price": 21240
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302526",
+          "price": 21240
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302521",
+          "price": 17440
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302522",
+          "price": 18440
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302523",
+          "price": 18740
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302524",
+          "price": 19340
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302527",
+          "price": 21440
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302528",
+          "price": 21740
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302525",
+          "price": 19540
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302530",
+          "price": 22240
+        }
+      ]
+    },
+    {
+      "sku": "BICLKE-032",
+      "name": "BINDER CLIPS 155 KENKO BINDER CLIP NO 155 MEREK KENKO (PER PCS)",
+      "categoryName": "Amplop & Mapping",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302946",
+          "price": 10350
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302943",
+          "price": 8950
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302943",
+          "price": 8950
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302943",
+          "price": 8950
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302510",
+          "price": 6660
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302939",
+          "price": 6660
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302940",
+          "price": 7455
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302941",
+          "price": 7900
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302944",
+          "price": 9350
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302945",
+          "price": 9900
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302942",
+          "price": 8350
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302947",
+          "price": 10350
+        }
+      ]
+    },
+    {
+      "sku": "BIPL15-033",
+      "name": "BIO PLACENTON 15GR (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O990210475",
+          "price": 37333
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O990210472",
+          "price": 37333
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O990210472",
+          "price": 37333
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O990210472",
+          "price": 37333
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O990210467",
+          "price": 34077
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O990210473",
+          "price": 37333
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O990210474",
+          "price": 37333
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O990210471",
+          "price": 37333
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O990210476",
+          "price": 37333
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O990210468",
+          "price": 34077
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O990210469",
+          "price": 37333
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O990210470",
+          "price": 37333
+        }
+      ]
+    },
+    {
+      "sku": "BOFIBL-043",
+      "name": "BOX FILE 4011-01 BLUE (TEMPAT MAJALAH) MEREK BANTEX (PER PCS)",
+      "categoryName": "Amplop & Mapping",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160333591",
+          "price": 47950
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160333588",
+          "price": 42050
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160333588",
+          "price": 42050
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160333588",
+          "price": 42050
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160333583",
+          "price": 37790
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160333584",
+          "price": 38650
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160333585",
+          "price": 39450
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160333586",
+          "price": 39950
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160333589",
+          "price": 44350
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160333590",
+          "price": 46950
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160333587",
+          "price": 41350
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160333592",
+          "price": 47950
+        }
+      ]
+    },
+    {
+      "sku": "BOFIBL-044",
+      "name": "BOX FILE 4011-10 BLACK MEREK BANTEX (PER PCS)",
+      "categoryName": "Amplop & Mapping",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160323472",
+          "price": 47950
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160323469",
+          "price": 42050
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160323469",
+          "price": 42050
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160323469",
+          "price": 42050
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160323464",
+          "price": 37790
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160323465",
+          "price": 38650
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160323466",
+          "price": 39450
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160323467",
+          "price": 39950
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160323470",
+          "price": 44350
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160323471",
+          "price": 46950
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160323468",
+          "price": 41350
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160323473",
+          "price": 47950
+        }
+      ]
+    },
+    {
+      "sku": "BUKUUK-045",
+      "name": "BUKU KUITANSI UKURAN KECIL 40 LEMBAR MEREK PAPERLINE (PER PCS)",
+      "categoryName": "Kertas & Print",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302539",
+          "price": 5400
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302536",
+          "price": 4400
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302536",
+          "price": 4400
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302536",
+          "price": 4400
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302531",
+          "price": 3000
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302532",
+          "price": 3300
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302533",
+          "price": 3700
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302534",
+          "price": 3900
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302537",
+          "price": 4700
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302538",
+          "price": 4900
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302535",
+          "price": 4200
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302540",
+          "price": 5400
+        }
+      ]
+    },
+    {
+      "sku": "CATIXM-046",
+      "name": "CABLE TIES 3,6 X 300 MM (30 CM) MEREK MASKO",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160330699",
+          "price": 55500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160330696",
+          "price": 48900
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160330696",
+          "price": 48900
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160330696",
+          "price": 48900
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160330691",
+          "price": 45500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160330692",
+          "price": 46500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160330693",
+          "price": 47500
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160330694",
+          "price": 48500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160330697",
+          "price": 50500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160330698",
+          "price": 51500
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160330695",
+          "price": 48500
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160330700",
+          "price": 55500
+        }
+      ]
+    },
+    {
+      "sku": "CAMGPE-047",
+      "name": "CATAFLAM 50 MG (PER SACHET)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O990225602",
+          "price": 14950
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O990225599",
+          "price": 13250
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O990225599",
+          "price": 13250
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O990225599",
+          "price": 13250
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O990225594",
+          "price": 10545
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O990225595",
+          "price": 11100
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O990225596",
+          "price": 11988
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O990225597",
+          "price": 12450
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O990225600",
+          "price": 13850
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O990225601",
+          "price": 14350
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O990225598",
+          "price": 12850
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O990225603",
+          "price": 14950
+        }
+      ]
+    },
+    {
+      "sku": "CETAIN-048",
+      "name": "CELLULOSE TAPE 1/2 INCH X 72 YARD MEREK PANFIX (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302720",
+          "price": 22500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302717",
+          "price": 19000
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302717",
+          "price": 19000
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302717",
+          "price": 19000
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302712",
+          "price": 13950
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302713",
+          "price": 15500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302714",
+          "price": 16500
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302715",
+          "price": 18000
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302718",
+          "price": 20000
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302719",
+          "price": 21500
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302716",
+          "price": 17900
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302721",
+          "price": 22500
+        }
+      ]
+    },
+    {
+      "sku": "COKECO-049",
+      "name": "CORRECTION KE-823 (CORRECTION TAPE) MEREK KENKO (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302580",
+          "price": 6300
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302577",
+          "price": 5350
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302577",
+          "price": 5350
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302577",
+          "price": 5350
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302571",
+          "price": 4700
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302572",
+          "price": 4760
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302574",
+          "price": 4950
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302575",
+          "price": 5080
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302578",
+          "price": 5750
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302579",
+          "price": 5950
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302576",
+          "price": 5150
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302581",
+          "price": 6300
+        }
+      ]
+    },
+    {
+      "sku": "CUAMEK-050",
+      "name": "CUTTER A-300 MEREK KENKO (PER PCS)",
+      "categoryName": "Stapler & Aksesoris",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302590",
+          "price": 7350
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302587",
+          "price": 6200
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302587",
+          "price": 6200
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302587",
+          "price": 6200
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302582",
+          "price": 5100
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302583",
+          "price": 5300
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302584",
+          "price": 5450
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302585",
+          "price": 5800
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302588",
+          "price": 6500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302589",
+          "price": 6900
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302586",
+          "price": 6000
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302591",
+          "price": 7350
+        }
+      ]
+    },
+    {
+      "sku": "CULMEK-051",
+      "name": "CUTTER L-500 MEREK KENKO (PER PCS)",
+      "categoryName": "Stapler & Aksesoris",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302600",
+          "price": 17100
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302597",
+          "price": 15650
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302597",
+          "price": 15650
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302597",
+          "price": 15650
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302592",
+          "price": 13110
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302593",
+          "price": 13431
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302594",
+          "price": 13950
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302595",
+          "price": 14208
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302598",
+          "price": 16140
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302599",
+          "price": 16140
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302596",
+          "price": 14850
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302601",
+          "price": 17100
+        }
+      ]
+    },
+    {
+      "sku": "DOPOA4-052",
+      "name": "DOCUMENT POCKET A4 (ISI 20 LBR) #5220 MEREK BAMBI (PER PCS)",
+      "categoryName": "Kertas & Print",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302610",
+          "price": 38550
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302607",
+          "price": 34500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302607",
+          "price": 34500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302607",
+          "price": 34500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302602",
+          "price": 28500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302603",
+          "price": 31500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302604",
+          "price": 32500
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302605",
+          "price": 33500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302608",
+          "price": 37500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302609",
+          "price": 38500
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302606",
+          "price": 33500
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302611",
+          "price": 38550
+        }
+      ]
+    },
+    {
+      "sku": "DOPEFO-053",
+      "name": "DOUBLE PE FOAM TAPE (24MM X 4.5M) MEREK NACHI (PER ROLL)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160330065",
+          "price": 20500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160330062",
+          "price": 18150
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160330062",
+          "price": 18150
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160330062",
+          "price": 18150
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160330057",
+          "price": 15200
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160330058",
+          "price": 15500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160330059",
+          "price": 16200
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160330060",
+          "price": 16800
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160330063",
+          "price": 19450
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160330064",
+          "price": 20500
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160330061",
+          "price": 17150
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160330066",
+          "price": 20500
+        }
+      ]
+    },
+    {
+      "sku": "DOSITA-054",
+      "name": "DOUBLE SIDED TAPE 1 INCH (24MM X 15 YARD) BLUE CORE  MEREK JOYKO (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302642",
+          "price": 8500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302639",
+          "price": 7215
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302639",
+          "price": 7215
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302639",
+          "price": 7215
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302634",
+          "price": 6438
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302635",
+          "price": 6660
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302636",
+          "price": 6438
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302637",
+          "price": 6660
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302640",
+          "price": 7500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302641",
+          "price": 8000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302638",
+          "price": 7215
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302643",
+          "price": 8500
+        }
+      ]
+    },
+    {
+      "sku": "DOSITA-055",
+      "name": "DOUBLE SIDED TAPE 1/2 INCH (12MM X 15 YARD) BLUE CORE MEREK JOYKO (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302620",
+          "price": 4300
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302617",
+          "price": 3290
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302617",
+          "price": 3290
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302617",
+          "price": 3290
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302612",
+          "price": 2720
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302613",
+          "price": 2850
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302614",
+          "price": 2950
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302615",
+          "price": 3000
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302618",
+          "price": 3400
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302619",
+          "price": 3500
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302616",
+          "price": 3150
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302621",
+          "price": 4300
+        }
+      ]
+    },
+    {
+      "sku": "DOTAIN-056",
+      "name": "DOUBLE TAPE 1/4 INCH 6MM MEREK KENKO (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302652",
+          "price": 3000
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302649",
+          "price": 2775
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302649",
+          "price": 2775
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302649",
+          "price": 2775
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302644",
+          "price": 2165
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302645",
+          "price": 2220
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302646",
+          "price": 2400
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302647",
+          "price": 2500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302650",
+          "price": 2875
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302651",
+          "price": 2975
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302648",
+          "price": 2700
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302653",
+          "price": 3000
+        }
+      ]
+    },
+    {
+      "sku": "DOTAIN-057",
+      "name": "DOUBLE TAPE 2 INCH 48MM MEREK KENKO (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302632",
+          "price": 14550
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302629",
+          "price": 13000
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302629",
+          "price": 13000
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302629",
+          "price": 13000
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302622",
+          "price": 11100
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302623",
+          "price": 11200
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302624",
+          "price": 11480
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302625",
+          "price": 11750
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302630",
+          "price": 13300
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302631",
+          "price": 13850
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302626",
+          "price": 12000
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302633",
+          "price": 14550
+        }
+      ]
+    },
+    {
+      "sku": "ENSAIS-058",
+      "name": "ENTROSTOP (1 SACHET ISI 12 PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O990210485",
+          "price": 20535
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O990210482",
+          "price": 15540
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O990210482",
+          "price": 15540
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O990210482",
+          "price": 15540
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O990210477",
+          "price": 10545
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O990210478",
+          "price": 11500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O990210479",
+          "price": 12000
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O990210480",
+          "price": 12500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O990210483",
+          "price": 16650
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O990210484",
+          "price": 17760
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O990210481",
+          "price": 14430
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O990210486",
+          "price": 20535
+        }
+      ]
+    },
+    {
+      "sku": "FRCETA-059",
+      "name": "F&R CELLO TAPE CLEAR 1 INCH(PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160334844",
+          "price": 12987
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160334841",
+          "price": 11655
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160334841",
+          "price": 11655
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160334841",
+          "price": 11655
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160334836",
+          "price": 8500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160334837",
+          "price": 9550
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160334838",
+          "price": 10800
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160334839",
+          "price": 11550
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160334842",
+          "price": 12765
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160334843",
+          "price": 12876
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160334840",
+          "price": 11550
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160334845",
+          "price": 12987
+        }
+      ]
+    },
+    {
+      "sku": "GUSTST-060",
+      "name": "GUNTING STAINLESS STEEL SCISSOR SC-838N MEREK KENKO (PER PCS)",
+      "categoryName": "Stapler & Aksesoris",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302672",
+          "price": 13800
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302669",
+          "price": 11250
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302669",
+          "price": 11250
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302669",
+          "price": 11250
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302664",
+          "price": 8500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302665",
+          "price": 9500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302666",
+          "price": 9500
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302667",
+          "price": 10000
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302670",
+          "price": 11500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302671",
+          "price": 12400
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302668",
+          "price": 10500
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302673",
+          "price": 13800
+        }
+      ]
+    },
+    {
+      "sku": "GUSTST-061",
+      "name": "GUNTING STAINLESS STEEL SCISSOR SC-848N MEREK KENKO (PER PCS)",
+      "categoryName": "Stapler & Aksesoris",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302662",
+          "price": 16580
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302659",
+          "price": 13580
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302659",
+          "price": 13580
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302659",
+          "price": 13580
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302654",
+          "price": 10580
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302655",
+          "price": 11390
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302656",
+          "price": 11850
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302657",
+          "price": 11850
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302660",
+          "price": 14550
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302661",
+          "price": 15800
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302658",
+          "price": 12800
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302663",
+          "price": 16580
+        }
+      ]
+    },
+    {
+      "sku": "HAKAEL-062",
+      "name": "HANSAPLAST KAIN ELASTIS (1 PACK ISI 10 PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O990210495",
+          "price": 8500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O990210492",
+          "price": 7770
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O990210492",
+          "price": 7770
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O990210492",
+          "price": 7770
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O990210487",
+          "price": 6105
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O990210493",
+          "price": 7770
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O990210494",
+          "price": 8000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O990210491",
+          "price": 7215
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O990210496",
+          "price": 8500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O990210488",
+          "price": 6771
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O990210489",
+          "price": 6993
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O990210490",
+          "price": 7000
+        }
+      ]
+    },
+    {
+      "sku": "ISCUAM-072",
+      "name": "ISI CUTTER A-100 MEREK KENKO (PER PCS)",
+      "categoryName": "Stapler & Aksesoris",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302682",
+          "price": 8500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302679",
+          "price": 7000
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302679",
+          "price": 7000
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302679",
+          "price": 7000
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302674",
+          "price": 4250
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302675",
+          "price": 4752
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302676",
+          "price": 5200
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302677",
+          "price": 5800
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302680",
+          "price": 7200
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302681",
+          "price": 7500
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302678",
+          "price": 6100
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302683",
+          "price": 8500
+        }
+      ]
+    },
+    {
+      "sku": "ISCUAM-073",
+      "name": "ISI CUTTER A-150 MEREK KENKO (PER PCS)",
+      "categoryName": "Stapler & Aksesoris",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302692",
+          "price": 6850
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302689",
+          "price": 5395
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302689",
+          "price": 5395
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302689",
+          "price": 5395
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302684",
+          "price": 4200
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302685",
+          "price": 4500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302686",
+          "price": 4800
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302687",
+          "price": 4985
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302690",
+          "price": 5850
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302691",
+          "price": 6250
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302688",
+          "price": 5295
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302693",
+          "price": 6850
+        }
+      ]
+    },
+    {
+      "sku": "KAKAST-074",
+      "name": "KAIN KASA STERIL ONE MED ONEMED 16 X 16 CM ISI 10 POUCH",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O990225458",
+          "price": 16650
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O990210502",
+          "price": 15762
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O990210502",
+          "price": 15762
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O990210502",
+          "price": 15762
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O990210497",
+          "price": 12300
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O990210498",
+          "price": 14208
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O990210499",
+          "price": 14985
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O990210500",
+          "price": 14985
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O990210503",
+          "price": 16095
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O990210504",
+          "price": 16650
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O990210501",
+          "price": 14985
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O990225459",
+          "price": 16650
+        }
+      ]
+    },
+    {
+      "sku": "KEFOCO-075",
+      "name": "KERTAS FOTO -  CORAL GLOSSY STICKER A4 120 GSM 20 SHEETS",
+      "categoryName": "Kertas & Print",
+      "regionPrices": [
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160339947",
+          "price": 42500
+        }
+      ]
+    },
+    {
+      "sku": "KEFOCO-076",
+      "name": "KERTAS FOTO - CORAL GLOSSY STICKER A4 120 GSM 20 SHEETS",
+      "categoryName": "Kertas & Print",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160339946",
+          "price": 42500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160339943",
+          "price": 38850
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160339943",
+          "price": 38850
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160339943",
+          "price": 38850
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160339938",
+          "price": 32825
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160339939",
+          "price": 35520
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160339940",
+          "price": 35000
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160339941",
+          "price": 36075
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160339944",
+          "price": 40500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160339945",
+          "price": 42000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160339942",
+          "price": 38850
+        }
+      ]
+    },
+    {
+      "sku": "KEFOGL-077",
+      "name": "KERTAS FOTO - GLOSSY PAPER PRINTECH 180 GSM 20 SHEETS",
+      "categoryName": "Kertas & Print",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160339968",
+          "price": 50339
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160339965",
+          "price": 49229
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160339965",
+          "price": 49229
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160339965",
+          "price": 49229
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160339960",
+          "price": 47175
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160339961",
+          "price": 48285
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160339962",
+          "price": 48585
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160339963",
+          "price": 48885
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160339966",
+          "price": 49617
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160339967",
+          "price": 49950
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160339964",
+          "price": 48985
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160339969",
+          "price": 50339
+        }
+      ]
+    },
+    {
+      "sku": "KEHVA4-078",
+      "name": "KERTAS HVS A4 75 GSM ALL PURPOSE MEREK PAPER ONE (PER RIM)",
+      "categoryName": "Kertas & Print",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160310981",
+          "price": 52170
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160310978",
+          "price": 46953
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160310978",
+          "price": 46953
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160310978",
+          "price": 46953
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160310973",
+          "price": 44400
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160310979",
+          "price": 47397
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160310980",
+          "price": 48840
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160310977",
+          "price": 45288
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160310982",
+          "price": 52170
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160310974",
+          "price": 44511
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160310975",
+          "price": 44622
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160310976",
+          "price": 44955
+        }
+      ]
+    },
+    {
+      "sku": "KEHVF4-088",
+      "name": "KERTAS HVS F4 75 GSM ALL PURPOSE MEREK PAPER ONE (PER RIM)",
+      "categoryName": "Kertas & Print",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160310971",
+          "price": 58500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160310968",
+          "price": 51500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160310968",
+          "price": 51500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160310968",
+          "price": 51500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160310963",
+          "price": 49000
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160310969",
+          "price": 53200
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160310970",
+          "price": 54250
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160310967",
+          "price": 50200
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160310972",
+          "price": 58500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160310964",
+          "price": 49728
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160310965",
+          "price": 49728
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160310966",
+          "price": 51000
+        }
+      ]
+    },
+    {
+      "sku": "KIKOKA-098",
+      "name": "KIREI KOP KACA + GANTUNGAN 5 CM (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160330709",
+          "price": 13200
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160330706",
+          "price": 10000
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160330706",
+          "price": 10000
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160330706",
+          "price": 10000
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160330701",
+          "price": 7500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160330702",
+          "price": 7850
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160330703",
+          "price": 8250
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160330704",
+          "price": 8500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160330707",
+          "price": 12000
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160330708",
+          "price": 12600
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160330705",
+          "price": 9300
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160330710",
+          "price": 13200
+        }
+      ]
+    },
+    {
+      "sku": "KOKAUK-099",
+      "name": "KOP KACA - UKURAN 3 CM TANPA GANTUNGAN (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160315286",
+          "price": 5500
+        }
+      ]
+    },
+    {
+      "sku": "LABEIN-100",
+      "name": "LAKBAN BENING 2 INCH (F&R OPP 48MM X 100 TRANSPARANT) (PER PCS)",
+      "categoryName": "Lakban & Tinta",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302730",
+          "price": 15000
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302727",
+          "price": 12765
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302727",
+          "price": 12765
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302727",
+          "price": 12765
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302722",
+          "price": 11045
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302723",
+          "price": 11378
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302724",
+          "price": 11766
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302725",
+          "price": 11988
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302728",
+          "price": 13098
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302729",
+          "price": 13931
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302726",
+          "price": 12210
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302731",
+          "price": 15000
+        }
+      ]
+    },
+    {
+      "sku": "LEPOGL-101",
+      "name": "LEM POWER GLUE",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302740",
+          "price": 7326
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302737",
+          "price": 6105
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302737",
+          "price": 6105
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302737",
+          "price": 6105
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302732",
+          "price": 4995
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302733",
+          "price": 5550
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302734",
+          "price": 5550
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302735",
+          "price": 5772
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302738",
+          "price": 6327
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302739",
+          "price": 6993
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302736",
+          "price": 5994
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302741",
+          "price": 7326
+        }
+      ]
+    },
+    {
+      "sku": "LESTGS-102",
+      "name": "LEM STIK GS-02,15 GRAM MEREK KENKO (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302968",
+          "price": 6438
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302965",
+          "price": 4995
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302965",
+          "price": 4995
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302965",
+          "price": 4995
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302960",
+          "price": 3885
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302961",
+          "price": 4240
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302962",
+          "price": 4440
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302963",
+          "price": 4773
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302966",
+          "price": 5383
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302967",
+          "price": 5772
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302964",
+          "price": 4995
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302969",
+          "price": 6438
+        }
+      ]
+    },
+    {
+      "sku": "LESTGS-103",
+      "name": "LEM STIK GS-03,25 GRAM MEREK KENKO (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302750",
+          "price": 8500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302747",
+          "price": 6660
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302747",
+          "price": 6660
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302747",
+          "price": 6660
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302742",
+          "price": 5550
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302743",
+          "price": 5550
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302744",
+          "price": 5550
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302745",
+          "price": 5717
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302748",
+          "price": 7215
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302749",
+          "price": 7500
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302746",
+          "price": 6438
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302751",
+          "price": 8500
+        }
+      ]
+    },
+    {
+      "sku": "LEARFI-104",
+      "name": "LEVER ARCH FILE ORDNER PLASTIC FOLIO 7CM #1465 - 10 BLACK MEREK BANTEX (PER PCS)",
+      "categoryName": "Amplop & Mapping",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160324611",
+          "price": 44512
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160324608",
+          "price": 48512
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160324608",
+          "price": 48512
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160324608",
+          "price": 48512
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160324603",
+          "price": 33000
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160324609",
+          "price": 44512
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160324610",
+          "price": 44512
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160324607",
+          "price": 48451
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160324612",
+          "price": 44512
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160324604",
+          "price": 33500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160324605",
+          "price": 42500
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160324606",
+          "price": 42500
+        }
+      ]
+    },
+    {
+      "sku": "LIDICT-114",
+      "name": "LION DISPENSER C TAPE NO 50 (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302861",
+          "price": 42500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302858",
+          "price": 36800
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302858",
+          "price": 36800
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302858",
+          "price": 36800
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302853",
+          "price": 29600
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302854",
+          "price": 32300
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302855",
+          "price": 33500
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302856",
+          "price": 35100
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302859",
+          "price": 38450
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302860",
+          "price": 41000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302857",
+          "price": 35600
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302862",
+          "price": 42500
+        }
+      ]
+    },
+    {
+      "sku": "MABECL-115",
+      "name": "MAP BENING / CLEAR SLEEVES 9001 UKURAN A4 WHITE MEREK DAIICHI (1 PACK ISI 12 PCS)",
+      "categoryName": "Kertas & Print",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302761",
+          "price": 6116
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302758",
+          "price": 5250
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302758",
+          "price": 5250
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302758",
+          "price": 5250
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302753",
+          "price": 3885
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302754",
+          "price": 4800
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302755",
+          "price": 4903
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302756",
+          "price": 4903
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302759",
+          "price": 5250
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302760",
+          "price": 5772
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302757",
+          "price": 5217
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302762",
+          "price": 6116
+        }
+      ]
+    },
+    {
+      "sku": "MABECL-116",
+      "name": "MAP BENING / CLEAR SLEEVES 9002 UKURAN FOLIO PUTIH MEREK DAIICHI (1 PACK ISI 12 PCS)",
+      "categoryName": "Amplop & Mapping",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302771",
+          "price": 6568
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302768",
+          "price": 5661
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302768",
+          "price": 5661
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302768",
+          "price": 5661
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302763",
+          "price": 3996
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302764",
+          "price": 4800
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302765",
+          "price": 4903
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302766",
+          "price": 4903
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302769",
+          "price": 5994
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302770",
+          "price": 6105
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302767",
+          "price": 5550
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302772",
+          "price": 6568
+        }
+      ]
+    },
+    {
+      "sku": "MA-117",
+      "name": "MATERAI 10.000",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160429908",
+          "price": 12765
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160429905",
+          "price": 12432
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160429905",
+          "price": 12432
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160429905",
+          "price": 12432
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160429900",
+          "price": 11850
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160429901",
+          "price": 11988
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160429902",
+          "price": 11988
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160429903",
+          "price": 12210
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160429906",
+          "price": 12765
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160429907",
+          "price": 12765
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160429904",
+          "price": 12321
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160429909",
+          "price": 12765
+        }
+      ]
+    },
+    {
+      "sku": "MAISST-118",
+      "name": "MAX ISI STAPLES NO 10 (PER PCS)",
+      "categoryName": "Stapler & Aksesoris",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302702",
+          "price": 6500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302699",
+          "price": 5500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302699",
+          "price": 5500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302699",
+          "price": 5500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302694",
+          "price": 4110
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302695",
+          "price": 4250
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302696",
+          "price": 4550
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302697",
+          "price": 5100
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302700",
+          "price": 6000
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302701",
+          "price": 6300
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302698",
+          "price": 5500
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302703",
+          "price": 6500
+        }
+      ]
+    },
+    {
+      "sku": "MAISST-119",
+      "name": "MAX ISI STAPLES NO 3 (PER PCS)",
+      "categoryName": "Stapler & Aksesoris",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302958",
+          "price": 10500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302955",
+          "price": 9500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302955",
+          "price": 9500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302955",
+          "price": 9500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302950",
+          "price": 7000
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302951",
+          "price": 7500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302952",
+          "price": 7800
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302953",
+          "price": 8500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302956",
+          "price": 10000
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302957",
+          "price": 10500
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302954",
+          "price": 9000
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302959",
+          "price": 10500
+        }
+      ]
+    },
+    {
+      "sku": "MASTHD-120",
+      "name": "MAX STAPLER HD-10 MAGENTA (PER PCS)",
+      "categoryName": "Stapler & Aksesoris",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160331916",
+          "price": 34200
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160331913",
+          "price": 31500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160331913",
+          "price": 31500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160331913",
+          "price": 31500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160331908",
+          "price": 25000
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160331909",
+          "price": 26500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160331910",
+          "price": 27800
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160331911",
+          "price": 28500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160331914",
+          "price": 32500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160331915",
+          "price": 33500
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160331912",
+          "price": 29500
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160331917",
+          "price": 34200
+        }
+      ]
+    },
+    {
+      "sku": "MIKAPU-121",
+      "name": "MINYAK KAYU PUTIH CAP LANG 120ML",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O990225478",
+          "price": 87690
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O990225475",
+          "price": 77700
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O990225475",
+          "price": 77700
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O990225475",
+          "price": 77700
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O990225470",
+          "price": 62500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O990225471",
+          "price": 64380
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O990225472",
+          "price": 71500
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O990225473",
+          "price": 74000
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O990225476",
+          "price": 79365
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O990225477",
+          "price": 79920
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O990225474",
+          "price": 74925
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O990225479",
+          "price": 87690
+        }
+      ]
+    },
+    {
+      "sku": "MIKAPU-122",
+      "name": "MINYAK KAYU PUTIH CAP LANG 60ML",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O990225468",
+          "price": 48840
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O990225465",
+          "price": 41070
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O990225465",
+          "price": 41070
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O990225465",
+          "price": 41070
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O990225460",
+          "price": 33500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O990225461",
+          "price": 36075
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O990225462",
+          "price": 39500
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O990225463",
+          "price": 39405
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O990225466",
+          "price": 42735
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O990225467",
+          "price": 44511
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O990225464",
+          "price": 40515
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O990225469",
+          "price": 48840
+        }
+      ]
+    },
+    {
+      "sku": "PABITA-123",
+      "name": "PANADOL BIRU TABLET 10 STRIP",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O990225508",
+          "price": 20535
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O990225505",
+          "price": 17980
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O990225505",
+          "price": 17980
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O990225505",
+          "price": 17980
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O990225500",
+          "price": 17980
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O990225501",
+          "price": 17980
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O990225502",
+          "price": 17980
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O990225503",
+          "price": 17980
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O990225506",
+          "price": 18093
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O990225507",
+          "price": 18315
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O990225504",
+          "price": 17980
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O990225509",
+          "price": 20535
+        }
+      ]
+    },
+    {
+      "sku": "PAHITA-124",
+      "name": "PANADOL HIJAU TABLET 10 STRIP",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O990225488",
+          "price": 20535
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O990225485",
+          "price": 17980
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O990225485",
+          "price": 17980
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O990225485",
+          "price": 17980
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O990225480",
+          "price": 17980
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O990225486",
+          "price": 18093
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O990225487",
+          "price": 18315
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O990225484",
+          "price": 17980
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O990225489",
+          "price": 20535
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O990225481",
+          "price": 17980
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O990225482",
+          "price": 17980
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O990225483",
+          "price": 17980
+        }
+      ]
+    },
+    {
+      "sku": "PAMETA-134",
+      "name": "PANADOL MERAH TABLET 10 STRIP",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O990225498",
+          "price": 20535
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O990225495",
+          "price": 17980
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O990225495",
+          "price": 17980
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O990225495",
+          "price": 17980
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O990225490",
+          "price": 17980
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O990225496",
+          "price": 18093
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O990225497",
+          "price": 18315
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O990225494",
+          "price": 17980
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O990225499",
+          "price": 20535
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O990225491",
+          "price": 17980
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O990225492",
+          "price": 17980
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O990225493",
+          "price": 17980
+        }
+      ]
+    },
+    {
+      "sku": "PACLJU-144",
+      "name": "PAPER CLIP JUMBO NO. 5 MEREK JOYKO (PER PCS)",
+      "categoryName": "Kertas & Print",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302569",
+          "price": 6000
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302566",
+          "price": 5000
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302566",
+          "price": 5000
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302566",
+          "price": 5000
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302561",
+          "price": 3885
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302562",
+          "price": 4150
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302563",
+          "price": 4400
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302564",
+          "price": 4500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302567",
+          "price": 5500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302568",
+          "price": 6000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302565",
+          "price": 4718
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302570",
+          "price": 6000
+        }
+      ]
+    },
+    {
+      "sku": "PACLNO-145",
+      "name": "PAPER CLIP NO. 1 MEREK JOYKO (PER PCS)",
+      "categoryName": "Kertas & Print",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302549",
+          "price": 3795
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302546",
+          "price": 3290
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302546",
+          "price": 3290
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302546",
+          "price": 3290
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302541",
+          "price": 1699
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302542",
+          "price": 1999
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302543",
+          "price": 2490
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302544",
+          "price": 2795
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302547",
+          "price": 3295
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302548",
+          "price": 3485
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302545",
+          "price": 2995
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302550",
+          "price": 3795
+        }
+      ]
+    },
+    {
+      "sku": "PACLNO-146",
+      "name": "PAPER CLIP NO. 3 MEREK JOYKO (PER PCS)",
+      "categoryName": "Kertas & Print",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302559",
+          "price": 4200
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302556",
+          "price": 3327
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302556",
+          "price": 3327
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302556",
+          "price": 3327
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302551",
+          "price": 2000
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302552",
+          "price": 2190
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302553",
+          "price": 2490
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302554",
+          "price": 2690
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302557",
+          "price": 3590
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302558",
+          "price": 3900
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302555",
+          "price": 3000
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302560",
+          "price": 4200
+        }
+      ]
+    },
+    {
+      "sku": "PLCL30-147",
+      "name": "PLASTIK CLIP 30X40 CM (ISI 100 PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160303027",
+          "price": 102120
+        }
+      ]
+    },
+    {
+      "sku": "PLCL7X-148",
+      "name": "PLASTIK CLIP 7X10 CM (ISI 100 PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160303028",
+          "price": 12765
+        }
+      ]
+    },
+    {
+      "sku": "PLTRKA-150",
+      "name": "PLASTIK TRANSPARAN - KAPASITAS 1 KG 20 × 30 CM (PER PACK)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O250127839",
+          "price": 23500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O250127836",
+          "price": 20000
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O250127836",
+          "price": 20000
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O250127836",
+          "price": 20000
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O250127832",
+          "price": 17350
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O250127833",
+          "price": 18200
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O250127834",
+          "price": 18500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O250127837",
+          "price": 21000
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O250127838",
+          "price": 22500
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O250127835",
+          "price": 18500
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O250127840",
+          "price": 23500
+        }
+      ]
+    },
+    {
+      "sku": "PLTRKA-149",
+      "name": "PLASTIK TRANSPARAN - KAPASITAS 1 KG 20 x 30 CM (PER PACK)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O250127831",
+          "price": 16500
+        }
+      ]
+    },
+    {
+      "sku": "PLUKCM-151",
+      "name": "PLASTIK UKURAN 1/2  10 × 15 CM (PER PACK)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O250127849",
+          "price": 31500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O250127846",
+          "price": 25500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O250127846",
+          "price": 25500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O250127846",
+          "price": 25500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O250127841",
+          "price": 18200
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O250127847",
+          "price": 27000
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O250127848",
+          "price": 28000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O250127845",
+          "price": 24500
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O250127850",
+          "price": 31500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O250127842",
+          "price": 21700
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O250127843",
+          "price": 22500
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O250127844",
+          "price": 23500
+        }
+      ]
+    },
+    {
+      "sku": "PLUKCM-161",
+      "name": "PLASTIK UKURAN 1/4  7 × 10 CM (PER PACK)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O250127859",
+          "price": 31500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O250127856",
+          "price": 25000
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O250127856",
+          "price": 25000
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O250127856",
+          "price": 25000
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O250127851",
+          "price": 18200
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O250127852",
+          "price": 21500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O250127853",
+          "price": 22500
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O250127854",
+          "price": 23500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O250127857",
+          "price": 27000
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O250127858",
+          "price": 28000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O250127855",
+          "price": 24500
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O250127860",
+          "price": 31500
+        }
+      ]
+    },
+    {
+      "sku": "PRST-162",
+      "name": "PROMAG 12 STRIP",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O990225518",
+          "price": 19500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O990225515",
+          "price": 16500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O990225515",
+          "price": 16500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O990225515",
+          "price": 16500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O990225510",
+          "price": 11085
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O990225511",
+          "price": 12230
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O990225512",
+          "price": 12500
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O990225513",
+          "price": 13800
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O990225516",
+          "price": 17500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O990225517",
+          "price": 18000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O990225514",
+          "price": 14200
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O990225519",
+          "price": 19500
+        }
+      ]
+    },
+    {
+      "sku": "SPMAPW-163",
+      "name": "SPIDOL MARKER PW-1A BLACK MEREK SNOWMAN (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160323512",
+          "price": 2590
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160323509",
+          "price": 2150
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160323509",
+          "price": 2150
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160323509",
+          "price": 2150
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160323504",
+          "price": 1685
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160323505",
+          "price": 1990
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160323506",
+          "price": 1890
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160323507",
+          "price": 1900
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160323510",
+          "price": 2290
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160323511",
+          "price": 2385
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160323508",
+          "price": 2000
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160323513",
+          "price": 2590
+        }
+      ]
+    },
+    {
+      "sku": "SPPEMA-164",
+      "name": "SPIDOL PERMANENT MARKER G-12 BLACK MEREK SNOWMAN (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160323582",
+          "price": 8200
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160323579",
+          "price": 7200
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160323579",
+          "price": 7200
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160323579",
+          "price": 7200
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160323574",
+          "price": 6290
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160323580",
+          "price": 7500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160323581",
+          "price": 7950
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160323578",
+          "price": 7000
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160323583",
+          "price": 8200
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160323575",
+          "price": 6490
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160323576",
+          "price": 6700
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160323577",
+          "price": 6900
+        }
+      ]
+    },
+    {
+      "sku": "SPPEMA-174",
+      "name": "SPIDOL PERMANENT MARKER G-12 BLUE MEREK SNOWMAN (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160323482",
+          "price": 8200
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160323479",
+          "price": 7200
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160323479",
+          "price": 7200
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160323479",
+          "price": 7200
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160323474",
+          "price": 6290
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160323480",
+          "price": 7500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160323481",
+          "price": 7950
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160323478",
+          "price": 7000
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160323483",
+          "price": 8200
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160323475",
+          "price": 6490
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160323476",
+          "price": 6700
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160323477",
+          "price": 6900
+        }
+      ]
+    },
+    {
+      "sku": "SPPEMA-184",
+      "name": "SPIDOL PERMANENT MARKER G-12 HIJAU MEREK SNOWMAN (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160323492",
+          "price": 8200
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160323489",
+          "price": 7200
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160323489",
+          "price": 7200
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160323489",
+          "price": 7200
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160323484",
+          "price": 6290
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160323490",
+          "price": 7500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160323491",
+          "price": 7950
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160323488",
+          "price": 7000
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160323493",
+          "price": 8200
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160323485",
+          "price": 6490
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160323486",
+          "price": 6700
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160323487",
+          "price": 6900
+        }
+      ]
+    },
+    {
+      "sku": "SPPEMA-194",
+      "name": "SPIDOL PERMANENT MARKER G-12 RED MEREK SNOWMAN (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160323502",
+          "price": 8200
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160323499",
+          "price": 7200
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160323499",
+          "price": 7200
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160323499",
+          "price": 7200
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160323494",
+          "price": 6290
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160323500",
+          "price": 7500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160323501",
+          "price": 7950
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160323498",
+          "price": 7000
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160323503",
+          "price": 8200
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160323495",
+          "price": 6490
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160323496",
+          "price": 6700
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160323497",
+          "price": 6900
+        }
+      ]
+    },
+    {
+      "sku": "SPSIPE-204",
+      "name": "SPIDOL SIGN PEN PW-1A, BLUE MEREK SNOWMAN (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160323522",
+          "price": 2590
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160323519",
+          "price": 2150
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160323519",
+          "price": 2150
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160323519",
+          "price": 2150
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160323514",
+          "price": 1685
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160323520",
+          "price": 2290
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160323521",
+          "price": 2385
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160323518",
+          "price": 2000
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160323523",
+          "price": 2590
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160323515",
+          "price": 1990
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160323516",
+          "price": 1890
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160323517",
+          "price": 1900
+        }
+      ]
+    },
+    {
+      "sku": "SPSIPE-214",
+      "name": "SPIDOL SIGN PEN PW-1A, GREEN, MEREK SNOWMAN (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160323532",
+          "price": 2590
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160323529",
+          "price": 2150
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160323529",
+          "price": 2150
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160323529",
+          "price": 2150
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160323524",
+          "price": 1685
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160323525",
+          "price": 1990
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160323526",
+          "price": 1890
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160323527",
+          "price": 1900
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160323530",
+          "price": 2290
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160323531",
+          "price": 2385
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160323528",
+          "price": 2000
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160323533",
+          "price": 2590
+        }
+      ]
+    },
+    {
+      "sku": "SPSIPE-215",
+      "name": "SPIDOL SIGN PEN PW-1A, RED MEREK SNOWMAN (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160323544",
+          "price": 2590
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160323539",
+          "price": 2150
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160323539",
+          "price": 2150
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160323539",
+          "price": 2150
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160323534",
+          "price": 1685
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160323535",
+          "price": 1990
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160323536",
+          "price": 1890
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160323537",
+          "price": 1900
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160323540",
+          "price": 2290
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160323541",
+          "price": 2385
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160323538",
+          "price": 2000
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160323545",
+          "price": 2590
+        }
+      ]
+    },
+    {
+      "sku": "SPWHMA-216",
+      "name": "SPIDOL WHITEBOARD MARKER BG-12 BLACK MEREK SNOWMAN (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160323572",
+          "price": 10450
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160323569",
+          "price": 8250
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160323569",
+          "price": 8250
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160323569",
+          "price": 8250
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160323564",
+          "price": 6955
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160323565",
+          "price": 7150
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160323566",
+          "price": 7390
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160323567",
+          "price": 7600
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160323570",
+          "price": 8800
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160323571",
+          "price": 8900
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160323568",
+          "price": 7800
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160323573",
+          "price": 10450
+        }
+      ]
+    },
+    {
+      "sku": "SPWHMA-217",
+      "name": "SPIDOL WHITEBOARD MARKER BG-12 BLUE MEREK SNOWMAN (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160323552",
+          "price": 10450
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160323549",
+          "price": 8250
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160323549",
+          "price": 8250
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160323549",
+          "price": 8250
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160323584",
+          "price": 6955
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160323585",
+          "price": 7150
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160323546",
+          "price": 7390
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160323547",
+          "price": 7600
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160323550",
+          "price": 8800
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160323551",
+          "price": 8900
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160323548",
+          "price": 7800
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160323553",
+          "price": 10450
+        }
+      ]
+    },
+    {
+      "sku": "SPWHMA-218",
+      "name": "SPIDOL WHITEBOARD MARKER BG-12 RED MEREK SNOWMAN (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160323562",
+          "price": 10450
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160323559",
+          "price": 8250
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160323559",
+          "price": 8250
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160323559",
+          "price": 8250
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160323554",
+          "price": 6955
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160323555",
+          "price": 7150
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160323556",
+          "price": 7390
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160323557",
+          "price": 7600
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160323560",
+          "price": 8800
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160323561",
+          "price": 8900
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160323558",
+          "price": 7800
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160323563",
+          "price": 10450
+        }
+      ]
+    },
+    {
+      "sku": "STBOOR-219",
+      "name": "STABILO BOSS ORIGINAL 70/24 YELLOW (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302811",
+          "price": 16500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302808",
+          "price": 10200
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302808",
+          "price": 10200
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302808",
+          "price": 10200
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302803",
+          "price": 8900
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302804",
+          "price": 9300
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302805",
+          "price": 9700
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302806",
+          "price": 9800
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302809",
+          "price": 12300
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302810",
+          "price": 15000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302807",
+          "price": 10100
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302815",
+          "price": 16500
+        }
+      ]
+    },
+    {
+      "sku": "STBOOR-220",
+      "name": "STABILO BOSS ORIGINAL 70/31 BLUE (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302824",
+          "price": 16500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302821",
+          "price": 10200
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302821",
+          "price": 10200
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302821",
+          "price": 10200
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302816",
+          "price": 8900
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302817",
+          "price": 9300
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302818",
+          "price": 9700
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302819",
+          "price": 9800
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302822",
+          "price": 12300
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302823",
+          "price": 15000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302820",
+          "price": 10100
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302825",
+          "price": 16500
+        }
+      ]
+    },
+    {
+      "sku": "STBOOR-221",
+      "name": "STABILO BOSS ORIGINAL 70/33 GREEN (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302801",
+          "price": 16500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302798",
+          "price": 10200
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302798",
+          "price": 10200
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302798",
+          "price": 10200
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302793",
+          "price": 8900
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302794",
+          "price": 9300
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302795",
+          "price": 9700
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302796",
+          "price": 9800
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302799",
+          "price": 12300
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302800",
+          "price": 15000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302797",
+          "price": 10100
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302802",
+          "price": 16500
+        }
+      ]
+    },
+    {
+      "sku": "STBOOR-222",
+      "name": "STABILO BOSS ORIGINAL 70/40 RED (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302834",
+          "price": 16500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302831",
+          "price": 10200
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302831",
+          "price": 10200
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302831",
+          "price": 10200
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302826",
+          "price": 8900
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302827",
+          "price": 9300
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302828",
+          "price": 9700
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302829",
+          "price": 9800
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302832",
+          "price": 12300
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302833",
+          "price": 15000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302830",
+          "price": 10100
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302835",
+          "price": 16500
+        }
+      ]
+    },
+    {
+      "sku": "STBOOR-223",
+      "name": "STABILO BOSS ORIGINAL 70/54 ORANGE (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302844",
+          "price": 16500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302841",
+          "price": 11000
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302841",
+          "price": 11000
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302841",
+          "price": 11000
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302836",
+          "price": 8900
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302837",
+          "price": 9300
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302838",
+          "price": 9700
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302839",
+          "price": 9800
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302842",
+          "price": 12300
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302843",
+          "price": 15000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302840",
+          "price": 10100
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302845",
+          "price": 16500
+        }
+      ]
+    },
+    {
+      "sku": "STBOOR-224",
+      "name": "STABILO BOSS ORIGINAL 70/56 PINK (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302854",
+          "price": 16500
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302851",
+          "price": 10200
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302851",
+          "price": 10200
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302851",
+          "price": 10200
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302846",
+          "price": 8900
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302847",
+          "price": 9300
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302848",
+          "price": 9700
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302849",
+          "price": 9800
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302852",
+          "price": 12300
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302853",
+          "price": 15000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302850",
+          "price": 10100
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302855",
+          "price": 16500
+        }
+      ]
+    },
+    {
+      "sku": "STHDMA-225",
+      "name": "STAPLER HD-50 MAX (PER PCS)",
+      "categoryName": "Stapler & Aksesoris",
+      "regionPrices": [
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160303026",
+          "price": 77145
+        }
+      ]
+    },
+    {
+      "sku": "STNOFI-226",
+      "name": "STICKY NOTES FILM ARROW \"SIGN HERE\" 20 X 48 MM MEREK PRONTO (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160302791",
+          "price": 24000
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160302788",
+          "price": 21500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160302788",
+          "price": 21500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160302788",
+          "price": 21500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160302783",
+          "price": 19000
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160302784",
+          "price": 19500
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160302785",
+          "price": 19900
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160302786",
+          "price": 20400
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160302789",
+          "price": 22700
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160302790",
+          "price": 23700
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160302787",
+          "price": 20700
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160302792",
+          "price": 24000
+        }
+      ]
+    },
+    {
+      "sku": "TIEPT0-227",
+      "name": "TINTA EPSON 003 T00V1 BLACK [ORIGINAL]",
+      "categoryName": "Lakban & Tinta",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160331926",
+          "price": 115000
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160331923",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160331923",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160331923",
+          "price": 101232
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160331918",
+          "price": 97125
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160331919",
+          "price": 101000
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160331920",
+          "price": 101000
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160331921",
+          "price": 103500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160331924",
+          "price": 105500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160331925",
+          "price": 106000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160331922",
+          "price": 100455
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160331927",
+          "price": 115000
+        }
+      ]
+    },
+    {
+      "sku": "TIEPT0-228",
+      "name": "TINTA EPSON 003 T00V2 CYAN [ORIGINAL]",
+      "categoryName": "Lakban & Tinta",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160331936",
+          "price": 115000
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160331933",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160331933",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160331933",
+          "price": 101232
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160331928",
+          "price": 97125
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160331929",
+          "price": 101000
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160331930",
+          "price": 101000
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160331931",
+          "price": 103500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160331934",
+          "price": 105500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160331935",
+          "price": 106000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160331932",
+          "price": 100455
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160331937",
+          "price": 115000
+        }
+      ]
+    },
+    {
+      "sku": "TIEPT0-229",
+      "name": "TINTA EPSON 003 T00V3 MAGENTA [ORIGINAL]",
+      "categoryName": "Lakban & Tinta",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160331947",
+          "price": 115000
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160331944",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160331944",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160331944",
+          "price": 101232
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160331938",
+          "price": 97125
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160331939",
+          "price": 101000
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160331940",
+          "price": 101000
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160331942",
+          "price": 103500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160331945",
+          "price": 105500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160331946",
+          "price": 106000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160331943",
+          "price": 100455
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160331948",
+          "price": 115000
+        }
+      ]
+    },
+    {
+      "sku": "TIEPT0-230",
+      "name": "TINTA EPSON 003 T00V4 YELLOW [ORIGINAL]",
+      "categoryName": "Lakban & Tinta",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160331957",
+          "price": 115000
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160331954",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160331954",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160331954",
+          "price": 101232
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160331949",
+          "price": 97125
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160331950",
+          "price": 101000
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160331951",
+          "price": 101000
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160331952",
+          "price": 103500
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160331955",
+          "price": 105500
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160331956",
+          "price": 106000
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160331953",
+          "price": 100455
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160331958",
+          "price": 115000
+        }
+      ]
+    },
+    {
+      "sku": "TIEPT6-231",
+      "name": "TINTA EPSON T6641 BLACK CARTRIDGE ORIGINAL ORI ASLI",
+      "categoryName": "Lakban & Tinta",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160331988",
+          "price": 107670
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160331985",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160331985",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160331985",
+          "price": 101232
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160331980",
+          "price": 95500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160331981",
+          "price": 96600
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160331982",
+          "price": 97550
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160331983",
+          "price": 97550
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160331986",
+          "price": 102675
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160331987",
+          "price": 102675
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160331984",
+          "price": 100455
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160331989",
+          "price": 107670
+        }
+      ]
+    },
+    {
+      "sku": "TIEPT6-232",
+      "name": "TINTA EPSON T6642  CYAN CARTRIDGE ORIGINAL ORI ASLI",
+      "categoryName": "Lakban & Tinta",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160332965",
+          "price": 107670
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160332962",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160332962",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160332962",
+          "price": 101232
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160331990",
+          "price": 95500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160331991",
+          "price": 96600
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160331992",
+          "price": 97550
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160332960",
+          "price": 97550
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160332963",
+          "price": 102675
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160332964",
+          "price": 102675
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160332961",
+          "price": 100455
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160332966",
+          "price": 107670
+        }
+      ]
+    },
+    {
+      "sku": "TIEPT6-233",
+      "name": "TINTA EPSON T6643  MAGENTA CARTRIDGE ORIGINAL ORI ASLI  200624068",
+      "categoryName": "Lakban & Tinta",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160331968",
+          "price": 107670
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160331965",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160331965",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160331965",
+          "price": 101232
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160331960",
+          "price": 95500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160331961",
+          "price": 96600
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160331962",
+          "price": 97550
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160331963",
+          "price": 97550
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160331966",
+          "price": 102675
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160331967",
+          "price": 102675
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160331964",
+          "price": 100455
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160331969",
+          "price": 107670
+        }
+      ]
+    },
+    {
+      "sku": "TIEPT6-234",
+      "name": "TINTA EPSON T6644  YELLOW  CARTRIDGE ORIGINAL ORI ASLI",
+      "categoryName": "Lakban & Tinta",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O160331978",
+          "price": 107670
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O160331975",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O160331975",
+          "price": 101232
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O160331975",
+          "price": 101232
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O160331970",
+          "price": 95500
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O160331971",
+          "price": 96600
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O160331972",
+          "price": 97550
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O160331973",
+          "price": 97550
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O160331976",
+          "price": 102675
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O160331977",
+          "price": 102675
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O160331974",
+          "price": 100455
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O160331979",
+          "price": 107670
+        }
+      ]
+    },
+    {
+      "sku": "TINIFA-235",
+      "name": "TISSUE NICE FACIAL 900 GRAM (PER PCS)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O210102166",
+          "price": 51000
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O210102163",
+          "price": 46500
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O210102163",
+          "price": 46500
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O210102163",
+          "price": 46500
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O210102158",
+          "price": 40200
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O210102164",
+          "price": 47200
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O210102165",
+          "price": 47300
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O210102162",
+          "price": 39500
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O210102167",
+          "price": 51000
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O210102159",
+          "price": 42300
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O210102160",
+          "price": 42800
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O210102161",
+          "price": 42100
+        }
+      ]
+    },
+    {
+      "sku": "TOANCA-245",
+      "name": "TOLAK ANGIN CAIR (1 BOX ISI 12 SACHET)",
+      "categoryName": "Alat Tulis",
+      "regionPrices": [
+        {
+          "regionCode": "AMBON",
+          "clientSku": "O990225612",
+          "price": 61050
+        },
+        {
+          "regionCode": "BALI",
+          "clientSku": "O990225609",
+          "price": 56388
+        },
+        {
+          "regionCode": "NTT",
+          "clientSku": "O990225609",
+          "price": 56388
+        },
+        {
+          "regionCode": "NTB",
+          "clientSku": "O990225609",
+          "price": 56388
+        },
+        {
+          "regionCode": "JABODETABEK",
+          "clientSku": "O990225604",
+          "price": 56055
+        },
+        {
+          "regionCode": "JABAR",
+          "clientSku": "O990225605",
+          "price": 56055
+        },
+        {
+          "regionCode": "JATENG",
+          "clientSku": "O990225606",
+          "price": 56055
+        },
+        {
+          "regionCode": "JATIM",
+          "clientSku": "O990225607",
+          "price": 56227
+        },
+        {
+          "regionCode": "KALIMANTAN",
+          "clientSku": "O990225610",
+          "price": 57498
+        },
+        {
+          "regionCode": "SULAWESI",
+          "clientSku": "O990225611",
+          "price": 57498
+        },
+        {
+          "regionCode": "SUMATRA",
+          "clientSku": "O990225608",
+          "price": 56388
+        },
+        {
+          "regionCode": "TERNATE",
+          "clientSku": "O990225613",
+          "price": 62715
+        }
+      ]
+    }
+  ]
+}

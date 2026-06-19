@@ -1,6 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductsService } from '../products/products.service';
+import { CreateOrderItemDto } from './dto/create-order-item.dto';
 
 @Injectable()
 export class OrderItemsService {
@@ -9,7 +14,7 @@ export class OrderItemsService {
     private productsService: ProductsService,
   ) {}
 
-  async create(createOrderItemDto: any) {
+  async create(createOrderItemDto: CreateOrderItemDto) {
     const product = await this.prisma.product.findUnique({
       where: { id: createOrderItemDto.productId },
     });
@@ -18,14 +23,58 @@ export class OrderItemsService {
       throw new NotFoundException('Produk tidak ditemukan di katalog!');
     }
 
-    return this.prisma.orderItem.create({
-      data: {
-        orderId: createOrderItemDto.orderId,
-        productId: createOrderItemDto.productId,
-        quantity: Number(createOrderItemDto.quantity),
-        priceAtBuy: product.price,
-        scannedQty: 0,
-      },
+    // Resolve harga & clientSku berdasarkan region branch dari order
+    const order = await this.prisma.purchaseOrder.findUnique({
+      where: { id: createOrderItemDto.orderId },
+      include: { branch: { select: { regionId: true } } },
+    });
+    if (!order) {
+      throw new NotFoundException('Purchase Order tidak ditemukan');
+    }
+
+    let finalPrice = product.price;
+    let clientSku: string | null = null;
+    if (order.branch?.regionId) {
+      const regionPrice = await this.prisma.productRegionPrice.findUnique({
+        where: {
+          productId_regionId: {
+            productId: createOrderItemDto.productId,
+            regionId: order.branch.regionId,
+          },
+        },
+      });
+      if (regionPrice) {
+        finalPrice = regionPrice.price;
+        clientSku = regionPrice.clientSku ?? null;
+      }
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      const newItem = await tx.orderItem.create({
+        data: {
+          orderId: createOrderItemDto.orderId,
+          productId: createOrderItemDto.productId,
+          quantity: Number(createOrderItemDto.quantity),
+          priceAtBuy: finalPrice,
+          scannedQty: 0,
+          clientItemCode: clientSku,
+        },
+      });
+
+      // Rekalkulasi totalAmount PO
+      const allItems = await tx.orderItem.findMany({
+        where: { orderId: createOrderItemDto.orderId },
+      });
+      const newTotal = allItems.reduce(
+        (sum, i) => sum + i.priceAtBuy * i.quantity,
+        0,
+      );
+      await tx.purchaseOrder.update({
+        where: { id: createOrderItemDto.orderId },
+        data: { totalAmount: newTotal },
+      });
+
+      return newItem;
     });
   }
 
@@ -38,9 +87,39 @@ export class OrderItemsService {
     });
   }
 
-  remove(id: string) {
+  async remove(id: string) {
+    const existing = await this.prisma.orderItem.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundException('Order item tidak ditemukan!');
     return this.prisma.orderItem.delete({
       where: { id },
+    });
+  }
+
+  async revertScan(orderId: string, productId: string, qty: number = 1) {
+    return this.prisma.$transaction(async (tx) => {
+      const orderItem = await tx.orderItem.findFirst({
+        where: { orderId, productId },
+      });
+
+      if (!orderItem) {
+        throw new NotFoundException('Order item tidak ditemukan!');
+      }
+
+      if (orderItem.scannedQty < qty) {
+        throw new BadRequestException(
+          'Jumlah yang di-revert melebihi scanned quantity!',
+        );
+      }
+
+      const updatedItem = await tx.orderItem.update({
+        where: { id: orderItem.id },
+        data: { scannedQty: { decrement: qty } },
+        include: { product: true },
+      });
+
+      await this.productsService.creditStockFIFOWithTx(tx, productId, qty);
+
+      return updatedItem;
     });
   }
 
@@ -55,7 +134,7 @@ export class OrderItemsService {
       });
 
       if (!product) {
-        throw new Error('Barcode tidak ditemukan di sistem!');
+        throw new NotFoundException('Barcode tidak ditemukan di sistem!');
       }
 
       // 2. Cek pesanan di PO
@@ -67,17 +146,17 @@ export class OrderItemsService {
       });
 
       if (!orderItem) {
-        throw new Error('Barang ini tidak ada di dalam Purchase Order!');
+        throw new BadRequestException('Barang ini tidak ada di dalam Purchase Order!');
       }
 
       // 3. Cek kapasitas scan (Pencegahan Over-Scan)
       if (orderItem.scannedQty >= orderItem.quantity) {
-        throw new Error('Barang ini sudah selesai disiapkan (Memenuhi PO).');
+        throw new BadRequestException('Barang ini sudah selesai disiapkan (Memenuhi PO).');
       }
 
       const sisaDibutuhkan = orderItem.quantity - orderItem.scannedQty;
       if (qty > sisaDibutuhkan) {
-        throw new Error(
+        throw new BadRequestException(
           `Kelebihan jumlah! Anda memasukkan ${qty}, tapi sisa yang dibutuhkan hanya ${sisaDibutuhkan} barang lagi.`,
         );
       }
@@ -90,7 +169,7 @@ export class OrderItemsService {
       });
 
       // 5. KURANGI STOK MENGGUNAKAN FIFO SECARA MASSAL
-      await this.productsService.deductStockFIFO(product.id, qty); // POTONG SEBANYAK QTY
+      await this.productsService.deductStockFIFOWithTx(tx, product.id, qty); // POTONG SEBANYAK QTY
 
       return updatedItem;
     });

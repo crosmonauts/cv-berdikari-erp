@@ -1,12 +1,22 @@
-// src/modules/products/types.ts
+export interface RegionPrice {
+  id: string;
+  regionId: string;
+  price: number;
+  clientSku?: string;
+  region: { id: string; code: string; name: string };
+}
 
-// Ini adalah "cetakan" bentuk data Produk yang sudah sinkron dengan Backend (Prisma)
 export interface Product {
   id: string;
   sku: string;
+  barcode?: string;
   name: string;
-  buyPrice: number; // <--- TAMBAHKAN INI (Harga Kulakan)
-  price: number;    // Ini Harga Jual (Sudah inc. PPN 11%)
+  price: number;
+  categoryId?: string;
+  category?: { id: string; name: string };
+  createdAt: string;
   stock: number;
-  barcode?: string; // Tambahkan optional jika suatu saat Mas Nanda mau pakai scan barcode
+  buyPrice: number;
+  regionPrices?: RegionPrice[];
+  batches?: any[];
 }

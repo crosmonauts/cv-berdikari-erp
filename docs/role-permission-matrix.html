@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Role Permission Matrix — Berdikari ERP</title>
+<style>
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; padding: 40px; max-width: 1000px; margin: auto; }
+  h1 { color: #0f172a; border-bottom: 3px solid #0f172a; padding-bottom: 10px; }
+  h2 { color: #1e293b; margin-top: 30px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; }
+  h3 { color: #334155; margin-top: 20px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px 0; font-size: 13px; }
+  th { background: #0f172a; color: white; padding: 10px 12px; text-align: left; font-weight: 600; }
+  td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; }
+  tr:nth-child(even) { background: #f8fafc; }
+  .check { color: #16a34a; font-weight: bold; }
+  .cross { color: #dc2626; }
+  .meta { color: #64748b; font-size: 13px; margin-bottom: 24px; }
+  .meta span { display: inline-block; margin-right: 24px; }
+  code { background: #f1f5f9; padding: 2px 5px; border-radius: 3px; font-size: 12px; }
+  .cred { font-family: 'Courier New', monospace; }
+</style>
+</head>
+<body>
+
+<h1>Role Permission Matrix — Berdikari ERP</h1>
+<div class="meta">
+  <span><strong>Tanggal:</strong> 18 Juni 2026</span>
+  <span><strong>Proyek:</strong> CV Berdikari ERP v2</span>
+  <span><strong>Status:</strong> ✅ Terimplementasi</span>
+</div>
+
+<h2>1. Roles</h2>
+<table>
+  <tr><th>Role</th><th>Label</th><th>Deskripsi</th></tr>
+  <tr><td><code>SUPERADMIN</code></td><td>Super Administrator</td><td>Akses penuh ke seluruh sistem</td></tr>
+  <tr><td><code>ADMIN</code></td><td>Administrator</td><td>Kelola operasional, kecuali manajemen user</td></tr>
+  <tr><td><code>GUDANG</code></td><td>Operator Gudang</td><td>Scanning barcode, picking, dan pengemasan</td></tr>
+  <tr><td><code>EKSPEDISI</code></td><td>Ekspedisi / Pengiriman</td><td>Kelola pengiriman dan AWB</td></tr>
+</table>
+
+<h3>1.1. Credentials / Akun Login</h3>
+<table>
+  <tr><th>Role</th><th>Email</th><th>Password</th><th>Nama</th></tr>
+  <tr><td><code>SUPERADMIN</code></td><td class="cred">admin@berdikari.com</td><td class="cred">admin123</td><td>Super Admin</td></tr>
+  <tr><td><code>ADMIN</code></td><td class="cred">cv.berdikari.berkah.bersama@gmail.com</td><td class="cred">Berdikari123!</td><td>Client Berdikari</td></tr>
+  <tr><td><code>GUDANG</code></td><td class="cred">gudang@berdikari.com</td><td class="cred">gudang123</td><td>Operator Gudang</td></tr>
+  <tr><td><code>EKSPEDISI</code></td><td class="cred">ekspedisi@berdikari.com</td><td class="cred">ekspedisi123</td><td>Staff Ekspedisi</td></tr>
+</table>
+
+<h2>2. Permission Matrix</h2>
+<table>
+  <tr><th>Fitur / Module</th><th>SUPERADMIN</th><th>ADMIN</th><th>GUDANG</th><th>EKSPEDISI</th></tr>
+  <tr><td><strong>Dashboard</strong></td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td></tr>
+  <tr><td style="padding-left:24px">Produk — Lihat</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td></tr>
+  <tr><td style="padding-left:24px">Produk — Buat/Edit/Hapus/Restock</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+  <tr><td style="padding-left:24px">Cabang — CRUD</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+  <tr><td style="padding-left:24px">Wilayah — CRUD</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+  <tr><td style="padding-left:24px">Kategori Produk — CRUD</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+  <tr><td style="padding-left:24px">Users/Pengguna — CRUD</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+  <tr><td><strong>Pesanan (PO)</strong> — Lihat</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td></tr>
+  <tr><td style="padding-left:24px">Pesanan (PO) — Buat/Edit</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+  <tr><td><strong>Tagihan</strong> — Lihat</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="check">✅</td></tr>
+  <tr><td style="padding-left:24px">Tagihan — Buat</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+  <tr><td><strong>Gudang / Scan Barcode</strong></td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td></tr>
+  <tr><td><strong>Pengiriman</strong> — Lihat & AWB</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="check">✅</td></tr>
+  <tr><td><strong>Laporan Pajak</strong> — CRUD</td><td class="check">✅</td><td class="check">✅</td><td class="cross">❌</td><td class="cross">❌</td></tr>
+  <tr><td><strong>Profile sendiri</strong></td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td><td class="check">✅</td></tr>
+</table>
+
+<h2>3. Frontend Route Protection</h2>
+<table>
+  <tr><th>Route</th><th>Halaman</th><th>Allowed Roles</th></tr>
+  <tr><td><code>/dashboard</code></td><td>Dashboard</td><td>Semua role</td></tr>
+  <tr><td><code>/products</code></td><td>Produk</td><td>Semua role (aksi dibatasi)</td></tr>
+  <tr><td><code>/branches</code></td><td>Cabang</td><td>SUPERADMIN, ADMIN</td></tr>
+  <tr><td><code>/regions</code></td><td>Wilayah</td><td>SUPERADMIN, ADMIN</td></tr>
+  <tr><td><code>/product-categories</code></td><td>Kategori Produk</td><td>SUPERADMIN, ADMIN</td></tr>
+  <tr><td><code>/users</code></td><td>Pengguna</td><td>SUPERADMIN</td></tr>
+  <tr><td><code>/orders</code></td><td>Pesanan (PO)</td><td>Semua role (aksi dibatasi)</td></tr>
+  <tr><td><code>/invoices</code></td><td>Tagihan</td><td>SUPERADMIN, ADMIN, EKSPEDISI</td></tr>
+  <tr><td><code>/warehouse</code></td><td>Gudang / Scan</td><td>SUPERADMIN, ADMIN, GUDANG</td></tr>
+  <tr><td><code>/shipments</code></td><td>Pengiriman</td><td>SUPERADMIN, ADMIN, EKSPEDISI</td></tr>
+  <tr><td><code>/profile</code></td><td>Profile</td><td>Semua role</td></tr>
+</table>
+
+<h2>4. Sidebar Navigation Visibility</h2>
+<table>
+  <tr><th>Role</th><th>Menu yang Terlihat</th></tr>
+  <tr><td><strong>SUPERADMIN</strong></td><td>Beranda, Master Data (Produk, Cabang, Wilayah, Kategori, Pengguna), Pesanan (PO), Tagihan, Gudang, Pengiriman</td></tr>
+  <tr><td><strong>ADMIN</strong></td><td>Beranda, Master Data (Produk, Cabang, Wilayah, Kategori), Pesanan (PO), Tagihan, Gudang, Pengiriman</td></tr>
+  <tr><td><strong>GUDANG</strong></td><td>Beranda, Master Data (Produk), Pesanan (PO), Gudang</td></tr>
+  <tr><td><strong>EKSPEDISI</strong></td><td>Beranda, Pesanan (PO), Tagihan, Pengiriman</td></tr>
+</table>
+
+<h2>5. Backend API Protection</h2>
+<table>
+  <tr><th>Controller</th><th>Endpoint / Role</th></tr>
+  <tr><td><code>UsersController</code></td><td>All endpoints: <strong>SUPERADMIN</strong></td></tr>
+  <tr><td><code>ProductsController</code></td><td>POST/PATCH/DELETE/restock: <strong>SUPERADMIN, ADMIN</strong> — GET: semua role</td></tr>
+  <tr><td><code>BranchesController</code></td><td>All: <strong>SUPERADMIN, ADMIN</strong></td></tr>
+  <tr><td><code>RegionsController</code></td><td>All: <strong>SUPERADMIN, ADMIN</strong></td></tr>
+  <tr><td><code>ProductCategoriesController</code></td><td>All: <strong>SUPERADMIN, ADMIN</strong></td></tr>
+  <tr><td><code>OrdersController</code></td><td>POST/PATCH/DELETE: <strong>SUPERADMIN, ADMIN</strong> — GET: semua role</td></tr>
+  <tr><td><code>OrderItemsController</code></td><td>POST/DELETE: <strong>SUPERADMIN, ADMIN</strong> — POST scan: <strong>SUPERADMIN, ADMIN, GUDANG</strong> — GET: semua role</td></tr>
+  <tr><td><code>InvoicesController</code></td><td>POST/PATCH/DELETE: <strong>SUPERADMIN, ADMIN</strong> — GET: <strong>SUPERADMIN, ADMIN, EKSPEDISI</strong></td></tr>
+  <tr><td><code>ShipmentsController</code></td><td>All: <strong>SUPERADMIN, ADMIN, EKSPEDISI</strong></td></tr>
+  <tr><td><code>TaxReportsController</code></td><td>All: <strong>SUPERADMIN, ADMIN</strong></td></tr>
+  <tr><td><code>DashboardController</code></td><td>Semua role</td></tr>
+</table>
+
+<h2>6. Teknis Implementasi</h2>
+
+<h3>Backend</h3>
+<ul>
+  <li><strong>Guard:</strong> <code>RolesGuard</code> — global guard via <code>APP_GUARD</code></li>
+  <li><strong>Decorator:</strong> <code>@Roles('SUPERADMIN', 'ADMIN')</code> per endpoint</li>
+  <li><strong>File baru:</strong> <code>src/auth/roles.decorator.ts</code>, <code>src/auth/roles.guard.ts</code></li>
+  <li><strong>File diubah:</strong> <code>src/auth/auth.module.ts</code>, 11 controller files</li>
+</ul>
+
+<h3>Frontend</h3>
+<ul>
+  <li><strong>Hook:</strong> <code>useUserRole()</code> — baca role dari localStorage</li>
+  <li><strong>Route guard:</strong> <code>RouteRoleGuard</code> — wrapper per route di <code>App.tsx</code></li>
+  <li><strong>Sidebar:</strong> <code>filterNavByRole()</code> — filter menu berdasarkan role</li>
+  <li><strong>Conditional UI:</strong> <code>canManage</code> — sembunyikan tombol create/edit/delete</li>
+  <li><strong>File baru:</strong> <code>src/hooks/useUserRole.ts</code>, <code>src/components/layout/RouteRoleGuard.tsx</code></li>
+  <li><strong>File diubah:</strong> <code>src/App.tsx</code>, <code>src/components/layout/MainLayout.tsx</code>, <code>src/pages/ProductsPage.tsx</code>, <code>src/pages/OrdersPage.tsx</code>, <code>src/pages/InvoicesPage.tsx</code></li>
+</ul>
+
+</body>
+</html>

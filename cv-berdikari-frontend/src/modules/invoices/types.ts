@@ -1,8 +1,12 @@
 export interface Invoice {
   id: string;
   invoiceNumber: string;
-  orderId: string;
+  issuedDate?: string;
   dueDate: string;
-  createdAt?: string; // <--- Ini penawarnya!
-  updatedAt?: string;
+  orderId: string;
+  order?: {
+    poNumber: string;
+    totalAmount: number;
+    branch?: { name: string };
+  };
 }

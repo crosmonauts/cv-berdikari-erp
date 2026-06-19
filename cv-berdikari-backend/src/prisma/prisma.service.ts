@@ -20,7 +20,11 @@ export class PrismaService
     const connectionString = process.env.DATABASE_URL;
 
     // Memasang mesin Adapter PostgreSQL (Wajib untuk versi Prisma Anda)
-    const pool = new Pool({ connectionString });
+    const pool = new Pool({
+      connectionString,
+      max: 10,
+      idleTimeoutMillis: 30000,
+    });
     const adapter = new PrismaPg(pool);
 
     // Memberikan adapter ke Prisma
