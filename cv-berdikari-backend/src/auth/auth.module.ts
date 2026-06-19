@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { PrismaService } from '../prisma/prisma.service';
+import { RolesGuard } from './roles.guard';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     JwtModule.register({
       global: true,
-      secret: 'RAHASIA_SUPER_KUAT_BERDIKARI_2026', // Di versi production, ini harus pakai file .env
-      signOptions: { expiresIn: '1d' }, // Token otomatis hangus dalam 1 hari
+      secret: process.env.JWT_SECRET!,
+      signOptions: { expiresIn: (process.env.JWT_EXPIRES_IN || '1d') as any },
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, PrismaService],
+  providers: [AuthService, RolesGuard],
 })
 export class AuthModule {}
