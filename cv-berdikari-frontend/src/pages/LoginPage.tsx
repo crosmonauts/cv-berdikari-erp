@@ -1,11 +1,16 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import api from '@/lib/api';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const redirectTo = searchParams.get('redirect') || '/dashboard';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -15,48 +20,38 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      // Variabel penentu URL otomatis
-      const API_URL = import.meta.env.VITE_API_URL;
-
-      // Memanggil URL dinamis
-      const response = await fetch(`${API_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Gagal terhubung ke server');
-      }
+      const response = await api.post(`/auth/login`, { email, password });
+      const data = response.data;
 
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
 
-      navigate('/dashboard');
+      navigate(redirectTo);
     } catch (error: any) {
-      alert(error.message);
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-950 font-sans">
-      <div className="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md border border-slate-100 animate-in fade-in zoom-in duration-500">
+    <div className="min-h-screen flex items-center justify-center bg-foreground font-sans">
+      <div className="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-md border border-border animate-in fade-in zoom-in duration-500">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-black text-slate-900 mb-2 tracking-tight">
-            Sistem <span className="text-indigo-600">Berdikari</span>
+          <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-800 text-white shadow-lg mb-5">
+            <span className="text-2xl font-bold">B</span>
+          </div>
+          <h1 className="text-3xl font-bold text-foreground mb-1 tracking-tight">
+            Berdikari ERP
           </h1>
-          <p className="text-slate-500 font-medium">
-            Silakan masuk ke akun Anda
+          <p className="text-sm text-muted-foreground font-medium">
+            Masuk ke akun Anda untuk melanjutkan
           </p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-slate-700 font-bold ml-1">
+        <form onSubmit={handleLogin} className="space-y-5">
+          <div className="space-y-1.5">
+            <Label htmlFor="email" className="text-xs font-semibold text-foreground ml-1">
               Alamat Email
             </Label>
             <Input
@@ -64,23 +59,23 @@ export default function LoginPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="username"
+              placeholder="admin@berdikari.com"
               required
-              className="h-12 bg-slate-50 border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 transition-all"
+              className="h-11 bg-muted border-border rounded-xl focus:ring-2 focus:ring-brand-600 transition-all"
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <div className="flex items-center justify-between px-1">
-              <Label htmlFor="password" className="text-slate-700 font-bold">
+              <Label htmlFor="password" className="text-xs font-semibold text-foreground">
                 Kata Sandi
               </Label>
               <button
                 type="button"
                 onClick={() =>
-                  alert('Silakan hubungi Super Admin untuk reset password.')
+                  toast.error('Silakan hubungi Super Admin untuk reset password.')
                 }
-                className="text-xs font-bold text-indigo-600 hover:text-indigo-500 hover:underline transition-all"
+                className="text-[11px] font-semibold text-brand-800 hover:text-brand-600 hover:underline transition-all"
               >
                 Lupa kata sandi?
               </button>
@@ -90,20 +85,20 @@ export default function LoginPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
+              placeholder="Masukkan kata sandi"
               required
-              className="h-12 bg-slate-50 border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 transition-all"
+              className="h-11 bg-muted border-border rounded-xl focus:ring-2 focus:ring-brand-600 transition-all"
             />
           </div>
 
           <Button
             type="submit"
             disabled={isLoading}
-            className="w-full h-12 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg rounded-xl mt-4 shadow-lg shadow-indigo-200 active:scale-[0.98] transition-all"
+            className="w-full h-11 bg-brand-800 hover:bg-brand-900 text-white font-semibold rounded-xl mt-2 shadow-lg shadow-brand-200 active:scale-[0.98] transition-all"
           >
             {isLoading ? (
               <div className="flex items-center gap-2">
-                <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 Memproses...
               </div>
             ) : (
@@ -113,8 +108,8 @@ export default function LoginPage() {
         </form>
 
         <div className="mt-8 text-center">
-          <p className="text-xs text-slate-400 font-medium">
-            © 2026 CV Berdikari. All rights reserved.
+          <p className="text-[11px] text-muted-foreground font-medium">
+            &copy; {new Date().getFullYear()} CV Berdikari. All rights reserved.
           </p>
         </div>
       </div>
