@@ -40,6 +40,7 @@ import { getOrders } from '@/modules/orders/api';
 import { getBranches } from '@/modules/branches/api';
 import { getOrderItems } from '@/modules/order-items/api';
 import { createShipment } from '@/modules/shipments/api';
+import { validateFile } from '@/lib/file-validation';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { PageHeader } from '@/components/shared/page-header';
@@ -181,7 +182,15 @@ export default function ShipmentsPage() {
         String(Number(awbData.shippingCost) || 0),
       );
       formData.append('otherFees', String(Number(awbData.otherFees) || 0));
-      if (awbFile) formData.append('file', awbFile);
+      if (awbFile) {
+        const fileError = validateFile(awbFile);
+        if (fileError) {
+          toast.error(fileError);
+          setIsSubmitting(false);
+          return;
+        }
+        formData.append('file', awbFile);
+      }
 
       await createShipment(formData);
 
@@ -597,6 +606,7 @@ export default function ShipmentsPage() {
                 <div className="relative">
                   <Input
                     type="file"
+                    accept=".pdf,.jpg,.jpeg,.png"
                     required={!awbData.documentNumber}
                     onChange={(e) => setAwbFile(e.target.files?.[0] || null)}
                     className="h-9 text-xs file:bg-brand-50 file:text-brand-900 pt-1.5 bg-muted border-none ring-1 ring-border"

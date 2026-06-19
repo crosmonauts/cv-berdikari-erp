@@ -53,6 +53,7 @@ import { getBranches } from '@/modules/branches/api';
 import { getProducts } from '@/modules/products/api';
 import { getOrderItems } from '@/modules/order-items/api';
 import { toast } from 'sonner';
+import { validateFile } from '@/lib/file-validation';
 import { PageHeader } from '@/components/shared/page-header';
 import { PaginationFooter } from '@/components/shared/pagination-footer';
 import { Skeleton } from '@/components/shared/skeleton';
@@ -311,6 +312,8 @@ export default function OrdersPage() {
         if (cartItems.length === 0)
           return toast.error('Pilih minimal 1 barang di keranjang!');
         if (!selectedFile) return toast.error('Berkas PDF wajib diunggah!');
+        const fileError = validateFile(selectedFile);
+        if (fileError) return toast.error(fileError);
         const submitData = new FormData();
         submitData.append('poNumber', formData.poNumber);
         submitData.append('branchId', formData.branchId);
