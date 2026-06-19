@@ -1,3 +1,6 @@
+-- Add paymentStatus column if missing (for fresh databases)
+ALTER TABLE "PurchaseOrder" ADD COLUMN IF NOT EXISTS "paymentStatus" TEXT NOT NULL DEFAULT 'UNPAID';
+
 -- Normalisasi data paymentStatus sebelum migrasi
 UPDATE "PurchaseOrder" SET "paymentStatus" = 'UNPAID' WHERE "paymentStatus" IS NULL OR "paymentStatus" = 'BELUM';
 
