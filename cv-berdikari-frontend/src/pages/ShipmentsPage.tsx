@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import {
   Table,
   TableBody,
@@ -31,13 +32,18 @@ import {
   FileText,
   ChevronLeft,
   ChevronRight,
+  AlertTriangle,
+  RefreshCw,
 } from 'lucide-react';
 import { getOrders } from '@/modules/orders/api';
 import { getBranches } from '@/modules/branches/api';
 import { getOrderItems } from '@/modules/order-items/api';
-import axios from 'axios';
+import { createShipment } from '@/modules/shipments/api';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { PageHeader } from '@/components/shared/page-header';
+import { PaginationFooter } from '@/components/shared/pagination-footer';
+import { Skeleton } from '@/components/shared/skeleton';
 
 // ASSETS
 import logoBerdikari from '@/assets/logo.png';
@@ -57,6 +63,7 @@ export default function ShipmentsPage() {
   const [orders, setOrders] = useState<any[]>([]);
   const [branches, setBranches] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   const currentActualYear = new Date().getFullYear();
@@ -104,6 +111,7 @@ export default function ShipmentsPage() {
   }, [searchTerm, selectedMonth, selectedYear, sortOrder]);
 
   const fetchData = async () => {
+    setIsError(false);
     try {
       const [ord, br] = await Promise.all([getOrders(), getBranches()]);
       setOrders(
@@ -112,6 +120,7 @@ export default function ShipmentsPage() {
       setBranches(br);
     } catch (e) {
       console.error(e);
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }
@@ -159,8 +168,6 @@ export default function ShipmentsPage() {
     if (!selectedOrder) return;
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL;
-
       const formData = new FormData();
       formData.append('orderId', selectedOrder.id);
       formData.append('type', 'AWB');
@@ -172,15 +179,13 @@ export default function ShipmentsPage() {
       formData.append('otherFees', String(Number(awbData.otherFees) || 0));
       if (awbFile) formData.append('file', awbFile);
 
-      await axios.post(`${API_URL}/shipments`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      await createShipment(formData);
 
-      alert('Data Pengiriman berhasil disimpan!');
+      toast.success('Data Pengiriman berhasil disimpan!');
       setIsAwbOpen(false);
       fetchData();
     } catch (error: any) {
-      alert(`Gagal! Info Backend: ${error.response?.data?.message}`);
+      toast.error(`Gagal! Info Backend: ${error.response?.data?.message}`);
     }
   };
 
@@ -273,110 +278,118 @@ export default function ShipmentsPage() {
 
       doc.save(`DO_${order.poNumber}.pdf`);
     } catch (e) {
-      alert('Error Cetak DO');
+      toast.error('Error Cetak DO');
     }
   };
 
-  if (isLoading)
+  if (isError) {
     return (
-      <div className="p-10 text-center animate-pulse font-bold text-slate-400">
-        Sinkronisasi Data...
+      <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
+        <div className="h-14 w-14 rounded-2xl bg-destructive/10 flex items-center justify-center mb-4">
+          <AlertTriangle className="h-7 w-7 text-destructive" />
+        </div>
+        <h2 className="text-lg font-semibold text-foreground mb-2">Gagal Memuat Pengiriman</h2>
+        <p className="text-sm text-muted-foreground max-w-md mb-6">
+          Tidak dapat memuat data pengiriman. Periksa koneksi server atau coba lagi.
+        </p>
+        <Button onClick={fetchData} className="gap-2">
+          <RefreshCw className="h-4 w-4" /> Coba Lagi
+        </Button>
       </div>
     );
+  }
 
-  return (
-    <div className="min-h-screen bg-slate-300 px-2 pt-1 pb-10 space-y-4 font-sans">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 bg-white rounded-xl shadow-sm flex items-center justify-center text-indigo-600 ring-1 ring-slate-200">
-            <Truck className="h-5 w-5" />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold tracking-tight text-slate-900">
-              Ekspedisi & Logistik
-            </h1>
-            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
-              Antrean Pengiriman
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            onClick={() => setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')}
-            className="h-11 bg-white border-none ring-1 ring-slate-200 shadow-sm text-xs font-bold text-slate-600 px-4 rounded-xl hover:bg-slate-50 transition-colors"
-          >
-            <ArrowUpDown className="h-3.5 w-3.5 mr-2 text-indigo-600" />
-            {sortOrder === 'desc' ? 'TERBARU' : 'TERLAMA'}
-          </Button>
-          <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl shadow-sm ring-1 ring-slate-200 h-11">
-            <CalendarDays className="h-4 w-4 text-slate-400 ml-2" />
-            <Select
-              value={selectedMonth.toString()}
-              onValueChange={(v) => setSelectedMonth(Number(v))}
-            >
-              <SelectTrigger className="w-[130px] h-8 border-none font-bold text-xs shadow-none focus:ring-0">
-                <SelectValue placeholder="Bulan" />
-              </SelectTrigger>
-              <SelectContent className="bg-white">
-                {months.map((m) => (
-                  <SelectItem key={m.val} value={m.val.toString()}>
-                    {m.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select
-              value={selectedYear.toString()}
-              onValueChange={(v) => setSelectedYear(Number(v))}
-            >
-              <SelectTrigger className="w-[90px] h-8 border-none font-bold text-xs shadow-none focus:ring-0">
-                <SelectValue placeholder="Tahun" />
-              </SelectTrigger>
-              <SelectContent className="bg-white">
-                {years.map((y) => (
-                  <SelectItem key={y} value={y.toString()}>
-                    {y}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+  if (isLoading) {
+    return (
+      <div className="min-h-full space-y-6">
+        <div className="h-10 w-64 rounded-lg bg-muted/70 animate-pulse" />
+        <div className="h-12 rounded-xl bg-muted/70 animate-pulse" />
+        <div className="bg-white rounded-xl shadow-sm ring-1 ring-border overflow-hidden">
+          <div className="p-6 space-y-4">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-4">
+                <Skeleton className="h-4 w-28" />
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-4 w-16" />
+                <Skeleton className="h-4 w-28" />
+                <Skeleton className="h-8 w-20" />
+              </div>
+            ))}
           </div>
         </div>
       </div>
+    );
+  }
 
-      <div className="max-w-6xl mx-auto space-y-4">
-        <div className="relative group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-indigo-600 transition-colors" />
+  return (
+    <div className="min-h-full space-y-6">
+      <PageHeader icon={Truck} title="Ekspedisi & Logistik" subtitle="Antrean Pengiriman">
+        <Button
+          variant="outline"
+          onClick={() => setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')}
+          className="h-9 bg-white ring-1 ring-border text-xs font-semibold text-muted-foreground px-4 rounded-xl hover:bg-muted"
+        >
+          <ArrowUpDown className="h-3.5 w-3.5 mr-2 text-brand-800" />
+          {sortOrder === 'desc' ? 'TERBARU' : 'TERLAMA'}
+        </Button>
+        <div className="flex items-center gap-2 bg-white p-1.5 rounded-xl ring-1 ring-border h-9">
+          <CalendarDays className="h-4 w-4 text-muted-foreground ml-1" />
+          <Select value={selectedMonth.toString()} onValueChange={(v) => setSelectedMonth(Number(v))}>
+            <SelectTrigger className="w-[110px] h-7 border-none font-semibold text-xs shadow-none focus:ring-0">
+              <SelectValue placeholder="Bulan" />
+            </SelectTrigger>
+            <SelectContent className="bg-white">
+              {months.map((m) => (
+                <SelectItem key={m.val} value={m.val.toString()}>{m.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={selectedYear.toString()} onValueChange={(v) => setSelectedYear(Number(v))}>
+            <SelectTrigger className="w-[80px] h-7 border-none font-semibold text-xs shadow-none focus:ring-0">
+              <SelectValue placeholder="Tahun" />
+            </SelectTrigger>
+            <SelectContent className="bg-white">
+              {years.map((y) => (
+                <SelectItem key={y} value={y.toString()}>{y}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </PageHeader>
+
+      <div className="space-y-6">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Cari berdasarkan Nomor PO..."
-            className="pl-11 h-12 bg-white border-none ring-1 ring-slate-200 rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-600 transition-all font-medium text-sm"
+            placeholder="Cari Nomor PO..."
+            className="pl-10 h-11 bg-white ring-1 ring-border rounded-xl focus:ring-2 focus:ring-brand-800 transition-all text-sm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden ring-1 ring-slate-200 flex flex-col">
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden ring-1 ring-border flex flex-col">
           <div className="flex-1 overflow-x-auto">
             <Table>
-              <TableHeader className="bg-slate-50">
-                <TableRow className="border-b border-slate-100">
-                  <TableHead className="pl-6 py-4 text-[10px] font-bold uppercase text-slate-400">
+              <TableHeader className="bg-muted">
+                <TableRow className="border-b border-border">
+                  <TableHead className="pl-6 py-4 text-xs font-bold uppercase text-muted-foreground">
                     Nomor PO
                   </TableHead>
-                  <TableHead className="py-4 text-[10px] font-bold uppercase text-slate-400">
+                  <TableHead className="py-4 text-xs font-bold uppercase text-muted-foreground">
                     Tanggal
                   </TableHead>
-                  <TableHead className="py-4 text-[10px] font-bold uppercase text-slate-400">
+                  <TableHead className="py-4 text-xs font-bold uppercase text-muted-foreground">
                     Cabang
                   </TableHead>
-                  <TableHead className="text-center py-4 text-[10px] font-bold uppercase text-slate-400">
+                  <TableHead className="text-center py-4 text-xs font-bold uppercase text-muted-foreground">
                     Area
                   </TableHead>
-                  <TableHead className="py-4 text-[10px] font-bold uppercase text-slate-400">
+                  <TableHead className="py-4 text-xs font-bold uppercase text-muted-foreground">
                     Info Pengiriman
                   </TableHead>
-                  <TableHead className="pr-6 text-right py-4 text-[10px] font-bold uppercase text-slate-400">
+                  <TableHead className="pr-6 text-right py-4 text-xs font-bold uppercase text-muted-foreground">
                     Aksi
                   </TableHead>
                 </TableRow>
@@ -386,8 +399,8 @@ export default function ShipmentsPage() {
                   <TableRow>
                     <TableCell colSpan={6} className="py-24 text-center">
                       <div className="flex flex-col items-center gap-2 opacity-40">
-                        <FileText className="h-10 w-10 text-slate-400" />
-                        <p className="text-xs font-bold uppercase italic text-slate-500">
+                        <FileText className="h-10 w-10 text-muted-foreground" />
+                        <p className="text-xs font-bold uppercase italic text-muted-foreground">
                           Tidak ada pengiriman ditemukan.
                         </p>
                       </div>
@@ -418,20 +431,20 @@ export default function ShipmentsPage() {
                     return (
                       <TableRow
                         key={o.id}
-                        className="hover:bg-slate-50/50 border-b border-slate-50 last:border-none transition-colors"
+                        className="hover:bg-muted/50 border-b border-border/50 last:border-none transition-colors"
                       >
-                        <TableCell className="pl-6 py-4 font-bold text-slate-800 uppercase">
+                        <TableCell className="pl-6 py-4 font-bold text-foreground uppercase">
                           {o.poNumber}
                         </TableCell>
-                        <TableCell className="py-4 font-bold text-slate-600 text-xs">
+                        <TableCell className="py-4 font-bold text-muted-foreground text-xs">
                           {formattedDate}
                         </TableCell>
-                        <TableCell className="py-4 font-semibold text-slate-600 text-xs">
+                        <TableCell className="py-4 font-semibold text-muted-foreground text-xs">
                           {branch?.name || '-'}
                         </TableCell>
                         <TableCell className="text-center py-4">
                           <span
-                            className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase ${isLuarKota ? 'bg-amber-50 text-amber-700 ring-1 ring-amber-100' : 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100'}`}
+                            className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${isLuarKota ? 'bg-amber-50 text-amber-700 ring-1 ring-amber-100' : 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100'}`}
                           >
                             <MapPin className="h-2.5 w-2.5 inline mr-1" />{' '}
                             {region}
@@ -440,17 +453,17 @@ export default function ShipmentsPage() {
                         <TableCell className="py-4">
                           {shipmentData ? (
                             <div className="space-y-0.5 py-1">
-                              <span className="block text-xs font-bold text-slate-800">
+                              <span className="block text-xs font-bold text-foreground">
                                 Resi: {shipmentData.documentNumber}
                               </span>
-                              <span className="block text-[10px] font-medium text-slate-500">
+                              <span className="block text-xs font-medium text-muted-foreground">
                                 Kirim: Rp{' '}
                                 {Number(
                                   shipmentData.shippingCost,
                                 ).toLocaleString('id-ID')}
                               </span>
                               {Number(shipmentData.otherFees) > 0 && (
-                                <span className="block text-[10px] font-medium text-slate-500">
+                                <span className="block text-xs font-medium text-muted-foreground">
                                   Lainnya: Rp{' '}
                                   {Number(
                                     shipmentData.otherFees,
@@ -459,11 +472,11 @@ export default function ShipmentsPage() {
                               )}
                             </div>
                           ) : isLuarKota ? (
-                            <span className="text-[10px] text-amber-600 font-medium italic">
+                            <span className="text-xs text-amber-600 font-medium italic">
                               Menunggu AWB...
                             </span>
                           ) : (
-                            <span className="text-[10px] text-indigo-600 font-medium italic">
+                            <span className="text-xs text-brand-800 font-medium italic">
                               Kurir Internal
                             </span>
                           )}
@@ -480,7 +493,7 @@ export default function ShipmentsPage() {
                             ) : (
                               <Button
                                 onClick={() => handleOpenAwb(o)}
-                                className="bg-amber-600 hover:bg-amber-700 text-white font-bold text-[10px] h-8 shadow-sm transition-all"
+                                className="bg-brand-800 hover:bg-brand-900 text-white font-bold text-[10px] h-8 shadow-sm transition-all"
                               >
                                 <PlaneTakeoff className="h-3.5 w-3.5 mr-2" />{' '}
                                 PROSES AWB
@@ -489,7 +502,7 @@ export default function ShipmentsPage() {
                           ) : (
                             <Button
                               onClick={() => handlePrintDO(o)}
-                              className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[10px] h-8 shadow-sm transition-all"
+                              className="bg-brand-800 hover:bg-brand-900 text-white font-bold text-[10px] h-8 shadow-sm transition-all"
                             >
                               <Printer className="h-3.5 w-3.5 mr-2" /> CETAK DO
                             </Button>
@@ -503,60 +516,28 @@ export default function ShipmentsPage() {
             </Table>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 bg-slate-50/50 border-t border-slate-100 gap-4">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-3">
-              {totalPages > 0 ? (
-                <span>
-                  Halaman {currentPage} dari {totalPages}
-                </span>
-              ) : (
-                <span>0 Data</span>
-              )}
-              <span className="font-black text-indigo-400">
-                | TOTAL {filteredAndSortedOrders.length} ITEM
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                disabled={currentPage <= 1}
-                className="h-8 px-3 text-[10px] font-bold uppercase text-slate-600 rounded-lg border-none shadow-sm ring-1 ring-slate-200 hover:bg-white transition-colors disabled:opacity-50"
-              >
-                <ChevronLeft className="h-3.5 w-3.5 mr-1" /> SEBELUMNYA
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() =>
-                  setCurrentPage((p) =>
-                    Math.min(Math.max(1, totalPages), p + 1),
-                  )
-                }
-                disabled={currentPage >= totalPages || totalPages === 0}
-                className="h-8 px-3 text-[10px] font-bold uppercase text-slate-600 rounded-lg border-none shadow-sm ring-1 ring-slate-200 hover:bg-white transition-colors disabled:opacity-50"
-              >
-                SELANJUTNYA <ChevronRight className="h-3.5 w-3.5 ml-1" />
-              </Button>
-            </div>
-          </div>
+          <PaginationFooter
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={filteredAndSortedOrders.length}
+            onPageChange={setCurrentPage}
+            label="PENGIRIMAN"
+          />
         </div>
       </div>
 
       <Dialog open={isAwbOpen} onOpenChange={setIsAwbOpen}>
         <DialogContent className="sm:max-w-md bg-white rounded-xl p-0 overflow-hidden border-none shadow-2xl">
-          <div className="px-6 py-4 border-b bg-slate-50/50 flex items-center gap-3">
+          <div className="px-6 py-4 border-b bg-muted/50 flex items-center gap-3">
             <PlaneTakeoff className="h-5 w-5 text-amber-600" />
-            <DialogTitle className="text-lg font-bold text-slate-900">
+            <DialogTitle className="text-lg font-bold text-foreground">
               Input Pengiriman
             </DialogTitle>
           </div>
           <div className="p-6">
             <form onSubmit={handleSaveAwb} className="space-y-4">
               <div className="space-y-1">
-                <Label className="text-[10px] font-bold text-slate-400 uppercase">
+                <Label className="text-xs font-bold text-muted-foreground uppercase">
                   Nomor Resi
                 </Label>
                 <Input
@@ -565,12 +546,12 @@ export default function ShipmentsPage() {
                   onChange={(e) =>
                     setAwbData({ ...awbData, documentNumber: e.target.value })
                   }
-                  className="h-9 font-semibold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
+                  className="h-9 font-semibold bg-muted border-none ring-1 ring-border focus:ring-2 focus:ring-brand-800"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <Label className="text-[10px] font-bold text-slate-400 uppercase">
+                  <Label className="text-xs font-bold text-muted-foreground uppercase">
                     Biaya Kirim (Rp)
                   </Label>
                   <Input
@@ -583,11 +564,11 @@ export default function ShipmentsPage() {
                         shippingCost: Number(e.target.value),
                       })
                     }
-                    className="h-9 font-bold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
+                    className="h-9 font-bold bg-muted border-none ring-1 ring-border focus:ring-2 focus:ring-brand-800"
                   />
                 </div>
                 <div className="space-y-1">
-                  <Label className="text-[10px] font-bold text-slate-400 uppercase">
+                  <Label className="text-xs font-bold text-muted-foreground uppercase">
                     Biaya Lain (Rp)
                   </Label>
                   <Input
@@ -599,12 +580,12 @@ export default function ShipmentsPage() {
                         otherFees: Number(e.target.value),
                       })
                     }
-                    className="h-9 font-bold bg-slate-50 border-none ring-1 ring-slate-200 focus:ring-2 focus:ring-indigo-600"
+                    className="h-9 font-bold bg-muted border-none ring-1 ring-border focus:ring-2 focus:ring-brand-800"
                   />
                 </div>
               </div>
               <div className="space-y-1">
-                <Label className="text-[10px] font-bold text-slate-400 uppercase">
+                <Label className="text-xs font-bold text-muted-foreground uppercase">
                   Upload Resi {awbData.documentNumber ? '(Opsional)' : ''}
                 </Label>
                 <div className="relative">
@@ -612,14 +593,14 @@ export default function ShipmentsPage() {
                     type="file"
                     required={!awbData.documentNumber}
                     onChange={(e) => setAwbFile(e.target.files?.[0] || null)}
-                    className="h-9 text-xs file:bg-indigo-50 file:text-indigo-700 pt-1.5 bg-slate-50 border-none ring-1 ring-slate-200"
+                    className="h-9 text-xs file:bg-brand-50 file:text-brand-900 pt-1.5 bg-muted border-none ring-1 ring-border"
                   />
-                  <UploadCloud className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                  <UploadCloud className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 </div>
               </div>
               <Button
                 type="submit"
-                className="w-full bg-slate-900 text-white h-10 font-bold uppercase tracking-widest text-xs mt-4 hover:bg-slate-800 transition-all active:scale-95 border-none shadow-sm"
+                className="w-full bg-foreground text-white h-10 font-bold uppercase tracking-wide text-xs mt-4 hover:bg-foreground/90 transition-all active:scale-95 border-none shadow-sm"
               >
                 SIMPAN PERUBAHAN
               </Button>
