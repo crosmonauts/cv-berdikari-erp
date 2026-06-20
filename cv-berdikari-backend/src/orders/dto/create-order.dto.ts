@@ -1,5 +1,5 @@
 import { IsString, IsNumber, IsNotEmpty, IsOptional, IsArray, ValidateNested, Min } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Type, Transform } from 'class-transformer';
 
 class OrderItemInput {
   @IsString()
@@ -37,6 +37,7 @@ export class CreateOrderDto {
   @IsNotEmpty()
   branchId: string;
 
+  @Transform(({ value }) => typeof value === 'string' ? JSON.parse(value) : value)
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
