@@ -1,9 +1,8 @@
 {
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "cd cv-berdikari-backend && npm run build",
-    "startCommand": "cd cv-berdikari-backend && npm run start:prod",
-    "watchPatterns": ["cv-berdikari-backend/**"]
+    "buildCommand": "npm run build",
+    "startCommand": "npm run start:prod"
   },
   "deploy": {
     "numReplicas": 1,
