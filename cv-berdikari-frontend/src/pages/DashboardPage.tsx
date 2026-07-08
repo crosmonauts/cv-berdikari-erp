@@ -215,8 +215,8 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="h-[280px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="h-[280px] w-full min-w-0 min-h-0">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
               <BarChart
                 data={chartData}
                 margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
