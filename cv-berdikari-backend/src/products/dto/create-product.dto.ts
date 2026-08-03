@@ -9,6 +9,10 @@ export class RegionPriceDto {
   @IsNumber()
   @Min(0)
   price: number;
+
+  @IsOptional()
+  @IsString()
+  clientSku?: string | null;
 }
 
 export class CreateProductDto {
