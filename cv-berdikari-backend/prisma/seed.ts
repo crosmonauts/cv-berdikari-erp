@@ -22,6 +22,7 @@ interface ProductSeed {
   sku: string;
   name: string;
   categoryName: string;
+  barcode?: string | null;
   regionPrices: RegionPriceEntry[];
 }
 
@@ -156,7 +157,7 @@ async function main() {
         sku: p.sku,
         name: p.name,
         price: p.regionPrices[0]?.price || 0,
-        barcode: undefined,
+        barcode: p.barcode && p.barcode.trim() !== '' ? p.barcode : undefined,
         categoryId: categoryMap[p.categoryName],
       },
     });
