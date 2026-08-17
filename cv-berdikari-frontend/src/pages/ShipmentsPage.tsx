@@ -59,7 +59,7 @@ const loadAsset = (src: string): Promise<HTMLImageElement> => {
   });
 };
 
-const LOCAL_REGIONS = (import.meta.env.VITE_LOCAL_REGIONS || 'SEMARANG,SMG').split(',');
+const LOCAL_REGIONS = (import.meta.env.VITE_LOCAL_REGIONS || 'JATENG,SEMARANG,SMG').split(',');
 
 export default function ShipmentsPage() {
   const [orders, setOrders] = useState<any[]>([]);
@@ -79,6 +79,7 @@ export default function ShipmentsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [isAwbOpen, setIsAwbOpen] = useState(false);
+  const [shipmentType, setShipmentType] = useState<'AWB' | 'DO'>('AWB');
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const [awbData, setAwbData] = useState({
     documentNumber: '',
@@ -158,7 +159,12 @@ export default function ShipmentsPage() {
     currentPage * itemsPerPage,
   );
 
-  const handleOpenAwb = (order: any, existingShipment: any = null) => {
+  const handleOpenShipment = (
+    order: any,
+    type: 'AWB' | 'DO',
+    existingShipment: any = null,
+  ) => {
+    setShipmentType(type);
     setSelectedOrder(order);
     if (existingShipment) {
       setAwbData({
@@ -167,13 +173,17 @@ export default function ShipmentsPage() {
         otherFees: existingShipment.otherFees || 0,
       });
     } else {
-      setAwbData({ documentNumber: '', shippingCost: 0, otherFees: 0 });
+      setAwbData({
+        documentNumber: type === 'DO' ? `DO-${order.poNumber}` : '',
+        shippingCost: 0,
+        otherFees: 0,
+      });
     }
     setAwbFile(null);
     setIsAwbOpen(true);
   };
 
-  const handleSaveAwb = async (e: React.FormEvent) => {
+  const handleSaveShipment = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedOrder) return;
     setIsSubmitting(true);
@@ -181,7 +191,7 @@ export default function ShipmentsPage() {
     try {
       const formData = new FormData();
       formData.append('orderId', selectedOrder.id);
-      formData.append('type', 'AWB');
+      formData.append('type', shipmentType);
       formData.append('documentNumber', awbData.documentNumber);
       formData.append(
         'shippingCost',
@@ -433,12 +443,16 @@ export default function ShipmentsPage() {
 
                     // --- PERBAIKAN BUG WHITE SCREEN DISINI ---
                     // Mengambil nama wilayah dari objek region, dengan fallback jika kosong
-                    const region =
+                    const regionName =
                       branch?.region?.name?.toUpperCase() || 'BELUM DIATUR';
 
-                    const isLuarKota =
-                      !LOCAL_REGIONS.includes(region) &&
-                      region !== 'BELUM DIATUR';
+                    // Klasifikasi lokal/luar kota pakai region.code (stabil),
+                    // bukan nama. Wilayah lokal = kurir internal (DO).
+                    const regionCode = branch?.region?.code?.toUpperCase() || '';
+                    const isLocal =
+                      regionCode !== '' && LOCAL_REGIONS.includes(regionCode);
+
+                    const isLuarKota = !isLocal && regionName !== 'BELUM DIATUR';
 
                     const shipmentData = o.shipment || null;
                     const formattedDate = new Date(
@@ -466,8 +480,8 @@ export default function ShipmentsPage() {
                           <span
                             className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${isLuarKota ? 'bg-amber-50 text-amber-700 ring-1 ring-amber-100' : 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100'}`}
                           >
-                            <MapPin className="h-2.5 w-2.5 inline mr-1" />{' '}
-                            {region}
+                             <MapPin className="h-2.5 w-2.5 inline mr-1" />{' '}
+                             {regionName}
                           </span>
                         </TableCell>
                         <TableCell className="py-4">
@@ -505,14 +519,14 @@ export default function ShipmentsPage() {
                           {isLuarKota ? (
                             shipmentData ? (
                               <Button
-                                onClick={() => handleOpenAwb(o, shipmentData)}
+                                onClick={() => handleOpenShipment(o, 'AWB', shipmentData)}
                                 className="bg-emerald-50 hover:bg-emerald-100 text-emerald-600 font-bold text-[10px] h-8 shadow-sm transition-all"
                               >
                                 <Edit className="h-3.5 w-3.5 mr-1.5" /> EDIT AWB
                               </Button>
                             ) : (
                               <Button
-                                onClick={() => handleOpenAwb(o)}
+                                onClick={() => handleOpenShipment(o, 'AWB')}
                                 className="bg-brand-800 hover:bg-brand-900 text-white font-bold text-[10px] h-8 shadow-sm transition-all"
                               >
                                 <PlaneTakeoff className="h-3.5 w-3.5 mr-2" />{' '}
@@ -520,12 +534,29 @@ export default function ShipmentsPage() {
                               </Button>
                             )
                           ) : (
-                            <Button
-                              onClick={() => handlePrintDO(o)}
-                              className="bg-brand-800 hover:bg-brand-900 text-white font-bold text-[10px] h-8 shadow-sm transition-all"
-                            >
-                              <Printer className="h-3.5 w-3.5 mr-2" /> CETAK DO
-                            </Button>
+                            <div className="flex items-center justify-end gap-2">
+                              <Button
+                                onClick={() => handlePrintDO(o)}
+                                className="bg-brand-800 hover:bg-brand-900 text-white font-bold text-[10px] h-8 shadow-sm transition-all"
+                              >
+                                <Printer className="h-3.5 w-3.5 mr-2" /> CETAK DO
+                              </Button>
+                              {shipmentData ? (
+                                <Button
+                                  onClick={() => handleOpenShipment(o, 'DO', shipmentData)}
+                                  className="bg-emerald-50 hover:bg-emerald-100 text-emerald-600 font-bold text-[10px] h-8 shadow-sm transition-all"
+                                >
+                                  <Edit className="h-3.5 w-3.5 mr-1.5" /> EDIT DO
+                                </Button>
+                              ) : (
+                                <Button
+                                  onClick={() => handleOpenShipment(o, 'DO')}
+                                  className="bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-[10px] h-8 shadow-sm transition-all"
+                                >
+                                  <Truck className="h-3.5 w-3.5 mr-1.5" /> PROSES DO
+                                </Button>
+                              )}
+                            </div>
                           )}
                         </TableCell>
                       </TableRow>
@@ -549,16 +580,20 @@ export default function ShipmentsPage() {
       <Dialog open={isAwbOpen} onOpenChange={setIsAwbOpen}>
         <DialogContent className="sm:max-w-md bg-white rounded-xl p-0 overflow-hidden border-none shadow-2xl">
           <div className="px-6 py-4 border-b bg-muted/50 flex items-center gap-3">
-            <PlaneTakeoff className="h-5 w-5 text-amber-600" />
-            <DialogTitle className="text-lg font-bold text-foreground">
-              Input Pengiriman
-            </DialogTitle>
+            {shipmentType === 'DO' ? (
+              <Truck className="h-5 w-5 text-amber-600" />
+            ) : (
+              <PlaneTakeoff className="h-5 w-5 text-amber-600" />
+            )}
+              <DialogTitle className="text-lg font-bold text-foreground">
+                Input {shipmentType === 'DO' ? 'Delivery Order (DO)' : 'AWB'}
+              </DialogTitle>
           </div>
           <div className="p-6">
-            <form onSubmit={handleSaveAwb} className="space-y-4">
+            <form onSubmit={handleSaveShipment} className="space-y-4">
               <div className="space-y-1">
                 <Label className="text-xs font-bold text-muted-foreground uppercase">
-                  Nomor Resi
+                  {shipmentType === 'DO' ? 'Nomor DO' : 'Nomor Resi'}
                 </Label>
                 <Input
                   required
@@ -606,7 +641,7 @@ export default function ShipmentsPage() {
               </div>
               <div className="space-y-1">
                 <Label className="text-xs font-bold text-muted-foreground uppercase">
-                  Upload Resi {awbData.documentNumber ? '(Opsional)' : ''}
+                  Upload {shipmentType === 'DO' ? 'DO' : 'Resi'} {awbData.documentNumber ? '(Opsional)' : ''}
                 </Label>
                 <div className="relative">
                   <Input
