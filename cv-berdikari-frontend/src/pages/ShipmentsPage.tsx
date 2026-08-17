@@ -228,18 +228,28 @@ export default function ShipmentsPage() {
 
       try {
         const logoImg = await loadAsset(logoBerdikari);
-        doc.addImage(logoImg, 'JPEG', 14, 10, 22, 22);
+        // Proporsi 5:4 (Lebar 20, Tinggi 16) agar seragam dengan Invoice
+        doc.addImage(logoImg, 'PNG', 14, 10, 20, 16);
       } catch (e) {
         console.warn('Logo gagal dimuat');
       }
 
-      doc.setFontSize(20);
+      doc.setFontSize(18);
       doc.setFont('helvetica', 'bold');
-      doc.text('CV. BERDIKARI JAYA', 40, 20);
+      doc.setTextColor(0, 0, 0);
+      doc.text('CV. BERDIKARI BERKAH BERSAMA', 38, 18);
+
       doc.setFontSize(9);
-      doc.text('Jl. Pemuda No. 123, Semarang | logistik@berdikari.com', 40, 26);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(100);
+      doc.text('Jl. Bulustalan V 653F, Semarang | Telp: 083842319061', 38, 24);
+      doc.text('Email: cv.berdikari.berkah.bersama@gmail.com', 38, 29);
+
       doc.line(14, 35, 196, 35);
+
       doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(0);
       doc.text('DELIVERY ORDER', 14, 45);
       doc.setFontSize(9);
       doc.text(`No. Dokumen : DO-${order.poNumber}`, 14, 52);
@@ -266,8 +276,8 @@ export default function ShipmentsPage() {
         head: [['No.', 'Nama Barang', 'Kode (SKU)', 'Jumlah']],
         body: tableBody,
         theme: 'grid',
-        headStyles: { fillColor: [71, 85, 105] },
-        styles: { fontSize: 9 },
+        headStyles: { fillColor: [40, 40, 40] },
+        styles: { fontSize: 8, cellPadding: 3 },
       });
 
       const finalY = (doc as any).lastAutoTable.finalY || 150;
@@ -302,7 +312,7 @@ export default function ShipmentsPage() {
         console.warn('Asset gagal dimuat');
       }
 
-      doc.text('( Bag. Gudang & Pengiriman )', 28, finalY + 55);
+      doc.text('( Dinny Elvandari Prinawati )', 28, finalY + 55);
 
       doc.text('Diterima Oleh,', 140, finalY + 25);
       doc.text('( Store Manager )', 135, finalY + 55);
