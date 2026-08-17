@@ -281,17 +281,18 @@ export default function ShipmentsPage() {
       });
 
       const finalY = (doc as any).lastAutoTable.finalY || 150;
-      doc.text('Hormat Kami,', 40, finalY + 25);
+      // Blok "Hormat Kami" dipusatkan pada satu sumbu (cx = 33) agar simetris
+      doc.text('Hormat Kami,', 33, finalY + 38, { align: 'center' });
 
       try {
         const stempelImg = await loadAsset(stempelImage);
         doc.addImage(
           stempelImg,
           'PNG',
-          15,
-          finalY + 25,
-          35,
-          35,
+          10.5,
+          finalY + 45,
+          45,
+          14,
           undefined,
           'FAST',
           0,
@@ -300,10 +301,10 @@ export default function ShipmentsPage() {
         doc.addImage(
           ttdImg,
           'PNG',
-          22,
-          finalY + 30,
-          30,
-          20,
+          20.5,
+          finalY + 40,
+          25,
+          18,
           undefined,
           'FAST',
           0,
@@ -312,7 +313,9 @@ export default function ShipmentsPage() {
         console.warn('Asset gagal dimuat');
       }
 
-      doc.text('( Dinny Elvandari Prinawati )', 28, finalY + 55);
+      doc.text('( Dinny Elvandari Prinawati )', 33, finalY + 63, {
+        align: 'center',
+      });
 
       doc.text('Diterima Oleh,', 140, finalY + 25);
       doc.text('( Store Manager )', 135, finalY + 55);
