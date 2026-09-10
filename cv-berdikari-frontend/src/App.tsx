@@ -16,6 +16,7 @@ import InvoicesPage from "@/pages/InvoicesPage";
 import WarehousePage from "@/pages/WarehousePage";
 import TaxReportsPage from "@/pages/TaxReportsPage";
 import ShipmentsPage from "@/pages/ShipmentsPage";
+import SystemConfigPage from "@/pages/SystemConfigPage";
 import ProfilePage from "./pages/ProfilPage";
 
 function RouteGuard({ allowedRoles, children }: { allowedRoles: string[]; children: React.ReactNode }) {
@@ -77,6 +78,11 @@ function App() {
             <Route path="/tax-reports" element={
               <RouteGuard allowedRoles={['SUPERADMIN', 'ADMIN']}>
                 <ErrorBoundary><TaxReportsPage /></ErrorBoundary>
+              </RouteGuard>
+            } />
+            <Route path="/settings/tax" element={
+              <RouteGuard allowedRoles={['SUPERADMIN']}>
+                <ErrorBoundary><SystemConfigPage /></ErrorBoundary>
               </RouteGuard>
             } />
             <Route path="/profile" element={<ErrorBoundary><ProfilePage /></ErrorBoundary>} />

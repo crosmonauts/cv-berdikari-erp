@@ -17,6 +17,8 @@ import { AuthModule } from './auth/auth.module';
 import { RegionsModule } from './regions/regions.module';
 import { UsersModule } from './users/users.module';
 import { ReceiptsModule } from './receipts/receipts.module';
+import { SystemConfigModule } from './system-config/system-config.module';
+import { NsfpPoolModule } from './nsfp-pool/nsfp-pool.module';
 
 @Module({
   imports: [
@@ -38,6 +40,8 @@ import { ReceiptsModule } from './receipts/receipts.module';
     RegionsModule,
     UsersModule,
     ReceiptsModule,
+    SystemConfigModule,
+    NsfpPoolModule,
   ],
   controllers: [AppController],
   providers: [
