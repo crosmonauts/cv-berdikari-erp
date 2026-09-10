@@ -11,6 +11,7 @@ import {
   LogOut,
   PackageOpen,
   Truck,
+  Settings,
   ChevronDown,
   ChevronRight,
   User,
@@ -41,6 +42,12 @@ const allNav: (NavItem | NavGroup)[] = [
   { name: 'Tagihan', href: '/invoices', icon: Receipt },
   { name: 'Gudang', href: '/warehouse', icon: PackageOpen },
   { name: 'Pengiriman', href: '/shipments', icon: Truck },
+  { name: 'Laporan Pajak', href: '/tax-reports', icon: Receipt },
+  {
+    name: 'Pengaturan',
+    icon: Settings,
+    children: [{ name: 'Pajak', href: '/settings/tax', icon: Settings }],
+  },
 ];
 
 function filterNavByRole(nav: (NavItem | NavGroup)[], role: string): (NavItem | NavGroup)[] {
@@ -53,6 +60,8 @@ function filterNavByRole(nav: (NavItem | NavGroup)[], role: string): (NavItem | 
       '/invoices': ['SUPERADMIN', 'ADMIN', 'EKSPEDISI'],
       '/warehouse': ['SUPERADMIN', 'ADMIN', 'GUDANG'],
       '/shipments': ['SUPERADMIN', 'ADMIN', 'EKSPEDISI'],
+      '/tax-reports': ['SUPERADMIN', 'ADMIN'],
+      '/settings/tax': ['SUPERADMIN'],
       '/products': ['SUPERADMIN', 'ADMIN', 'GUDANG'],
     };
     const allowed = routeAccess[flatItem.href];

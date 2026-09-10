@@ -473,9 +473,67 @@ git commit -m "feat: wire coretax modules and e2e verify"
 
 ---
 
+### Task 9: Fix Sidebar Menu (Laporan Pajak & Pengaturan)
+
+**Files:**
+- Modify: `cv-berdikari-frontend/src/components/layout/MainLayout.tsx:4-61`
+
+- [ ] **Step 1: Tambah icon Settings**
+
+```ts
+import { Settings } from 'lucide-react';
+```
+
+- [ ] **Step 2: Tambah allNav items**
+
+```ts
+const allNav: (NavItem | NavGroup)[] = [
+  { name: 'Beranda', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'Master Data', icon: Database, children: [...] },
+  { name: 'Pesanan (PO)', href: '/orders', icon: FileText },
+  { name: 'Tagihan', href: '/invoices', icon: Receipt },
+  { name: 'Gudang', href: '/warehouse', icon: PackageOpen },
+  { name: 'Pengiriman', href: '/shipments', icon: Truck },
+  { name: 'Laporan Pajak', href: '/tax-reports', icon: Receipt },
+  { name: 'Pengaturan', icon: Settings, children: [
+    { name: 'Pajak', href: '/settings/tax', icon: Settings },
+  ]},
+];
+```
+
+- [ ] **Step 3: Update filterNavByRole**
+
+```ts
+const routeAccess: Record<string, string[]> = {
+  '/invoices': ['SUPERADMIN','ADMIN','EKSPEDISI'],
+  '/warehouse': ['SUPERADMIN','ADMIN','GUDANG'],
+  '/shipments': ['SUPERADMIN','ADMIN','EKSPEDISI'],
+  '/tax-reports': ['SUPERADMIN','ADMIN'],
+  '/settings/tax': ['SUPERADMIN'],
+  '/products': ['SUPERADMIN','ADMIN','GUDANG'],
+};
+```
+
+- [ ] **Step 4: Test manual login SUPERADMIN lihat 2 menu baru, ADMIN lihat hanya Laporan Pajak**
+
+```bash
+npm run build
+```
+
+Expected: build OK, sidebar shows new items.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add cv-berdikari-frontend/src/components/layout/MainLayout.tsx
+git commit -m "fix: add Laporan Pajak and Pengaturan Pajak to sidebar"
+```
+
+---
+
 ## Self-Review
 
-**Spec coverage:** ✅ NSFP Pool 17 digit (Task 3), PPN Settings snapshot (Task 2,4), PDF (Task 4,5), XML (Task 4,5), ZIP per PO (Task 5,7), ZIP per Bulan + CSV/XML rekap (Task 5,7), PO Asli in bundle (Task 5), Pengaturan UI (Task 6).
+**Spec coverage:** ✅ NSFP Pool 17 digit (Task 3), PPN Settings snapshot (Task 2,4), PDF (Task 4,5), XML (Task 4,5), ZIP per PO (Task 5,7), ZIP per Bulan + CSV/XML rekap (Task 5,7), PO Asli in bundle (Task 5), Pengaturan UI (Task 6), Sidebar Menu (Task 9).
 
 **Placeholder scan:** No TBD/TODO, all code blocks complete with DTOs, service logic, controller headers, archiver usage, formatNsfp.
 
