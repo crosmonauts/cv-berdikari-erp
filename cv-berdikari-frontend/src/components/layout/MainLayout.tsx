@@ -287,7 +287,14 @@ export default function MainLayout() {
           })}
         </nav>
 
-        <div className="p-4 border-t border-white/5 shrink-0">
+        <div className="p-4 border-t border-white/5 shrink-0 space-y-3">
+          <button
+            onClick={handleLogout}
+            className="flex w-full items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+          >
+            <LogOut className="h-5 w-5" />
+            Keluar Sistem
+          </button>
           <p className="text-[10px] text-slate-600 font-medium text-center">
             &copy; {new Date().getFullYear()} Berdikari ERP
           </p>
@@ -361,14 +368,6 @@ export default function MainLayout() {
                   </button>
 
                   <div className="h-px bg-border my-1 mx-2" />
-
-                  <button
-                    onClick={handleLogout}
-                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-destructive hover:bg-destructive/5 font-semibold transition-colors"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    Keluar Sistem
-                  </button>
                 </motion.div>
               )}
             </AnimatePresence>
