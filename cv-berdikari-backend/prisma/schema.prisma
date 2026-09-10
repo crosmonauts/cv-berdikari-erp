@@ -175,10 +175,30 @@ model TaxReport {
   dpp          Float   // Dasar Pengenaan Pajak (Harga / 1.11)
   taxAmount    Float   // Nilai PPN (11%)
   status       String  @default("UNREPORTED")
-  
+  ppnRateUsed  Float?
+
   // Relasi
   invoiceId    String  @unique
   invoice      Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+}
+
+model SystemConfig {
+  id            String   @id @default(uuid())
+  key           String   @unique
+  value         String
+  effectiveFrom DateTime @default(now())
+  createdBy     String?
+  createdAt     DateTime @default(now())
+}
+
+model NsfpPool {
+  id        String   @id @default(uuid())
+  year      Int
+  prefix    String   @default("010.009")
+  startNum  String
+  endNum    String
+  current   String
+  createdAt DateTime @default(now())
 }
 
 // ---------------------------------------------------------
