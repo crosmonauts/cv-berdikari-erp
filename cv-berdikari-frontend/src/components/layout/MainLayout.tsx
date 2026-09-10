@@ -36,6 +36,7 @@ const allNav: (NavItem | NavGroup)[] = [
       { name: 'Wilayah', href: '/regions', icon: MapPin },
       { name: 'Kategori', href: '/product-categories', icon: FolderTree },
       { name: 'Pengguna', href: '/users', icon: User },
+      { name: 'Pajak', href: '/settings/tax', icon: Settings },
     ],
   },
   { name: 'Pesanan (PO)', href: '/orders', icon: FileText },
@@ -43,11 +44,6 @@ const allNav: (NavItem | NavGroup)[] = [
   { name: 'Gudang', href: '/warehouse', icon: PackageOpen },
   { name: 'Pengiriman', href: '/shipments', icon: Truck },
   { name: 'Laporan Pajak', href: '/tax-reports', icon: Receipt },
-  {
-    name: 'Pengaturan',
-    icon: Settings,
-    children: [{ name: 'Pajak', href: '/settings/tax', icon: Settings }],
-  },
 ];
 
 function filterNavByRole(nav: (NavItem | NavGroup)[], role: string): (NavItem | NavGroup)[] {
