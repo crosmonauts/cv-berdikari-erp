@@ -16,6 +16,7 @@ export class ProductsService {
         data: {
           sku: createProductDto.sku,
           name: createProductDto.name,
+          unit: createProductDto.unit ?? 'pcs',
           price: createProductDto.price, // Harga default
           barcode: createProductDto.barcode,
           categoryId: (createProductDto as any).categoryId || null,

@@ -251,6 +251,7 @@ export default function OrdersPage() {
               productId: product.id,
               sku: product.sku,
               name: product.name,
+              unit: product.unit || 'pcs',
               price: finalPrice,
               quantity: tempItem.quantity,
               clientItemCode: tempItem.clientItemCode,
@@ -288,6 +289,7 @@ export default function OrdersPage() {
         productId: it.productId,
         name: it.product.name,
         sku: it.product.sku,
+        unit: it.product.unit || 'pcs',
         price: it.priceAtBuy,
         quantity: it.quantity,
         clientItemCode: it.clientItemCode || '',
@@ -926,7 +928,7 @@ export default function OrdersPage() {
                             {item.clientItemCode || '-'}
                           </td>
                           <td className="py-3 px-2 text-center font-bold text-brand-800 text-sm align-top">
-                            {item.quantity}
+                            {item.quantity} {item.unit || 'pcs'}
                           </td>
                           <td className="py-3 pl-2 pr-4 text-right font-bold text-foreground text-xs align-top whitespace-nowrap">
                             Rp{' '}
@@ -1047,7 +1049,7 @@ export default function OrdersPage() {
                         {item.clientItemCode || '-'}
                       </td>
                       <td className="py-4 text-center font-bold text-brand-800 text-base">
-                        {item.quantity}
+                        {item.quantity} {item.product.unit || 'pcs'}
                       </td>
                       <td className="py-4 text-right font-bold text-foreground pr-6">
                         Rp{' '}

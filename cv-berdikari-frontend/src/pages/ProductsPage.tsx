@@ -56,6 +56,21 @@ import { ConfirmDialog } from '@/components/shared/confirm-dialog';
 import { Skeleton } from '@/components/shared/skeleton';
 import { useUserRole } from '@/hooks/useUserRole';
 
+const PRODUCT_UNITS = [
+  'pcs',
+  'unit',
+  'roll',
+  'pack',
+  'box',
+  'rim',
+  'lusin',
+  'karton',
+  'botol',
+  'liter',
+  'meter',
+  'set',
+];
+
 export default function ProductsPage() {
   const { canManage } = useUserRole();
   const [products, setProducts] = useState<Product[]>([]);
@@ -78,6 +93,7 @@ export default function ProductsPage() {
   const [formData, setFormData] = useState<any>({
     sku: '',
     name: '',
+    unit: 'pcs',
     barcode: '',
     buyPrice: '',
     price: '',
@@ -129,6 +145,7 @@ export default function ProductsPage() {
     setFormData({
       sku: '',
       name: '',
+      unit: 'pcs',
       barcode: '',
       buyPrice: '',
       price: '',
@@ -157,6 +174,7 @@ export default function ProductsPage() {
     setFormData({
       sku: p.sku,
       name: p.name,
+      unit: p.unit || 'pcs',
       barcode: p.barcode || '',
       buyPrice: (p as any).buyPrice || '',
       price: p.price || '',
@@ -208,6 +226,7 @@ export default function ProductsPage() {
         const updatePayload = {
           sku: formData.sku,
           name: formData.name,
+          unit: formData.unit.trim() || 'pcs',
           barcode: safeBarcode,
           price: Number(formData.price),
           categoryId: formData.categoryId || null,
@@ -219,6 +238,7 @@ export default function ProductsPage() {
         const createPayload = {
           sku: formData.sku,
           name: formData.name,
+          unit: formData.unit.trim() || 'pcs',
           barcode: safeBarcode,
           buyPrice: Number(formData.buyPrice),
           price: Number(formData.price),
@@ -437,7 +457,7 @@ export default function ProductsPage() {
                       <span
                         className={`inline-block px-2 py-0.5 rounded-md text-[10px] font-bold uppercase ring-1 ${p.stock > 10 ? 'bg-success/10 text-success ring-success/20' : 'bg-warning/10 text-warning ring-warning/20'}`}
                       >
-                        {p.stock} Pcs
+                        {p.stock} {(p.unit || 'pcs').toUpperCase()}
                       </span>
                     </TableCell>
                     <TableCell className="pr-4 py-2.5 text-right">
@@ -608,6 +628,47 @@ export default function ProductsPage() {
                       className="h-9 pl-9 font-semibold bg-muted border-none ring-1 ring-border focus:ring-2 focus:ring-brand-800"
                     />
                   </div>
+                </div>
+
+                {/* SATUAN (dropdown umum + ketik custom) */}
+                <div className="space-y-1">
+                  <Label className="text-xs font-semibold uppercase text-muted-foreground">
+                    Satuan
+                  </Label>
+                  <select
+                    value={
+                      PRODUCT_UNITS.includes(formData.unit)
+                        ? formData.unit
+                        : '_custom'
+                    }
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        unit:
+                          e.target.value === '_custom' ? '' : e.target.value,
+                      })
+                    }
+                    className="h-9 w-full font-semibold bg-muted border-none ring-1 ring-border focus:ring-2 focus:ring-brand-800 rounded-lg px-3 text-sm"
+                  >
+                    {PRODUCT_UNITS.map((u) => (
+                      <option key={u} value={u}>
+                        {u}
+                      </option>
+                    ))}
+                    <option value="_custom">
+                      Lainnya (ketik satuan sendiri)…
+                    </option>
+                  </select>
+                  {!PRODUCT_UNITS.includes(formData.unit) && (
+                    <Input
+                      value={formData.unit}
+                      onChange={(e) =>
+                        setFormData({ ...formData, unit: e.target.value })
+                      }
+                      placeholder="Contoh: dos, slop, gulung"
+                      className="h-9 font-semibold bg-muted border-none ring-1 ring-border focus:ring-2 focus:ring-brand-800"
+                    />
+                  )}
                 </div>
 
                 {/* BARIS 5: Kulakan, Harga Jual Dasar, Stok Awal (Sejajar) */}

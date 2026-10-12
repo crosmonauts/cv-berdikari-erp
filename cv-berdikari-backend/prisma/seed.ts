@@ -149,7 +149,6 @@ async function main() {
   //  4. PRODUCTS + REGION PRICES + STOCK BATCH
   // ─────────────────────────────────────────────────────────
   console.log('⏳ Menyuntikkan Produk dari data Excel...');
-  const productMap: Record<string, string> = {};
 
   for (const p of seedData.products) {
     const product = await prisma.product.create({
@@ -161,7 +160,6 @@ async function main() {
         categoryId: categoryMap[p.categoryName],
       },
     });
-    productMap[p.sku] = product.id;
 
     for (const rp of p.regionPrices) {
       const regionId = regionMap[rp.regionCode];
@@ -193,7 +191,6 @@ async function main() {
     { branchCode: 'MKS', name: "McDonald's Makassar (MKS)", address: 'Jl. Pettarani No. 1, Makassar', phone: '0411-123456', npwp: '01.234.567.8-097.000', regionCode: 'SULAWESI' },
     { branchCode: 'BL', name: "McDonald's Bali (BL)", address: 'Jl. Sunset Road No. 1, Kuta, Bali', phone: '0361-123456', npwp: '01.234.567.8-098.000', regionCode: 'BALI' },
   ];
-  const branchMap: Record<string, string> = {};
   for (const b of branchSeeds) {
     const branch = await prisma.branch.create({
       data: {
@@ -205,72 +202,8 @@ async function main() {
         regionId: regionMap[b.regionCode],
       },
     });
-    branchMap[b.branchCode] = branch.id;
   }
   console.log(`✅ ${branchSeeds.length} cabang tersimpan.\n`);
-
-  // ─────────────────────────────────────────────────────────
-  //  6. SAMPLE PURCHASE ORDERS
-  // ─────────────────────────────────────────────────────────
-  console.log('⏳ Menyuntikkan data Purchase Order sample...');
-
-  const productSkus = seedData.products.map(p => p.sku);
-  const poProducts = productSkus.slice(0, 8);
-  const now = new Date();
-
-  const poSeeds = [
-    { poNumber: 'PO-2026-001', status: 'SELESAI', paymentStatus: 'PAID', branchCode: 'KC', daysAgo: 14, items: [{ sku: poProducts[0], qty: 3 }, { sku: poProducts[1], qty: 10 }, { sku: poProducts[2], qty: 5 }] },
-    { poNumber: 'PO-2026-002', status: 'SELESAI', paymentStatus: 'PAID', branchCode: 'BY', daysAgo: 10, items: [{ sku: poProducts[0], qty: 2 }, { sku: poProducts[3], qty: 8 }, { sku: poProducts[4], qty: 6 }] },
-    { poNumber: 'PO-2026-003', status: 'DIKIRIM', paymentStatus: 'PARTIAL', branchCode: 'DP', daysAgo: 5, items: [{ sku: poProducts[0], qty: 5 }, { sku: poProducts[5], qty: 2 }] },
-    { poNumber: 'PO-2026-004', status: 'DIPROSES', paymentStatus: 'UNPAID', branchCode: 'PN', daysAgo: 2, items: [{ sku: poProducts[0], qty: 1 }, { sku: poProducts[6], qty: 10 }] },
-    { poNumber: 'PO-2026-005', status: 'PENDING', paymentStatus: 'UNPAID', branchCode: 'KY', daysAgo: 1, items: [{ sku: poProducts[0], qty: 3 }, { sku: poProducts[5], qty: 1 }, { sku: poProducts[7], qty: 5 }] },
-    { poNumber: 'PO-2026-006', status: 'DIPROSES', paymentStatus: 'UNPAID', branchCode: 'MDN', daysAgo: 3, items: [{ sku: poProducts[0], qty: 2 }, { sku: poProducts[1], qty: 10 }] },
-    { poNumber: 'PO-2026-007', status: 'PENDING', paymentStatus: 'UNPAID', branchCode: 'MKS', daysAgo: 0, items: [{ sku: poProducts[0], qty: 4 }, { sku: poProducts[5], qty: 1 }] },
-    { poNumber: 'PO-2026-008', status: 'DIKIRIM', paymentStatus: 'UNPAID', branchCode: 'BL', daysAgo: 4, items: [{ sku: poProducts[0], qty: 1 }, { sku: poProducts[1], qty: 10 }] },
-  ];
-
-  for (const poSeed of poSeeds) {
-    const branchId = branchMap[poSeed.branchCode];
-    const branch = await prisma.branch.findUnique({ where: { id: branchId }, select: { regionId: true } });
-
-    const itemsWithPrices = await Promise.all(poSeed.items.map(async (item) => {
-      const productId = productMap[item.sku];
-      let priceAtBuy = 0;
-      let clientItemCode: string | null = null;
-
-      if (branch?.regionId) {
-        const regionPrice = await prisma.productRegionPrice.findUnique({
-          where: { productId_regionId: { productId, regionId: branch.regionId } },
-        });
-        if (regionPrice) {
-          priceAtBuy = regionPrice.price;
-          clientItemCode = regionPrice.clientSku;
-        }
-      }
-      if (priceAtBuy === 0) {
-        const product = await prisma.product.findUnique({ where: { id: productId }, select: { price: true } });
-        priceAtBuy = product?.price || 0;
-      }
-      return { productId, quantity: item.qty, priceAtBuy, clientItemCode, scannedQty: 0 };
-    }));
-
-    const totalAmount = itemsWithPrices.reduce((sum, i) => sum + i.priceAtBuy * i.quantity, 0);
-
-    await prisma.purchaseOrder.create({
-      data: {
-        poNumber: poSeed.poNumber,
-        status: poSeed.status as any,
-        paymentStatus: poSeed.paymentStatus as any,
-        totalAmount,
-        branchId,
-        createdAt: new Date(now.getTime() - poSeed.daysAgo * 24 * 60 * 60 * 1000),
-        items: { create: itemsWithPrices },
-      },
-    });
-    console.log(`  ✅ ${poSeed.poNumber} (${poSeed.status}) — ${poSeed.branchCode}`);
-  }
-
-  console.log(`✅ ${poSeeds.length} Purchase Order sample tersimpan.\n`);
 
   // ─────────────────────────────────────────────────────────
   //  SUMMARY
@@ -292,7 +225,6 @@ async function main() {
   console.log(`  • ${seedData.products.length} Produk`);
   console.log(`  • ${regionPriceCount} Harga Wilayah + Kode Klien`);
   console.log(`  • ${branchSeeds.length} Cabang`);
-  console.log(`  • ${poSeeds.length} Purchase Order sample`);
   console.log('');
   console.log('🚀  PROSES SEEDING SELESAI DENGAN SUKSES!');
 }

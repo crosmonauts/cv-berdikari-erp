@@ -226,64 +226,116 @@ export default function ShipmentsPage() {
       const items = await getOrderItems(order.id);
       const doc = new jsPDF();
 
+      // Preload logo sekali agar bisa dipakai ulang di setiap halaman
+      let logoImg: HTMLImageElement | null = null;
       try {
-        const logoImg = await loadAsset(logoBerdikari);
-        // Proporsi 5:4 (Lebar 20, Tinggi 16) agar seragam dengan Invoice
-        doc.addImage(logoImg, 'PNG', 14, 10, 20, 16);
+        logoImg = await loadAsset(logoBerdikari);
       } catch (e) {
         console.warn('Logo gagal dimuat');
       }
 
-      doc.setFontSize(18);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(0, 0, 0);
-      doc.text('CV. BERDIKARI BERKAH BERSAMA', 38, 18);
+      // Kop surat + judul + No. Dokumen (dipakai di halaman 1 & lanjutan)
+      const drawKop = () => {
+        if (logoImg) {
+          // Proporsi 5:4 (Lebar 20, Tinggi 16) agar seragam dengan Invoice
+          doc.addImage(logoImg, 'PNG', 14, 10, 20, 16);
+        }
+        doc.setFontSize(18);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(0, 0, 0);
+        doc.text('CV. BERDIKARI BERKAH BERSAMA', 38, 18);
 
-      doc.setFontSize(9);
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(100);
+        doc.text('Jl. Bulustalan V 653F, Semarang | Telp: 083842319061', 38, 24);
+        doc.text('Email: cv.berdikari.berkah.bersama@gmail.com', 38, 29);
+
+        doc.line(14, 35, 196, 35);
+
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(0);
+        doc.text('DELIVERY ORDER', 14, 45);
+        doc.setFontSize(9);
+        doc.text(`No. Dokumen : DO-${order.poNumber}`, 14, 52);
+      };
+
+      drawKop();
+
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(100);
-      doc.text('Jl. Bulustalan V 653F, Semarang | Telp: 083842319061', 38, 24);
-      doc.text('Email: cv.berdikari.berkah.bersama@gmail.com', 38, 29);
-
-      doc.line(14, 35, 196, 35);
-
-      doc.setFontSize(16);
-      doc.setFont('helvetica', 'bold');
-      doc.setTextColor(0);
-      doc.text('DELIVERY ORDER', 14, 45);
-      doc.setFontSize(9);
-      doc.text(`No. Dokumen : DO-${order.poNumber}`, 14, 52);
       doc.text(
         `Tanggal     : ${new Date().toLocaleDateString('id-ID')}`,
         14,
         57,
       );
       doc.text(`Ref. PO     : ${order.poNumber}`, 14, 62);
-      doc.text('Penerima:', 120, 52);
+      const penerimaLeft =
+      196 -
+      Math.max(
+        doc.getTextWidth('Penerima:'),
+        doc.getTextWidth(branch?.name || 'Klien'),
+        Math.min(doc.getTextWidth(branch?.address || '-'), 76),
+      );
+      doc.text('Penerima:', penerimaLeft, 52);
       doc.setFont('helvetica', 'bold');
-      doc.text(branch?.name || 'Klien', 120, 57);
+      doc.text(branch?.name || 'Klien', penerimaLeft, 57);
       doc.setFont('helvetica', 'normal');
-      doc.text(branch?.address || '-', 120, 62, { maxWidth: 70 });
+      doc.text(branch?.address || '-', penerimaLeft, 62, { maxWidth: 76 });
 
       const tableBody = items.map((item: any, idx: number) => [
         idx + 1,
         item.product.name,
         item.clientItemCode || item.product.sku || '-',
-        item.quantity.toString() + ' Unit',
+        item.quantity.toString() + ' ' + (item.product.unit || 'pcs'),
       ]);
+      doc.setLineHeightFactor(1);
       autoTable(doc, {
         startY: 75,
         head: [['No.', 'Nama Barang', 'Kode (SKU)', 'Jumlah']],
         body: tableBody,
         theme: 'grid',
-        headStyles: { fillColor: [40, 40, 40] },
-        styles: { fontSize: 8, cellPadding: 3 },
+        headStyles: {
+          fillColor: [40, 40, 40],
+          cellPadding: { top: 0.8, bottom: 0.8, left: 2, right: 2 },
+          fontSize: 8,
+        },
+        styles: {
+          fontSize: 8,
+          cellPadding: { top: 0.5, bottom: 0.5, left: 2, right: 2 },
+          valign: 'middle',
+        },
+        columnStyles: {
+          0: { cellWidth: 10 },
+          2: { cellWidth: 40 },
+          3: { cellWidth: 22 },
+        },
+        margin: { top: 75, bottom: 22 },
+        willDrawPage: (data) => {
+          if (data.pageNumber > 1) drawKop();
+        },
       });
 
       const finalY = (doc as any).lastAutoTable.finalY || 150;
+
+      // Blok tanda tangan butuh ~65mm; pindah halaman bila ruang tak cukup
+      const SIGNATURE_HEIGHT = 65;
+      const PAGE_HEIGHT = doc.internal.pageSize.getHeight();
+      const BOTTOM_RESERVE = 22;
+      let sigY = finalY;
+      if (sigY + SIGNATURE_HEIGHT > PAGE_HEIGHT - BOTTOM_RESERVE) {
+        doc.addPage();
+        drawKop();
+        sigY = 75;
+      }
+
       // Dua kolom tanda tangan disusun simetris terhadap tengah halaman
       // (kiri cx=55, kanan cx=155) dengan baseline vertikal yang sejajar
-      doc.text('Hormat Kami,', 55, finalY + 38, { align: 'center' });
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(0);
+doc.text('Hormat Kami,', 55, sigY + 30, { align: 'center' });
 
       try {
         const stempelImg = await loadAsset(stempelImage);
@@ -291,7 +343,7 @@ export default function ShipmentsPage() {
           stempelImg,
           'PNG',
           32.5,
-          finalY + 45,
+          sigY + 37,
           45,
           14,
           undefined,
@@ -303,7 +355,7 @@ export default function ShipmentsPage() {
           ttdImg,
           'PNG',
           42.5,
-          finalY + 40,
+          sigY + 32,
           25,
           18,
           undefined,
@@ -314,12 +366,25 @@ export default function ShipmentsPage() {
         console.warn('Asset gagal dimuat');
       }
 
-      doc.text('( Dinny Elvandari Prinawati )', 55, finalY + 63, {
+      doc.text('( Dinny Elvandri Prinawati )', 55, sigY + 55, {
         align: 'center',
       });
 
-      doc.text('Diterima Oleh,', 155, finalY + 38, { align: 'center' });
-      doc.text('( Store Manager )', 155, finalY + 63, { align: 'center' });
+      doc.text('Diterima Oleh,', 155, sigY + 30, { align: 'center' });
+      doc.text('( Store Manager )', 155, sigY + 55, { align: 'center' });
+
+      // Footer nomor halaman di semua halaman
+      const totalPages = doc.getNumberOfPages();
+      for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(100);
+        doc.text(`Halaman ${i} dari ${totalPages}`, 105, 290, {
+          align: 'center',
+        });
+        doc.text(`DO-${order.poNumber}`, 14, 290);
+      }
 
       doc.save(`DO_${order.poNumber}.pdf`);
     } catch (e) {

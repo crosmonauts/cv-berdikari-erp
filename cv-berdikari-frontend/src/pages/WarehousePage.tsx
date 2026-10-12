@@ -613,7 +613,7 @@ export default function WarehousePage() {
                                 <div className="text-center">
                                   <p className="text-[10px] text-slate-500 font-mono">Req</p>
                                   <p className="text-xs font-bold text-slate-300 font-mono">
-                                    {item.quantity}
+                                    {item.quantity} {item.product.unit || 'pcs'}
                                   </p>
                                 </div>
                                 <div className="text-center">
@@ -623,7 +623,7 @@ export default function WarehousePage() {
                                       isDone ? 'text-success' : 'text-slate-400'
                                     }`}
                                   >
-                                    {item.scannedQty || 0}
+                                    {item.scannedQty || 0} {item.product.unit || 'pcs'}
                                   </p>
                                 </div>
                                 {(item.scannedQty || 0) > 0 && (

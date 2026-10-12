@@ -306,7 +306,7 @@ export default function InvoicesPage() {
         idx + 1,
         item.clientItemCode || item.product.sku || '-',
         item.product.name, // Kode internal sudah dihilangkan
-        item.quantity.toString(),
+        item.quantity.toString() + ' ' + (item.product.unit || 'pcs'),
         `Rp ${item.priceAtBuy.toLocaleString('id-ID')}`,
         `Rp ${(item.quantity * item.priceAtBuy).toLocaleString('id-ID')}`,
       ]);
